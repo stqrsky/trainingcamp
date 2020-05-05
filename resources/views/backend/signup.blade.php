@@ -3,7 +3,7 @@
 @section('content')
 <form class="form-signin">
     <div class="text-center">
-        <img class="img" src="{{ asset('assets/images/TCTrainingCampLogo.png') }}" alt="Training Camp" width="185" height="185">
+        <img class="img-signup" src="{{ asset('assets/images/TCTrainingCampLogo.png') }}" alt="Training Camp" width="185" height="185">
         <h1 class="h3 mb-3 font-weight-normal">SIGN UP</h1>
     </div>
 
