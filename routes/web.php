@@ -14,5 +14,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.home');
 });
+Route::get('/login', function () {
+    return view('backend.login');
+});
+Route::get('/signup', function () {
+    return view('frontend.signup');
+});
+
+
+
+// Route::resource('', 'Controller');

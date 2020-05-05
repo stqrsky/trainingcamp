@@ -1,0 +1,25 @@
+/*//////////////////////////////////////////////////////////////////
+[ base ]*/
+// $body-bg: #c9c9bd;
+
+// .home {
+//     width: 100%;
+//     height: 100vh;
+//     background-image: url(https://images.unsplash.com/
+// );
+//     background-position: center top;
+// 	background-size:cover;
+// }
+html,
+body {
+    // background-image: url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
+    background-size: cover;
+    background-color: #c9c9bd;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: "Numans", sans-serif;
+}
+
+.home {
+    margin-top: "65px";
+}
