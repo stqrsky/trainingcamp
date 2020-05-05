@@ -8,15 +8,20 @@
     <title>Training Camp</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <?php /* <link rel="stylesheet" href="{{ asset('css/app.css') }}"> */ ?>
-    <link rel="stylesheet" href="/css/app.css">
-    <!-- <script defer src="resources/js/app.js"></script> -->
+    <link rel="stylesheet" href="{{ asset('css/app.css')}}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="{{ asset('js/app.js')}}"></script>
 </head>
 
 <body>
-
-    @include('frontend/includes/header')
-    @include('frontend/includes/navbarbottom')
-    @yield('content')
+    <div class="container-fluid base">
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-sm-6 content">
+                @include('frontend/includes/header')
+                @yield('content')
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

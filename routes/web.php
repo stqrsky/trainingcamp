@@ -15,13 +15,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('frontend.home');
-});
+})->name('home');
 Route::get('/login', function () {
-    return view('backend.login');
-});
+    return view('backend.login', ['title' => 'Sign In']);
+})->name('login');
 Route::get('/signup', function () {
-    return view('frontend.signup');
-});
+    return view('backend.signup', ['title' => 'Sign Up']);
+})->name('signup');
+
 
 
 

@@ -12,7 +12,16 @@
 // }
 html,
 body {
-    // background-image: url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
+    /* top, transparent black, faked with gradient */
+    // background:
+    //     /* top, transparent black, faked with gradient */
+    //     linear-gradient(
+    //       rgba(0, 0, 0, 0.7),
+    //       rgba(0, 0, 0, 0.7)
+    //     ),
+    //     /* bottom, image */
+    //     url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
+
     background-size: cover;
     background-color: #c9c9bd;
     background-repeat: no-repeat;
@@ -22,4 +31,11 @@ body {
 
 .home {
     margin-top: "65px";
+}
+
+.base {
+    .content {
+        padding: 0;
+        height: 100vh;
+    }
 }

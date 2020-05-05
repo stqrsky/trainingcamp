@@ -1,30 +1,27 @@
-<!-- @extends('frontend/layouts/app') -->
-<div id="login">
-    <h3 class="text-center text-white pt-5">Login form</h3>
-    <div class="container">
-        <div id="login-row" class="row justify-content-center align-items-center">
-            <div id="login-column" class="col-md-6">
-                <div class="login-box col-md-12">
-                    <form id="login-form" class="form" action="" method="post">
-                        <h3 class="text-center text-info">Login</h3>
-                        <div class="form-group">
-                            <label for="username" class="text-info">Username:</label><br>
-                            <input type="text" name="username" id="username" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="password" class="text-info">Password:</label><br>
-                            <input type="text" name="password" id="password" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br>
-                            <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
-                        </div>
-                        <div id="register-link" class="text-right">
-                            <a href="#" class="text-info">Register here</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+@extends('backend.layout')
+
+@section('content')
+<form class="form-signin text-center">
+    <div class="text-center">
+        <img class="img" src="{{ asset('assets/images/TCtransp.png') }}" alt="Training Camp" width="280" height="280">
     </div>
-</div>
+
+    <h1 class="h3 mb-3 font-weight-normal"></h1>
+
+    <div class="form-label-group">
+        <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
+        <label for="email">Email address</label>
+    </div>
+
+    <div class="form-label-group">
+        <input type="password" id="password" class="form-control" placeholder="Password" required>
+        <label for="password">Password</label>
+    </div>
+
+    <button class="btn btn-lg btn-link bg-dark btn-block" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">
+        Don't have an account?
+        <a class="mt-5 mb-3" href="{{ route('signup') }}">SIGN UP</a>
+    </p>
+</form>
+@endsection
