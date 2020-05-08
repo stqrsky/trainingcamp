@@ -12,16 +12,7 @@
 // }
 html,
 body {
-    /* top, transparent black, faked with gradient */
-    // background:
-    //     /* top, transparent black, faked with gradient */
-    //     linear-gradient(
-    //       rgba(0, 0, 0, 0.7),
-    //       rgba(0, 0, 0, 0.7)
-    //     ),
-    //     /* bottom, image */
-    //     url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
-
+    // background-image: url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
     background-size: cover;
     background-color: #c9c9bd;
     background-repeat: no-repeat;
@@ -34,9 +25,40 @@ body {
 }
 
 .base {
-    .content {
+    #content {
         padding: 0;
         height: 100vh;
-        margin-top: 3em;
+        margin-bottom: 3em;
     }
+    .content {
+        background: #ffffff;
+    }
+}
+
+.head-title {
+    .title {
+        text-align: center;
+    }
+    .btn-add {
+        border-radius: 50%;
+        border: solid 2px !important;
+        height: 30px;
+        width: 30px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    html,
+    body {
+        background-color: #ffffff;
+    }
+}
+
+.pb-3,
+.py-3 {
+    margin-top: 4rem !important;
+}
+
+.base .content {
+    margin-top: 2rem;
 }

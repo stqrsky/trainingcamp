@@ -10885,7 +10885,6 @@ a.text-dark:focus {
 
 html,
 body {
-  /* top, transparent black, faked with gradient */
   background-size: cover;
   background-color: #c9c9bd;
   background-repeat: no-repeat;
@@ -10897,22 +10896,41 @@ body {
   margin-top: "65px";
 }
 
-.base .content {
+.base #content {
   padding: 0;
   height: 100vh;
-  margin-top: 3em;
+  margin-bottom: 3em;
 }
 
-.navbar-top {
-  padding: 0;
+.base .content {
+  background: #ffffff;
 }
 
-.fixed-top {
-  position: fixed;
-  right: 0;
-  top: 0;
-  left: 0;
-  z-index: 1030;
+.head-title .title {
+  text-align: center;
+}
+
+.head-title .btn-add {
+  border-radius: 50%;
+  border: solid 2px !important;
+  height: 30px;
+  width: 30px;
+}
+
+@media screen and (max-width: 575px) {
+  html,
+  body {
+    background-color: #ffffff;
+  }
+}
+
+.pb-3,
+.py-3 {
+  margin-top: 4rem !important;
+}
+
+.base .content {
+  margin-top: 2rem;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -10932,18 +10950,6 @@ body {
 
 .navbar-bottom div:nth-child(1) {
   padding: 0;
-}
-
-.navbar-top {
-  padding: 0;
-}
-
-.fixed-top {
-  position: fixed;
-  right: 0;
-  top: 0;
-  left: 0;
-  z-index: 1030;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -11064,5 +11070,31 @@ h1 {
 .help-block {
   font-size: 12px;
   color: white;
+}
+
+.img-signup {
+  margin-bottom: 4em;
+}
+
+label.picture {
+  height: 128px;
+  cursor: pointer;
+}
+
+.inputfile {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.add-profile {
+  width: 100%;
+  margin-top: -43px;
+  background-color: rgba(108, 178, 235, 0.5);
+  border: none;
+  font-weight: bold;
 }
 

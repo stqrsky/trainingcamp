@@ -7,14 +7,14 @@
 
             <div class="card-body">
 
-                    <form method="POST" action="{{ route('user.setting.post') }}">
-                        @csrf
-                        @include('frontend.users.formprofile')
-                        <button type="submit" class="btn btn-primary float-right ml-2">Update Profile</button>
-                        <button type="submit" class="btn btn-danger float-right">Sign Out</button>
-                    </form>
+                <form method="POST" action="">
+                    @csrf
+                    @include('frontend.users.formprofile')
+                    <button type="submit" class="btn btn-primary float-right ml-2">Update Profile</button>
+                    <button type="submit" class="btn btn-danger float-right">Sign Out</button>
+                </form>
 
-                </div>
+            </div>
 
         </div>
     </div>
