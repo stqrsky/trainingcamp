@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3 head-title">
             <span></span>
-            <h4 class="title">Calendar and Sparing Assignments</h4>
+            <h4 class="title">Calendar and Sparring Assignments</h4>
             <button type="button" class="ml-2 mb-1 close btn-add" name="button">
                 <span aria-hidden="true" class="material-icons">add</span>
             </button>
