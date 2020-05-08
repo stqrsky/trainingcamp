@@ -8,6 +8,8 @@
 
 @import "base";
 
+@import "components/header";
 @import "components/navbarbottom";
-@import "components/signup";
-@import "components/createprofile";
+@import "components/header";
+@import "login";
+@import "signup";

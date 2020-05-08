@@ -25,7 +25,6 @@
                 <input class="mdl-textfield__input" ng-model="user.password" id="password" type="password">
                 <label class="mdl-textfield__label" for="password">Password</label>
             </div>
-
         </form>
     </div>
     <div class="mdl-card__actions mdl-card--border">

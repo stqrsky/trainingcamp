@@ -1,0 +1,55 @@
+p {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.list-team-members ul li {
+    background-color: #f2f2f2;
+    padding: 5px;
+    border-radius: 4px;
+    transition: .3s all ease-in-out;
+    -webkit-transition: .3s all ease-in-out;
+    a {
+        color: rgb(52,58,63);
+    }
+}
+
+.list-team-members ul li:hover {
+    background-color: rgb(52,58,63);
+    color: #fff !important;
+    a:hover {
+        color: #fff !important;
+        text-decoration: none;
+    }
+}
+
+.user-photo img {
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.user-photo {
+    max-width: 60px;
+    height: 60px;
+    border-radius: 100px;
+    border: 2px solid azure;
+    /* overflow: hidden; */
+}
+
+.w-30 {
+    width: 296px;
+}
+
+@media screen and (max-width: 991px) {
+    .list-team-members {
+        /* overflow-x: auto; */
+    }
+}

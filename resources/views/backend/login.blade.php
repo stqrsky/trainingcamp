@@ -7,15 +7,21 @@
     </div>
 
     <h1 class="h3 mb-3 font-weight-normal"></h1>
-
+    @error('error')
+    <div class="alert alert-danger" role="alert">
+        {{ $message }}
+    </div>
+    @enderror
     <div class="form-label-group">
         <input type="email" id="email" class="form-control" placeholder="Email address" required autofocus>
         <label for="email">Email address</label>
+        @error('email')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 
     <div class="form-label-group">
         <input type="password" id="password" class="form-control" placeholder="Password" required>
         <label for="password">Password</label>
+        @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 
     <button class="btn btn-lg btn-link bg-dark btn-block" type="submit">Sign in</button>

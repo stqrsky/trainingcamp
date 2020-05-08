@@ -19328,6 +19328,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/sass/athlete.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/athlete.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ "./resources/sass/signin.scss":
 /*!************************************!*\
   !*** ./resources/sass/signin.scss ***!
@@ -19340,15 +19351,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /***/ }),
 
 /***/ 0:
-/*!******************************************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/signin.scss ***!
-  \******************************************************************************************/
+/*!************************************************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/signin.scss ./resources/sass/athlete.scss ***!
+  \************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/sm/projects/trainingcamp/resources/js/app.js */"./resources/js/app.js");
 __webpack_require__(/*! /Users/sm/projects/trainingcamp/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /Users/sm/projects/trainingcamp/resources/sass/signin.scss */"./resources/sass/signin.scss");
+__webpack_require__(/*! /Users/sm/projects/trainingcamp/resources/sass/signin.scss */"./resources/sass/signin.scss");
+module.exports = __webpack_require__(/*! /Users/sm/projects/trainingcamp/resources/sass/athlete.scss */"./resources/sass/athlete.scss");
 
 
 /***/ })
