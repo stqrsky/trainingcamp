@@ -15,12 +15,12 @@
             </button>
         </div>
         <h4>Monday, 11 May 2020</h4>
-        <input type="text" class="form-control" name="calendar" id="calendar" value="date" />
+        <input type="text" class="form-control" name="calendar" id="calendar" value="10/05/2020" />
     </div>
     <div class="card-body">
-        @for($athlete = 1; $athlete < 5; $athlete++) <div class="card mb-3">
+        @for($athlete = 1; $athlete < 5; $athlete++) <div class="card schedule mb-3">
             <div aria-live="assertive" aria-atomic="true">
-                <div class="toast-header d-flex align-items-center justify-content-between">
+                <div class="toast-header time d-flex align-items-center justify-content-between">
                     <strong class="text-muted">8.15 - 9.00</strong>
                     <div class="btn-group">
                         <button type="button" class="ml-2 mb-1 close" id="dropdown{{$athlete}}" data-dismiss="toast" aria-label="Close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

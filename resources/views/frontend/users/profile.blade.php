@@ -5,15 +5,29 @@
     <div class="row">
         <div class="col-12 pb-3 mb-5 content">
 
-            <div class="card-body">
-
-                <form method="POST" action="">
-                    @csrf
-                    @include('frontend.users.formprofile')
-                    <button type="submit" class="btn btn-primary float-right ml-2">Update Profile</button>
-                    <button type="submit" class="btn btn-danger float-right">Sign Out</button>
-                </form>
-
+            <div aria-live="assertive" aria-atomic="true">
+                <div class="toast-header d-flex align-items-center">
+                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
+                    <div class="d-flex flex-column">
+                        <strong class="mr-auto">Full Name</strong>
+                        <strong class="mr-auto">Team</strong>
+                    </div>
+                </div>
+                <div class="toast-body">
+                    <h4 class="card-title font-weight-bold mb-2 andreas">New spicy meals</h4>
+                    See? Just like this.
+                </div>
+                <div class="toast-body">
+                    @for($skill = 1; $skill < 9; $skill++) <span class="badge badge-info">Skill {{$skill}}</span>
+                        @endfor
+                </div>
+                <div class="toast-body d-flex justify-content-between">
+                    <a href="{{ route('user.profile.setting') }}" type="button" class="btn btn-outline-secondary">Profile Settings</a>
+                    <a href="#" type="button" class="btn btn-outline-primary">Account Settings</a>
+                </div>
+                <div class="toast-body d-flex justify-content-center">
+                    <a type="button" class="btn btn-outline-warning">Sign Out</a>
+                </div>
             </div>
 
         </div>

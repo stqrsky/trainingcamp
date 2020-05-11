@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3 head-title">
                 <span></span>
                 <h4 class="title">Team 2020</h4>
-                <button onclick="#" type="button" class="ml-2 mb-1 close btn-add" name="button">
+                <button type="button" class="ml-2 mb-1 close btn-add" name="button">
                     <span aria-hidden="true" class="material-icons">add</span>
                 </button>
             </div>
@@ -64,8 +64,6 @@
                         </li>
                         @endfor
                 </ul>
-            </div>
-            <div class="container">
             </div>
         </div>
     </div>

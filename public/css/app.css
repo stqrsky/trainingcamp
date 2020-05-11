@@ -10933,6 +10933,23 @@ body {
   margin-top: 2rem;
 }
 
+.card.home {
+  background-color: #b39b104f;
+  border-color: gray;
+}
+
+.card.schedule {
+  border-color: gray;
+}
+
+.toast-header.time {
+  background-color: #b39b101a;
+}
+
+.navbar.fixed-top {
+  padding: 0.2rem 1rem;
+}
+
 /*//////////////////////////////////////////////////////////////////
 [ footer ]*/
 
@@ -10950,6 +10967,10 @@ body {
 
 .navbar-bottom div:nth-child(1) {
   padding: 0;
+}
+
+.navbar.fixed-top {
+  padding: 0.2rem 1rem;
 }
 
 /*//////////////////////////////////////////////////////////////////

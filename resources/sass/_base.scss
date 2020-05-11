@@ -54,6 +54,7 @@ body {
     }
 }
 
+// top navbar with text
 .pb-3,
 .py-3 {
     margin-top: 4rem !important;
@@ -61,4 +62,19 @@ body {
 
 .base .content {
     margin-top: 2rem;
+}
+//home cards
+.card.home {
+    background-color: #b39b104f;
+    border-color: gray;
+}
+
+//schedule cards
+.card.schedule {
+    border-color: gray;
+}
+
+//schedule toast-header time background
+.toast-header.time {
+    background-color: #b39b101a;
 }

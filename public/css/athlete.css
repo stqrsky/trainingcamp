@@ -14,8 +14,8 @@ li {
   background-color: #f2f2f2;
   padding: 5px;
   border-radius: 4px;
-  transition: .3s all ease-in-out;
-  -webkit-transition: .3s all ease-in-out;
+  transition: 0.3s all ease-in-out;
+  -webkit-transition: 0.3s all ease-in-out;
 }
 
 .list-team-members ul li a {
@@ -25,6 +25,11 @@ li {
 .list-team-members ul li:hover {
   background-color: #343a3f;
   color: #fff !important;
+}
+
+.list-team-members ul li:hover a {
+  color: #fff !important;
+  text-decoration: none;
 }
 
 .list-team-members ul li:hover a:hover {

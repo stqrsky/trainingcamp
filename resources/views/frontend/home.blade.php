@@ -11,7 +11,7 @@
                     <span aria-hidden="true" class="material-icons">add</span>
                 </button>
             </div>
-            @for($i = 1; $i < 3; $i++) <div class="card">
+            @for($i = 1; $i < 4; $i++) <div class="card home mb-3">
                 <div aria-live="assertive" aria-atomic="true">
                     <div class="toast-header d-flex align-items-center">
                         <img src="{{ asset('assets/images/2.jpg') }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
@@ -72,11 +72,8 @@
                         <a class="btn btn-flat red-text p-1 my-1 mr-0 mml-1 collapsed" data-toggle="collapse" href="#collapseContent" aria-expanded="false" aria-controls="collapseContent"></a>
                         <i class="fas fa-share-alt text-muted float-right p-1 my-1" data-toggle="tooltip" data-placement="top" title="Share this post"></i>
                         <i class="fas fa-heart text-muted float-right p-1 my-1 mr-3" data-toggle="tooltip" data-placement="top" title="I like it"></i>
-
                     </div>
-
                 </div>
-
         </div>
         @endfor
     </div>
