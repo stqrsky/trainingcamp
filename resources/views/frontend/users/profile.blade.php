@@ -18,12 +18,12 @@
                     See? Just like this.
                 </div>
                 <div class="toast-body">
-                    @for($skill = 1; $skill < 9; $skill++) <span class="badge badge-secondary">Skill {{$skill}}</span>
+                    @for($skill = 1; $skill < 10; $skill++) <span class="badge badge-secondary">Skill {{$skill}}</span>
                         @endfor
                 </div>
                 <div class="toast-body d-flex justify-content-between">
                     <a href="{{ route('user.profile.setting') }}" type="button" class="btn profilebtn1 btn-outline-dark">Profile Settings</a>
-                    <a href="#" type="button" class="btn profilebtn2 btn-outline-dark">Account Settings</a>
+                    <a href="{{ route('user.account.setting') }}" type="button" class="btn profilebtn2 btn-outline-dark">Account Settings</a>
                 </div>
                 <div class="toast-body d-flex justify-content-center">
                     <a type="button" class="btn bg-danger text-white glyphicon glyphicon-log-out">Sign Out</a>

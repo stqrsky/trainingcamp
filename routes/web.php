@@ -58,6 +58,9 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('profile/setting', function () {
         return view('frontend.users.profilesetting');
     })->name('user.profile.setting');
+    Route::get('profile/setting/account', function () {
+        return view('frontend.users.accountsetting');
+    })->name('user.account.setting');
 });
 
 Route::group(['prefix' => 'notification'], function () {
