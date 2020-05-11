@@ -16,11 +16,11 @@
                 </button>
             </div>
             <div class="head-title d-flex align-items-center justify-content-between my-3">
-                <h4 class="text-dark">Coaches</h4>
+                <h4 class="text-dark mb-0">Coaches</h4>
             </div>
             <div class="list-team-members">
                 <ul>
-                    <li class="d-flex align-items-center mb-2">
+                    <li class="d-flex align-items-center mb-4">
                         <div class="cont-user-wrapper col-lg-3">
                             <div class="d-flex align-items-center  w-30">
                                 <div class="user-photo">
@@ -35,7 +35,7 @@
                 </ul>
             </div>
             <div class="head-title d-flex align-items-center justify-content-between my-3">
-                <h4 class="text-dark">Athletes</h4>
+                <h4 class="text-dark mb-0 mt-4">Athletes</h4>
             </div>
             <div class="head-title mb-3 my-3">
                 <form class="form-inline">

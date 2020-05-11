@@ -22,6 +22,6 @@
         <label for="password_confirmation">Confirm Password</label>
     </div>
 
-    <button class="btn btn-lg btn-link bg-dark btn-block" type="submit">SIGN UP NOW</button>
+    <button class="btn btn-lg btn-secondary bg-dark btn-block" type="submit">SIGN UP NOW</button>
 </form>
 @endsection
