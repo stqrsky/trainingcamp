@@ -23,7 +23,7 @@
                 <a class="nav-link pb-0" href="{{ route('user.profile') }}">
                     <i class="material-icons">reorder</i>
                 </a>
-                <h6 class="mb-0 mt-0 text-white font-italic">Settings</h6>
+                <h6 class="mb-0 mt-0 text-white font-italic">Profile</h6>
             </li>
         </ul>
     </div>
