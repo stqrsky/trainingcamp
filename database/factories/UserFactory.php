@@ -2,9 +2,10 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,11 +19,17 @@ use Illuminate\Support\Str;
 */
 
 $factory->define(User::class, function (Faker $faker) {
+    $first_name = $faker->firstName();
     return [
-        'name' => $faker->name,
+        'first_name' => $first_name,
+        'last_name' => $faker->lastName(),
+        'nick_name' => $first_name,
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'password' => \Hash::make('secret'), // password
+        'date_of_birth' => Carbon::now()->day(rand(1, 25))->month(rand(1, 12))->year(rand(1990, 2000))->format('Y-m-d'),
+        'about' => $faker->text(200),
+        'status' => 1,
         'remember_token' => Str::random(10),
     ];
 });
