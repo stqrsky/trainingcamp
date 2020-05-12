@@ -45,7 +45,10 @@ class UserController extends Controller
 
     public function detailUser($id)
     {
-        return view('frontend.athletes.editathlete');
+        if (!$id) {
+            return redirect()->route('user.athletes');
+        }
+        return view('frontend.athletes.editathlete', compact('id'));
     }
 
     public function updateUser($id)
