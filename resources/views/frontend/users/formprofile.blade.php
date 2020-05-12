@@ -1,10 +1,9 @@
 <div class="form-group row">
     <div class="col-sm-12 text-center">
-
+        <input class="inputfile" type="file" id="picture" name="picture">
         <label for="picture" class="border picture">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU" class="mx-auto d-block rounded-circle" height="128" alt="...">
-            <label class="add-profile btn btn-sm btn-dark" for="picture">Select Picture</label>
-            <!-- <input class="inputfile" type="file" id="picture" name="picture"> -->
+            <label class="add-profile btn btn-sm btn-info" for="picture">Select Picture</label>
         </label>
     </div>
 </div>
