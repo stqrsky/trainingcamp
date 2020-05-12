@@ -34,25 +34,13 @@ Route::group(['prefix' => 'user'], function () {
 });
 
 Route::group(['prefix' => 'notification'], function () {
-    Route::get('create', function () {
-        return view('frontend.notifications.create');
-    })->name('notification.create');
-    Route::post('create', function () {
-        return redirect()->route('home');
-    })->name('notification.create.post');
-    Route::get('edit/{id}', function () {
-        return view('frontend.notifications.edit');
-    })->name('notification.edit');
-    Route::put('edit/{id}', function () {
-        return redirect()->route('home');
-    })->name('notification.edit.put');
-    Route::delete('delete/{id}', function () {
-        return redirect()->route('home');
-    })->name('notification.delete');
+    Route::get('create', 'NotificationController@create')->name('notification.create');
+    Route::post('create', 'NotificationController@createNotification')->name('notification.create.post');
+    Route::get('edit/{id}', 'NotificationController@edit')->name('notification.edit');
+    Route::put('edit/{id}', 'NotificationController@editNotification')->name('notification.edit.put');
+    Route::delete('delete/{id}', 'NotificationController@deleteNotification')->name('notification.delete');
 });
 
 Route::group(['prefix' => 'schedules'], function () {
-    Route::get('', function () {
-        return view('frontend.schedules.schedules');
-    })->name('schedules');
+    Route::get('', 'ScheduleController@index')->name('schedules');
 });
