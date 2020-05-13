@@ -24,6 +24,22 @@ class CreateTeamsTable extends Migration
 
             $table->foreign('image_id')->references('id')->on('images');
         });
+
+        Schema::create('team_coach', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('user_id')->references('id')->on('users');
+        });
+
+        Schema::create('team_athlete', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('team_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
@@ -33,6 +49,8 @@ class CreateTeamsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('team_athlete');
+        Schema::dropIfExists('team_coach');
         Schema::dropIfExists('teams');
     }
 }
