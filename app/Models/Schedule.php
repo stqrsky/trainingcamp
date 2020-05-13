@@ -4,18 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Skill extends Model
+class Schedule extends Model
 {
-    protected $table = 'skills';
+    protected $table = 'schedules';
 
     protected $guarded = ['id'];
 
-    public function users()
+    public function participants()
     {
         return $this->belongsToMany(
             \App\Models\User::class,
-            'user_skill',
-            'skill_id',
+            'schedule_participant',
+            'schedule_id',
             'user_id'
         );
     }

@@ -14,4 +14,9 @@ class Image extends Model
     {
         return $this->hasMany(\App\Models\User::class, 'image_id');
     }
+
+    public function teams()
+    {
+        return $this->hasMany(\App\Models\Team::class, 'image_id');
+    }
 }

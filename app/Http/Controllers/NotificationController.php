@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Controllers;
-
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 
 class NotificationController extends Controller
 {
