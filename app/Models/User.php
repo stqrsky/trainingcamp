@@ -39,9 +39,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             \App\Models\Role::class,
-            'user_role',
-            'user_id',
-            'role_id'
+            'user_role'
         );
     }
     public function coachTeam()
@@ -68,15 +66,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(
             \App\Models\Skill::class,
-            'user_skill',
-            'user_id',
-            'skill_id'
+            'user_skill'
         );
     }
 
     public function image()
     {
-        return $this->belongsTo(\App\Models\Image::class, 'image_id');
+        return $this->belongsTo(\App\Models\Image::class);
     }
 
     public function participants()

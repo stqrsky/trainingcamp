@@ -17,8 +17,7 @@ class CreateSkillsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->tinyInteger('status')->nullable()->default(0);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+            $table->timestamps();
         });
         Schema::create('user_skill', function (Blueprint $table) {
             $table->bigIncrements('id');
