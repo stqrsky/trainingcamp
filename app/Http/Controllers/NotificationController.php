@@ -98,7 +98,6 @@ class NotificationController extends Controller
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
         $notification = Notification::where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
-        return response()->json($notification);
         $notification->delete();
         return redirect()->route('home');
     }
