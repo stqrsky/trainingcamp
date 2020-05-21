@@ -43,7 +43,7 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $this->validate($request, [
-            'file' => 'mimes:jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png',
             'user_type' => 'required|in:coach,athlete',
             'email' => 'required|unique:users,email',
             'password' => 'required',

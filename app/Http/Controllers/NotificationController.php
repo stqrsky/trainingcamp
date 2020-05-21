@@ -21,7 +21,7 @@ class NotificationController extends Controller
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
         $this->validate($request, [
-            'file' => 'mimes:jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png',
             'image' => '',
             'title' => 'required',
             'description' => 'required'
@@ -64,7 +64,7 @@ class NotificationController extends Controller
         $team = $profile->team;
         $notification = Notification::where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
         $this->validate($request, [
-            'file' => 'mimes:jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png',
             'image' => '',
             'title' => 'required',
             'description' => 'required'
