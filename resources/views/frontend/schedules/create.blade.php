@@ -1,29 +1,29 @@
 @extends('frontend.layouts.app')
 
 @section('style')
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <link rel="stylesheet" href="{{ asset('select2/css/select2.min.css') }}">
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endsection
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-12 content mb-5 pb-3">
-            @error('error')
-            <div class="alert alert-danger" role="alert">
-                {{ $message }}
-            </div>
-            @enderror
-            <form method="POST" action="{{ route('user.athletes.update', ['id' => $user->id]) }}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                @include('frontend.athletes.form', ['edit' => true])
-                <button type="submit" class="btn btn-primary float-right ml-2">Update</button>
-                <button type="submit" class="btn btn-danger float-right">Delete</button>
-            </form>
-
+<div class="content mb-4">
+    <div class="card-body">
+        @error('error')
+        <div class="alert alert-danger" role="alert">
+            {{ $message }}
         </div>
+        @enderror
+        <form action="{{ route('schedules.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            @include('frontend.schedules.form')
+
+            <button type="submit" class="btn btn-primary float-right">Add</button>
+            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning float-right mr-1">Cancel</a>
+        </form>
     </div>
+</div>
 </div>
 @endsection
 
@@ -31,12 +31,13 @@
 <script src="{{ asset('select2/js/select2.min.js') }}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
-        $('#skills').select2({
-            placeholder: 'Select Skills'
+        $('#first_athlete, #second_athlete').select2({
+            placeholder: 'Select Athlete',
+            allowClear: true
         });
-        $('#date_of_birth').daterangepicker({
+        $('#date').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
             minYear: 1901,
@@ -44,9 +45,11 @@
             locale: {
                 format: 'DD/MM/YYYY'
             }
+        }, function(start, end, label) {
+            console.log(moment(start).format('YYYY-MM-DD'));
         });
     })
-    //show the selected filename below picture
+
     function selectFile(event) {
         var input = event.target
         var filename = $(input)[0].files[0].name
