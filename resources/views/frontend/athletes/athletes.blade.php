@@ -16,7 +16,7 @@
             @enderror
             <div class="d-flex justify-content-between align-items-center mb-3 head-title">
                 <span></span>
-                <h4 class="title">{{ $team->name }}</h4>
+                <h4 class="title-team"><u>{{ $team->name }}</u></h4>
                 <a href="{{ route('user.athletes.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>
@@ -60,7 +60,7 @@
             <div class="list-team-members">
                 <ul>
                     @foreach($team->athletes as $athlete)
-                    <li class="justify-content-between mb-2">
+                    <li class="justify-content-between mb-3">
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <a href="{{ route('user.athletes.detail', ['id' => $athlete->id]) }}">
                                 <div class="d-flex align-items-center">

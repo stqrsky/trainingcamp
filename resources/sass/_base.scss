@@ -31,9 +31,16 @@ body {
         margin-bottom: 3em;
     }
     .content {
-        background: #fff;
         margin-top: 2rem;
     }
+}
+
+.row.accountsetting {
+    background: #e7e5de;
+    padding: 1rem;
+}
+.col-12.accountsetting.content {
+    background: #e7e5de;
 }
 
 .head-title {
@@ -71,6 +78,7 @@ body {
 //schedule cards
 .card.schedule {
     border-color: gray;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 //schedule toast-header time background
@@ -91,4 +99,38 @@ body {
 
 .card.form {
     background: #e7e5de;
+}
+
+.content.create-schedule {
+    margin-top: 4rem;
+    background: #e7e5de;
+    height: 100%;
+}
+.btn.search {
+    background-color: #ab8d3fb3;
+}
+
+.btn.create,
+.btn.edit {
+    background-color: #ab8d3fb3;
+}
+
+.card-body.edit {
+    background: #e7e5de;
+}
+
+.content.schedule {
+    background: #e7e5de;
+    height: 100%;
+}
+
+.createathlete.bg {
+    background: #e7e5de;
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+.athletebg,
+.bgprosetting {
+    background: #e7e5de;
+    padding-top: 1rem;
 }

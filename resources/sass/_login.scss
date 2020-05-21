@@ -27,7 +27,8 @@
     margin-top: -85px;
 }
 
-.btn[type="submit"] {
+.btn.login,
+.btn.signup {
     background-color: #ab8d3f;
 }
 

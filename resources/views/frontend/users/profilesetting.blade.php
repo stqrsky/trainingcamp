@@ -8,7 +8,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 pb-3 mb-5 content">
+        <div class="bgprosetting col-12 pb-3 mb-5 content">
             @error('error')
             <div class="alert alert-danger" role="alert">
                 {{ $message }}
@@ -18,7 +18,7 @@
                 @csrf
                 @method('PUT')
                 @include('frontend.users.formprofile')
-                <button type="submit" class="btn btn-primary float-right">Update Profile</button>
+                <button type="submit" class="btn edit btn-outline-dark float-right">Update Profile</button>
             </form>
         </div>
     </div>

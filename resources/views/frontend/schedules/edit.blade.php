@@ -7,8 +7,8 @@
 @endsection
 
 @section('content')
-<div class="content mb-4">
-    <div class="card-body">
+<div class="content schedule mb-4">
+    <div class="card-body mt-5">
         @error('error')
         <div class="alert alert-danger" role="alert">
             {{ $message }}
@@ -17,11 +17,11 @@
         <form action="{{ route('schedules.update', ['schedule' => $schedule->id]) }}" method="POST">
             @csrf
             @method('PUT')
-            
+
             @include('frontend.schedules.form')
-    
-            <button type="submit" class="btn btn-primary float-right">Update</button>
-            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning float-right mr-1">Cancel</a>
+
+            <button type="submit" class="btn edit btn-outline-dark float-right">Update</button>
+            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning btn-outline-dark float-right mr-1">Cancel</a>
         </form>
     </div>
 </div>

@@ -204,6 +204,7 @@ class UserController extends Controller
             }
         }
         DB::commit();
+        $request->session()->flash('msg', 'Profile updated');
         return redirect()->route('user.profile');
     }
 

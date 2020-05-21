@@ -8,7 +8,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 content mb-5 pb-3">
+        <div class="athletebg col-12 content mb-5 pb-3">
             @error('error')
             <div class="alert alert-danger" role="alert">
                 {{ $message }}
@@ -18,8 +18,8 @@
                 @csrf
                 @method('PUT')
                 @include('frontend.athletes.form', ['edit' => true])
-                <button type="submit" class="btn btn-primary float-right ml-2">Update</button>
-                <button type="submit" class="btn btn-danger float-right">Delete</button>
+                <button type="submit" class="btn edit update float-right ml-2">Update</button>
+                <button type="submit" class="btn delete btn-danger float-right">Delete</button>
             </form>
 
         </div>

@@ -19,7 +19,7 @@
                     <form method="POST" action="{{ route('user.setting.post') }}">
                         @csrf
                         @include('frontend.users.formprofile')
-                        <button type="submit" class="btn btn-primary float-right">Create</button>
+                        <button type="submit" class="btn btn-outline-dark float-right">Create</button>
                     </form>
                 </div>
             </div>

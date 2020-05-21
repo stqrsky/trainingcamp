@@ -24,7 +24,7 @@
         @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 
-    <button class="btn mt-4 btn-lg text-white btn-block" type="submit">LOGIN</button>
+    <button class="btn login mt-4 btn-lg text-white btn-block" type="submit">LOGIN</button>
     <p class="mt-3 mb-3 text-white">
         Don't have an account?
         <a class="mt-5 mb-3" href="{{ route('signup') }}">SIGN UP</a>

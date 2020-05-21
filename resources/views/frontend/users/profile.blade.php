@@ -4,6 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12 pb-3 mb-5 content">
+            @if(session()->has('msg'))
+            <div class="alert alert-success text-center" role="alert">
+                {{ session('msg') }}
+            </div>
+            @endif
 
             <div aria-live="assertive" aria-atomic="true">
                 <div class="toast-header me d-flex align-items-center">
@@ -33,7 +38,7 @@
                 <div class="toast-body sign-out d-flex justify-content-center">
                     <form action="{{ route('user.logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="btn bg-danger text-white glyphicon glyphicon-log-out">Sign Out</button>
+                        <button type="submit" class="btn bg-danger text-white btn-outline-dark glyphicon glyphicon-log-out">Sign Out</button>
                     </form>
                 </div>
             </div>

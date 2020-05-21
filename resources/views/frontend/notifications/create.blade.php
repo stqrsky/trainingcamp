@@ -14,7 +14,7 @@
                     <form method="POST" action="{{ route('notification.store') }}" enctype="multipart/form-data">
                         @csrf
                         @include('frontend.notifications.form')
-                        <button type="submit" class="btn btn-primary float-right">Create</button>
+                        <button type="submit" class="btn create btn-outline-dark float-right">Create</button>
                     </form>
 
                 </div>

@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-12 content">
+    <div class="row accountsetting">
+        <div class="col-12 accountsetting content">
             <form method="POST" action="{{ route('user.account.setting.put') }}">
                 @csrf
                 @method('PUT')
@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary float-right">Save</button>
+                        <button type="submit" class="btn edit btn-outline-dark float-right">Save</button>
                     </div>
                 </div>
             </form>
@@ -46,7 +46,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-12">
-                        <button type="submit" class="btn btn-primary float-right">Update Password</button>
+                        <button type="submit" class="btn edit btn-outline-dark float-right">Update Password</button>
                     </div>
                 </div>
             </form>

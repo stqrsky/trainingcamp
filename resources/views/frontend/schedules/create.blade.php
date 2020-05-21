@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="content mb-4">
+<div class="content create-schedule mb-4">
     <div class="card-body">
         @error('error')
         <div class="alert alert-danger" role="alert">
@@ -19,8 +19,8 @@
 
             @include('frontend.schedules.form')
 
-            <button type="submit" class="btn btn-primary float-right">Add</button>
-            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning float-right mr-1">Cancel</a>
+            <button type="submit" class="btn create btn-outline-dark float-right">Add</button>
+            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning btn-outline-dark float-right mr-1">Cancel</a>
         </form>
     </div>
 </div>

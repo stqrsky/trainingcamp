@@ -6,7 +6,7 @@
         <div class="col-12 content pb-3 mb-3">
             <div class="card">
 
-                <div class="card-body">
+                <div class="card-body edit">
                     @error('error')
                     <div class="alert alert-danger" role="alert">
                         {{ $message }}
@@ -16,7 +16,7 @@
                         @csrf
                         @method('PUT')
                         @include('frontend.notifications.form')
-                        <button type="submit" class="btn btn-primary float-right">Update</button>
+                        <button type="submit" class="btn edit btn-outline-dark float-right">Update</button>
                     </form>
 
                 </div>

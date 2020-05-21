@@ -17,7 +17,7 @@
         <h4>{{ $date_format }}</h4>
         <form class="form-inline">
             <input class="form-control col-9" name="date" id="date" type="text" value="{{ $date }}" aria-label="Search">
-            <button class="btn btn-outline-dark col-3" type="submit">Search</button>
+            <button class="btn search btn-outline-dark col-3" type="submit">Search</button>
         </form>
     </div>
     <div class="card-body">

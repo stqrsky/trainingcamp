@@ -8,7 +8,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-12 content mb-5 pb-3">
+        <div class="createathlete bg col-12 content mb-5 pb-3">
             @error('error')
             <div class="alert alert-danger" role="alert">
                 {{ $message }}
@@ -17,7 +17,7 @@
             <form method="POST" action="{{ route('user.athletes.post') }}" enctype="multipart/form-data">
                 @csrf
                 @include('frontend.athletes.form')
-                <button type="submit" class="btn btn-primary float-right">Create</button>
+                <button type="submit" class="btn create float-right">Create</button>
             </form>
 
         </div>
