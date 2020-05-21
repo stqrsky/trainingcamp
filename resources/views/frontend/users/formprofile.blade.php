@@ -1,10 +1,16 @@
 <div class="form-group row">
     <div class="col-sm-12 text-center">
-        <input class="inputfile" type="file" id="picture" name="picture">
+        <input class="inputfile @error('file') is-invalid @enderror" type="file" id="picture" name="file" onChange="selectFile(event)">
         <label for="picture" class="border picture">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU" class="mx-auto d-block rounded-circle" height="128" width="128" alt="...">
+            <img src="{{
+                isset($user) && $user->userDetail && $user->userDetail->image ? 
+                asset($user->userDetail->image->file_name) :
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+            }}" class="mx-auto d-block rounded-circle" height="128" width="128" alt="...">
             <label class="add-profile btn btn-sm btn-info" for="picture">Select Picture</label>
         </label>
+        <p id="filename"></p>
+        @error('file')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
