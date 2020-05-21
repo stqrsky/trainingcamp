@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-12 content pb-3 mb-3">
-            <div class="card">
+            <div class="card form">
                 <div class="card-body">
                     @error('error')
                     <div class="alert alert-danger" role="alert">

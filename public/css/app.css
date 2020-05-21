@@ -10953,6 +10953,10 @@ body {
   margin-left: -26px;
 }
 
+.card.form {
+  background: #e7e5de;
+}
+
 .navbar.fixed-top {
   padding: 0.2rem 1rem;
 }
