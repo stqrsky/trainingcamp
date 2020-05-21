@@ -10,13 +10,16 @@ class Team extends Model
 
     protected $guarded = ['id'];
 
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
     public function coaches()
     {
         return $this->belongsToMany(
             \App\Models\User::class,
-            'team_coach',
-            'team_id',
-            'user_id'
+            'team_coach'
         );
     }
 
@@ -24,10 +27,12 @@ class Team extends Model
     {
         return $this->belongsToMany(
             \App\Models\User::class,
-            'team_athlete',
-            'team_id',
-            'user_id'
+            'team_athlete'
         );
+    }
+    public function schedules()
+    {
+        return $this->hasMany(\App\Models\Schedule::class);
     }
 
     public function image()

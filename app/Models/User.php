@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -35,6 +36,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function setPasswordAttribute($password)
+    {
+        return $this->attributes['password'] = \Hash::make($password);
+    }
+
     public function roles()
     {
         return $this->belongsToMany(
@@ -42,23 +48,26 @@ class User extends Authenticatable
             'user_role'
         );
     }
-    public function coachTeam()
+
+    public function getRolesNameAttribute()
     {
-        return $this->belongsToMany(
-            \App\Models\Team::class,
-            'team_coach',
-            'user_id',
-            'team_id'
-        );
+        $roles = $this->roles;
+        $roles_name = collect($roles)->map(function ($role) {
+            return $role->title;
+        })->all();
+        return $roles_name;
+    }
+
+    public function team()
+    {
+        return $this->hasOne(\App\Models\Team::class);
     }
 
     public function athleteTeam()
     {
         return $this->belongsToMany(
             \App\Models\Team::class,
-            'team_athlete',
-            'user_id',
-            'team_id'
+            'team_athlete'
         );
     }
 
@@ -70,18 +79,23 @@ class User extends Authenticatable
         );
     }
 
-    public function image()
+    public function userDetail()
     {
-        return $this->belongsTo(\App\Models\Image::class);
+        return $this->hasOne(\App\Models\UserDetail::class);
     }
 
     public function participants()
     {
         return $this->belongsToMany(
             \App\Models\Schedule::class,
-            'schedule_participant',
-            'user_id',
-            'schedule_id'
+            'schedule_participant'
         );
+    }
+
+    public function getFullNameAttribute()
+    {
+        $first_name = $this->first_name;
+        $last_name = $this->last_name;
+        return "$first_name $last_name";
     }
 }

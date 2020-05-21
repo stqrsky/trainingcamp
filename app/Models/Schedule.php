@@ -14,9 +14,7 @@ class Schedule extends Model
     {
         return $this->belongsToMany(
             \App\Models\User::class,
-            'schedule_participant',
-            'schedule_id',
-            'user_id'
+            'schedule_participant'
         );
     }
 }

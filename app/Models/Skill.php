@@ -14,9 +14,7 @@ class Skill extends Model
     {
         return $this->belongsToMany(
             \App\Models\User::class,
-            'user_skill',
-            'skill_id',
-            'user_id'
+            'user_skill'
         );
     }
 }

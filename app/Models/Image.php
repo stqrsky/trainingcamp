@@ -12,11 +12,11 @@ class Image extends Model
 
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class, 'image_id');
+        return $this->hasMany(\App\Models\User::class);
     }
 
     public function teams()
     {
-        return $this->hasMany(\App\Models\Team::class, 'image_id');
+        return $this->hasMany(\App\Models\Team::class);
     }
 }
