@@ -18,10 +18,12 @@ class CreateTeamsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->unsignedBigInteger('image_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->tinyInteger('status')->nullable()->default(0);
             $table->timestamps();
 
             $table->foreign('image_id')->references('id')->on('images');
+            $table->foreign('user_id')->references('id')->on('users');
         });
 
         Schema::create('team_coach', function (Blueprint $table) {

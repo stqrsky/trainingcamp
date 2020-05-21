@@ -20,10 +20,6 @@ class CreateImagesTable extends Migration
             $table->tinyInteger('status')->nullable()->default(0);
             $table->timestamps();
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('image_id')->references('id')->on('images');
-        });
     }
 
     /**
@@ -33,6 +29,9 @@ class CreateImagesTable extends Migration
      */
     public function down()
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign('image_id');
+        });
         Schema::dropIfExists('images');
     }
 }

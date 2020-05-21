@@ -26,6 +26,15 @@ class CreateSchedulesTable extends Migration
             $table->foreign('team_id')->references('id')->on('teams');
             $table->foreign('user_id')->references('id')->on('users');
         });
+
+        Schema::create('schedule_participant', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('schedule_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('user_id')->references('id')->on('users');
+        });
     }
 
     /**
@@ -36,5 +45,6 @@ class CreateSchedulesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('schedules');
+        Schema::dropIfExists('schedule_participant');
     }
 }
