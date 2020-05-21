@@ -40,7 +40,7 @@
                 <div class="form-group row">
                     <label for="confirm_new_password" class="col-sm-12 col-form-label">Confirm New Password</label>
                     <div class="col-sm-12">
-                        <input type="password" class="@error('new_password') is-invalid @enderror form-control" id="new_password_confirmation" placeholder="Height" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}">
+                        <input type="password" class="@error('new_password') is-invalid @enderror form-control" id="new_password_confirmation" placeholder="Confirm New Password" name="new_password_confirmation" value="{{ old('new_password_confirmation') }}">
                         @error('new_password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
                     </div>
                 </div>
