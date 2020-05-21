@@ -13,19 +13,19 @@
     </div>
     @enderror
     <div class="form-label-group">
-        <input type="email" id="inputEmail" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email address" required autofocus value="{{ old('email') }}">
+        <input type="email" id="inputEmail" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="" required autofocus value="{{ old('email') }}">
         <label for="inputEmail">Email address</label>
         @error('email')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required value="{{ old('password') }}">
+        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="" required value="{{ old('password') }}">
         <label for="password">Password</label>
         @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required value="{{ old('password_confirmation') }}">
+        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" placeholder="" required value="{{ old('password_confirmation') }}">
         <label for="password_confirmation">Confirm Password</label>
         @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
