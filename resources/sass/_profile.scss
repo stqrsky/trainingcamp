@@ -1,11 +1,13 @@
-.btn.btn-outline-secondary {
-    background-color: lightgrey;
+.btn.profilebtn {
+    background-color: rgb(199, 199, 199);
 }
 
-//buttons in profilepage
-// .btn.profilebtn1 {
-//     background-color: #b39b101a;
-// }
-// .btn.profilebtn2 {
-//     background-color: #b39b101a;
-// }
+.toast-header.me,
+.toast-body.about,
+.toast-body.skill {
+    background-color: rgb(231, 229, 222);
+}
+
+.toast-body.sign-out form {
+    box-shadow: 3px 4px 6px 0px rgba(0, 0, 0, 0.4);
+}

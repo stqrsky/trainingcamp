@@ -27,7 +27,6 @@ h1 {
 
 .container {
     max-width: 400px;
-    max-height: 100px;
     margin-top: 10px;
 }
 
@@ -98,10 +97,6 @@ h1 {
     color: white;
 }
 
-.img-signup {
-    margin-bottom: 4em;
-}
-
 label.picture {
     height: 128px;
     cursor: pointer;
@@ -122,4 +117,12 @@ label.picture {
     background-color: rgba(108, 178, 235, 0.5);
     border: none;
     font-weight: bold;
+}
+
+.btn[type="submit"] {
+    background-color: #ab8d3f;
+}
+
+.img-signup.mb-4.mt-3 {
+    filter: drop-shadow(1px 0px 0px rgb(255, 255, 255));
 }
