@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Auth;
+use App\Models\User;
+use App\Models\Notification;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        return view('frontend.home');
+        $profile = User::find(Auth::user()->id);
+        $team = $profile->team;
+        $notifications = Notification::with([
+            'user',
+            'user.userDetail',
+            'user.userDetail.image',
+            'image'
+        ])->where('user_id', $profile->id)->orderByDesc('created_at')->paginate(12);
+        return view('frontend.home', compact('notifications'));
     }
 }

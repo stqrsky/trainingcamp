@@ -13,76 +13,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.home');
-})->name('home');
-Route::get('/login', function () {
-    return view('backend.login', ['title' => 'Sign In']);
-})->name('login');
-Route::post('/login',  function () {
-    return redirect()->route('home');
-})->name('login.post');
-Route::get('/signup',  function () {
-    return view('backend.signup', ['title' => 'Sign Up']);
-})->name('signup');
-Route::post('/signup', function () {
-    return redirect()->route('user.setting');
-})->name('signup.post');
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth:web');
 
-
-Route::group(['prefix' => 'user'], function () {
-    Route::get('setting', function () {
-        return view('frontend.users.createprofile');
-    })->name('user.setting');
-    Route::post('setting', function () {
-        return redirect()->route('home');
-    })->name('user.setting.post');
-    Route::get('athletes',  function () {
-        return view('frontend.athletes.athletes');
-    })->name('user.athletes');
-    Route::get('athletes/create', function () {
-        return view('frontend.athletes.createathlete');
-    })->name('user.athletes.create');
-    Route::post('athletes/create', function () {
-        return redirect()->route('user.athletes');
-    })->name('user.athletes.create.post');
-    Route::get('athletes/{id}', function ($id) {
-        return view('frontend.athletes.editathlete', compact('id'));
-    })->name('user.detail');
-    Route::put('athletes/{id}', function () {
-        return view('frontend.athletes.createathlete');
-    })->name('user.detail.update');
-    Route::get('profile', function () {
-        return view('frontend.users.profile');
-    })->name('user.profile');
-    Route::get('profile/setting', function () {
-        return view('frontend.users.profilesetting');
-    })->name('user.profile.setting');
-    Route::get('profile/setting/account', function () {
-        return view('frontend.users.accountsetting');
-    })->name('user.account.setting');
+Route::group(['middleware' => ['guest']], function () {
+    Route::get('/login', 'UserController@login')->name('login');
+    Route::post('/login', 'UserController@loginUser')->name('login.post');
+    Route::get('/signup', 'UserController@register')->name('signup');
+    Route::post('/signup', 'UserController@registerUser')->name('signup.post');
 });
 
-Route::group(['prefix' => 'notification'], function () {
-    Route::get('create', function () {
-        return view('frontend.notifications.create');
-    })->name('notification.create');
-    Route::post('create', function () {
-        return redirect()->route('home');
-    })->name('notification.create.post');
-    Route::get('edit/{id}', function () {
-        return view('frontend.notifications.edit');
-    })->name('notification.edit');
-    Route::put('edit/{id}', function () {
-        return redirect()->route('home');
-    })->name('notification.edit.put');
-    Route::delete('delete/{id}', function () {
-        return redirect()->route('home');
-    })->name('notification.delete');
+Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
+    Route::post('logout', 'UserController@logout')->name('user.logout');
+    Route::get('setting', 'UserController@createProfile')->name('user.setting');
+    Route::post('setting', 'UserController@createProfileUser')->name('user.setting.post');
+
+    Route::get('athletes', 'TeamController@getUserTeam')->name('user.athletes');
+    Route::get('athletes/create', 'TeamController@addUser')->name('user.athletes.create');
+    Route::post('athletes/create', 'TeamController@createUser')->name('user.athletes.post');
+    Route::get('athletes/edit/{id}', 'TeamController@editUser')->name('user.athletes.edit');
+    Route::put('athletes/{id}', 'TeamController@updateUser')->name('user.athletes.update');
+    Route::delete('athletes/{id}', 'TeamController@deleteUser')->name('user.athletes.delete');
+    Route::get('athletes/{id}', 'TeamController@detailUser')->name('user.athletes.detail');
+
+    Route::get('profile', 'UserController@profile')->name('user.profile');
+    Route::get('profile/setting', 'UserController@profileSetting')->name('user.profile.setting');
+    Route::put('profile/setting', 'UserController@updateProfile')->name('user.profile.setting.put');
+    Route::get('profile/setting/account', 'UserController@accountSetting')->name('user.account.setting');
+    Route::put('profile/setting/account', 'UserController@updateProfileAccount')->name('user.account.setting.put');
 });
 
-Route::group(['prefix' => 'schedules'], function () {
-    Route::get('', function () {
-        return view('frontend.schedules.schedules');
-    })->name('schedules');
-});
+Route::resource('notification', 'NotificationController')->middleware('auth:web');
+
+Route::resource('schedules', 'ScheduleController')->middleware('auth:web');

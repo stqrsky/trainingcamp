@@ -10903,7 +10903,16 @@ body {
 }
 
 .base .content {
-  background: #ffffff;
+  margin-top: 2rem;
+}
+
+.row.accountsetting {
+  background: #e7e5de;
+  padding: 1rem;
+}
+
+.col-12.accountsetting.content {
+  background: #e7e5de;
 }
 
 .head-title .title {
@@ -10929,21 +10938,68 @@ body {
   margin-top: 2rem !important;
 }
 
-.base .content {
-  margin-top: 2rem;
-}
-
 .card.home {
   background-color: #b39b104f;
   border-color: gray;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 .card.schedule {
   border-color: gray;
+  box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 .toast-header.time {
   background-color: #b39b101a;
+}
+
+.material-icons.add {
+  font-size: 26px;
+}
+
+.row {
+  margin-right: -26px;
+  margin-left: -26px;
+}
+
+.card.form {
+  background: #e7e5de;
+}
+
+.content.create-schedule {
+  margin-top: 4rem;
+  background: #e7e5de;
+  height: 100%;
+}
+
+.btn.search {
+  background-color: #ab8d3fb3;
+}
+
+.btn.create,
+.btn.edit {
+  background-color: #ab8d3fb3;
+}
+
+.card-body.edit {
+  background: #e7e5de;
+}
+
+.content.schedule {
+  background: #e7e5de;
+  height: 100%;
+}
+
+.createathlete.bg {
+  background: #e7e5de;
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.athletebg,
+.bgprosetting {
+  background: #e7e5de;
+  padding-top: 1rem;
 }
 
 .navbar.fixed-top {
@@ -10969,8 +11025,53 @@ body {
   padding: 0;
 }
 
-.navbar.fixed-top {
-  padding: 0.2rem 1rem;
+.nav-item.active {
+  background: #c7bea4;
+}
+
+.nav-item.active a,
+.nav-item.active h6 {
+  color: #35332c;
+}
+
+h6 {
+  color: #fff;
+}
+
+/*//////////////////////////////////////////////////////////////////
+[ createprofile ]*/
+
+.demo-card-wide.mdl-card {
+  width: 700px;
+}
+
+.demo-card-wide > .mdl-card__title {
+  height: 70px;
+}
+
+.demo-card-wide > .mdl-card__menu {
+  color: #fff;
+}
+
+body {
+  padding: 20px;
+  background: #fafafa;
+  position: relative;
+}
+
+.btn.profilebtn {
+  background-color: #c7c7c7;
+}
+
+.toast-header.me,
+.toast-body.about,
+.toast-body.skill {
+  background-color: #e7e5de;
+  padding-top: 1rem;
+}
+
+.toast-body.sign-out form {
+  box-shadow: 3px 4px 6px 0px rgba(0, 0, 0, 0.4);
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -10990,6 +11091,19 @@ body {
 
 #login .container #login-row #login-column .login-box #login-form #register-link {
   margin-top: -85px;
+}
+
+.btn.login,
+.btn.signup {
+  background-color: #ab8d3f;
+}
+
+.img-login {
+  margin-top: 1rem;
+  margin-bottom: 1.4rem;
+  margin-left: 2px;
+  -webkit-filter: drop-shadow(1px 0px 0px white);
+          filter: drop-shadow(1px 0px 0px white);
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -11022,7 +11136,6 @@ h1 {
 
 .container {
   max-width: 400px;
-  max-height: 100px;
   margin-top: 10px;
 }
 
@@ -11079,22 +11192,18 @@ h1 {
 /* Error Box */
 
 .alert {
-  padding: 15px;
+  padding: 10px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 2px;
-  border-color: #e85a71;
-  background-color: #e85a71;
-  color: white;
+  border-radius: 25px;
+  border-color: #d0e9c6;
+  background-color: #dff0d8;
+  color: #3c763d;
 }
 
 .help-block {
   font-size: 12px;
   color: white;
-}
-
-.img-signup {
-  margin-bottom: 4em;
 }
 
 label.picture {
@@ -11117,5 +11226,10 @@ label.picture {
   background-color: rgba(108, 178, 235, 0.5);
   border: none;
   font-weight: bold;
+}
+
+.img-signup.mb-4.mt-3 {
+  -webkit-filter: drop-shadow(1px 0px 0px white);
+          filter: drop-shadow(1px 0px 0px white);
 }
 

@@ -24,17 +24,25 @@ li {
 
 .list-team-members ul li:hover {
   background-color: #343a3f;
-  color: #fff;
+  color: #fff !important;
 }
 
 .list-team-members ul li:hover a {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
 }
 
+.list-team-members ul li:hover a.dropdown-item {
+  color: #343a3f !important;
+}
+
 .list-team-members ul li:hover a:hover {
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
+}
+
+.list-team-members ul li .dropdown-menu a:hover {
+  color: #343a3f !important;
 }
 
 .user-photo img {
@@ -60,5 +68,13 @@ li {
   .list-team-members {
     /* overflow-x: auto; */
   }
+}
+
+.btn.search {
+  background-color: #ab8d3fb3;
+}
+
+.title-team {
+  margin-right: 12rem;
 }
 
