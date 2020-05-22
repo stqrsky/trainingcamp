@@ -11,7 +11,7 @@
             <span></span>
             <h4 class="title">Calendar and Sparring Assignments</h4>
             <a href="{{ route('schedules.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
-                <span aria-hidden="true" class="material-icons">add</span>
+                <span aria-hidden="true" class="material-icons add">add</span>
             </a>
         </div>
         <h4>{{ $date_format }}</h4>
