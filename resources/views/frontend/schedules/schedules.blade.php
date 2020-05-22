@@ -14,7 +14,7 @@
                 <span aria-hidden="true" class="material-icons add">add</span>
             </a>
         </div>
-        <h4>{{ $date_format }}</h4>
+        <h5>{{ $date_format }}</h5>
         <form class="form-inline">
             <input class="form-control col-9" name="date" id="date" type="text" value="{{ $date }}" aria-label="Search">
             <button class="btn search btn-outline-dark col-3" type="submit">Search</button>
