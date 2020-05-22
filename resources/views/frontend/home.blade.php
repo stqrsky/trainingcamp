@@ -6,7 +6,7 @@
         <div class="col-12 content mb-5 pb-3">
             <div class="d-flex justify-content-between align-items-center mb-3 head-title">
                 <span></span>
-                <h4 class="title">Bootcamp Overview</h4>
+                <h4 class="title overview">Bootcamp Overview</h4>
                 <a href="{{ route('notification.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>

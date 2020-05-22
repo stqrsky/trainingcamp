@@ -5,11 +5,11 @@
 @endsection
 
 @section('content')
-<div class="content mb-5">
+<div class="content schedule-body mb-5">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3 head-title">
             <span></span>
-            <h4 class="title">Calendar and Sparring Assignments</h4>
+            <h4 class="title schedule">Calendar and Sparring Assignments</h4>
             <a href="{{ route('schedules.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
                 <span aria-hidden="true" class="material-icons add">add</span>
             </a>
