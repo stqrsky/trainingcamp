@@ -28,22 +28,24 @@
                 <ul>
                     @foreach($team->coaches as $coach)
                     <li class="d-flex align-items-center mb-4">
-                        <div class="cont-user-wrapper col-lg-3">
-                            <div class="d-flex align-items-center w-30">
-                                <div class="user-photo">
-                                    <img class="img-fluid" src="{{
+                        <a href="{{ route('user.athletes.detail', ['id' => $coach->id]) }}">
+                            <div class="cont-user-wrapper col-lg-3">
+                                <div class="d-flex align-items-center w-30">
+                                    <div class="user-photo">
+                                        <img class="img-fluid" src="{{
                                         $coach->userDetail && $coach->userDetail->image ? 
                                         asset($coach->userDetail->image->file_name) :
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
                                     }}" alt="img avatar">
-                                </div>
-                                <div class="name ml-3">
-                                    <span class="font-weight-bold">
-                                        {{ $coach->full_name }}
-                                    </span>
+                                    </div>
+                                    <div class="name ml-3">
+                                        <span class="font-weight-bold">
+                                            {{ $coach->full_name }}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </li>
                     @endforeach
                 </ul>

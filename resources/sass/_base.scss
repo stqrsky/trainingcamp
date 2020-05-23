@@ -44,14 +44,14 @@ body {
 }
 
 .head-title {
-    .title {
-        text-align: center;
-    }
+    // .title {
+    //     text-align: center;
+    // }
     .btn-add {
         border-radius: 50%;
         border: solid 2px !important;
-        height: 30px;
-        width: 30px;
+        height: 40px;
+        width: 40px;
     }
 }
 
@@ -88,7 +88,7 @@ body {
 
 //Plus-sign increased with 2px
 .material-icons.add {
-    font-size: 26px;
+    font-size: 36px;
 }
 
 // widen the cards to use space of display
@@ -102,9 +102,8 @@ body {
 }
 
 .content.create-schedule {
-    margin-top: 4rem;
     background: #e7e5de;
-    height: 100%;
+    height: 90%;
 }
 .btn.search {
     background-color: #ab8d3fb3;
@@ -133,4 +132,21 @@ body {
 .bgprosetting {
     background: #e7e5de;
     padding-top: 1rem;
+}
+
+//title styling :(
+.title.overview {
+    margin-right: 4rem;
+}
+.title.schedule {
+    margin-right: 1rem;
+}
+.title-team {
+    margin-right: 10rem;
+}
+
+.content.schedule-body {
+    margin-right: -16px;
+    margin-left: -16px;
+    margin-top: 15px;
 }

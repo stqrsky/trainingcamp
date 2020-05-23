@@ -10915,15 +10915,11 @@ body {
   background: #e7e5de;
 }
 
-.head-title .title {
-  text-align: center;
-}
-
 .head-title .btn-add {
   border-radius: 50%;
   border: solid 2px !important;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
 }
 
 @media screen and (max-width: 575px) {
@@ -10954,7 +10950,7 @@ body {
 }
 
 .material-icons.add {
-  font-size: 26px;
+  font-size: 36px;
 }
 
 .row {
@@ -10967,9 +10963,8 @@ body {
 }
 
 .content.create-schedule {
-  margin-top: 4rem;
   background: #e7e5de;
-  height: 100%;
+  height: 90%;
 }
 
 .btn.search {
@@ -11000,6 +10995,24 @@ body {
 .bgprosetting {
   background: #e7e5de;
   padding-top: 1rem;
+}
+
+.title.overview {
+  margin-right: 4rem;
+}
+
+.title.schedule {
+  margin-right: 1rem;
+}
+
+.title-team {
+  margin-right: 10rem;
+}
+
+.content.schedule-body {
+  margin-right: -16px;
+  margin-left: -16px;
+  margin-top: 15px;
 }
 
 .navbar.fixed-top {

@@ -7,7 +7,8 @@
 @endsection
 
 @section('content')
-<div class="content create-schedule mb-4">
+<h4 class="title mt-4">Assignments</h4>
+<div class="content create-schedule mt-1">
     <div class="card-body">
         @error('error')
         <div class="alert alert-danger" role="alert">

@@ -86,7 +86,7 @@ class UserController extends Controller
     private function validateProfileUser()
     {
         return $this->validate(request(), [
-            'file' => 'mimes:jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png',
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',

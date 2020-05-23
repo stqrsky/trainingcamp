@@ -7,7 +7,11 @@
 
             <div aria-live="assertive" aria-atomic="true">
                 <div class="toast-header d-flex align-items-center">
-                    <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
+                    <img src="{{
+                        $user->userDetail && $user->userDetail->image ?
+                        asset($user->userDetail->image->file_name) :
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                    }}" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
                     <div class="d-flex flex-column">
                         <strong class="mr-auto">
                             {{ $user->full_name }}
