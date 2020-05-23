@@ -192,7 +192,11 @@ class TeamController extends Controller
         $team = $profile->team;
         $user = $team->athletes()->where('user_id', $id)->first();
         if (!$user) {
-            return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
+            $user = $team->coaches()->where('user_id', $id)->first();
+
+            if (!$user) {
+                return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
+            }
         }
         return view('frontend.athletes.detail', compact('user', 'team'));
     }
