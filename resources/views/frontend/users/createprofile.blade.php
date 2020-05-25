@@ -16,7 +16,7 @@
                         {{ $message }}
                     </div>
                     @enderror
-                    <form method="POST" action="{{ route('user.setting.post') }}">
+                    <form method="POST" action="{{ route('user.setting.post') }}" enctype="multipart/form-data">
                         @csrf
                         @include('frontend.users.formprofile')
                         <button type="submit" class="btn btn-outline-dark float-right">Create</button>
