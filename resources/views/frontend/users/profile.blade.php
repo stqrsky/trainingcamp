@@ -15,7 +15,7 @@
                     <img src="{{
                         $user->userDetail && $user->userDetail->image ? 
                         asset($user->userDetail->image->file_name) :
-                        "https://mdbootstrap.com/img/Photos/Avatars/avatar-8.jpg"
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
                     }}" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
                     <div class="d-flex flex-column">
                         <strong class="mr-auto text-dark">{{ $user->full_name }}</strong>
