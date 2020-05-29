@@ -23,7 +23,7 @@ The Trainingcamp App has been developed to make the club life in a sport-bootcam
 -   **GitHub**
 -   **Git-Workflow**
 -   **composer**
--   [**Uberspace-Hosting**](https://starmen.uber.space)
+-   [**Uberspace-Hosting**](https://star.uber.space)
 -   **Kanban**
 -   **Javascript**
 -   **PHPUnit**
