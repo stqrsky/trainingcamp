@@ -1,0 +1,29 @@
+/*//////////////////////////////////////////////////////////////////
+[ footer ]*/
+
+.navbar-bottom {
+    padding: 0;
+
+    ul {
+        background: #343a3f;
+
+        li a {
+            color: #fff;
+        }
+    }
+    div:nth-child(1) {
+        padding: 0;
+    }
+}
+
+.nav-item.active {
+    background: #c7bea4;
+    a,
+    h6 {
+        color: #35332c;
+    }
+}
+
+h6 {
+    color: #fff;
+}

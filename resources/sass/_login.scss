@@ -1,0 +1,41 @@
+/*//////////////////////////////////////////////////////////////////
+[ login ]*/
+#login .container #login-row #login-column .login-box {
+    margin-top: 4em;
+    max-width: 600px;
+    height: 30em;
+    border: 1px solid #9c9c9c;
+    background-image: linear-gradient(
+        to bottom,
+        #838383,
+        #9c9c9c,
+        #adadad,
+        #bec0c0,
+        #e9e9e9
+    );
+}
+#login .container #login-row #login-column .login-box #login-form {
+    padding: 20px;
+}
+#login
+    .container
+    #login-row
+    #login-column
+    .login-box
+    #login-form
+    #register-link {
+    margin-top: -85px;
+}
+
+.btn.login,
+.btn.signup {
+    background-color: #ab8d3f;
+}
+
+.img-login {
+    margin-top: 1rem;
+    margin-bottom: 1.4rem;
+    margin-left: 2px;
+
+    filter: drop-shadow(1px 0px 0px rgb(255, 255, 255));
+}

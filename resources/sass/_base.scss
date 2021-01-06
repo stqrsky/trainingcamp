@@ -1,0 +1,152 @@
+/*//////////////////////////////////////////////////////////////////
+[ base ]*/
+// $body-bg: #c9c9bd;
+
+// .home {
+//     width: 100%;
+//     height: 100vh;
+//     background-image: url(https://images.unsplash.com/
+// );
+//     background-position: center top;
+// 	background-size:cover;
+// }
+html,
+body {
+    // background-image: url("http://getwallpapers.com/wallpaper/full/a/5/d/544750.jpg");
+    background-size: cover;
+    background-color: #c9c9bd;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: "Numans", sans-serif;
+}
+
+.home {
+    margin-top: "65px";
+}
+
+.base {
+    #content {
+        padding: 0;
+        height: 100vh;
+        margin-bottom: 3em;
+    }
+    .content {
+        margin-top: 2rem;
+    }
+}
+
+.row.accountsetting {
+    background: #e7e5de;
+    padding: 1rem;
+}
+.col-12.accountsetting.content {
+    background: #e7e5de;
+}
+
+.head-title {
+    // .title {
+    //     text-align: center;
+    // }
+    .btn-add {
+        border-radius: 50%;
+        border: solid 2px !important;
+        height: 40px;
+        width: 40px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    html,
+    body {
+        background-color: #ffffff;
+    }
+}
+
+// top navbar with text
+.pb-3,
+.py-3 {
+    margin-top: 2rem !important;
+}
+
+//home cards
+.card.home {
+    background-color: #b39b104f;
+    border-color: gray;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+//schedule cards
+.card.schedule {
+    border-color: gray;
+    box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+//schedule toast-header time background
+.toast-header.time {
+    background-color: #b39b101a;
+}
+
+//Plus-sign increased with 2px
+.material-icons.add {
+    font-size: 36px;
+}
+
+// widen the cards to use space of display
+.row {
+    margin-right: -26px;
+    margin-left: -26px;
+}
+
+.card.form {
+    background: #e7e5de;
+}
+
+.content.create-schedule {
+    background: #e7e5de;
+    height: 90%;
+}
+.btn.search {
+    background-color: #ab8d3fb3;
+}
+
+.btn.create,
+.btn.edit {
+    background-color: #ab8d3fb3;
+}
+
+.card-body.edit {
+    background: #e7e5de;
+}
+
+.content.schedule {
+    background: #e7e5de;
+    height: 100%;
+}
+
+.createathlete.bg {
+    background: #e7e5de;
+    margin-top: 2rem;
+    padding-top: 1rem;
+}
+.athletebg,
+.bgprosetting {
+    background: #e7e5de;
+    padding-top: 1rem;
+}
+
+//title styling :(
+.title.overview {
+    margin-right: 4rem;
+}
+.title.schedule {
+    margin-right: 1rem;
+}
+.title-team {
+    margin-right: 10rem;
+}
+
+.content.schedule-body {
+    margin-right: -16px;
+    margin-left: -16px;
+    margin-top: 15px;
+}

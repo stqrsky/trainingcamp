@@ -1,0 +1,14 @@
+.btn.profilebtn {
+    background-color: rgb(199, 199, 199);
+}
+
+.toast-header.me,
+.toast-body.about,
+.toast-body.skill {
+    background-color: rgb(231, 229, 222);
+    padding-top: 1rem;
+}
+
+.toast-body.sign-out form {
+    box-shadow: 3px 4px 6px 0px rgba(0, 0, 0, 0.4);
+}
