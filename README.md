@@ -2,7 +2,7 @@
 
 ## About "Training Camp"
 
-This is my graduation project from the web devevlopment bootcamp at neuefische Hamburg.
+This is my graduation project from the web development bootcamp at neuefische Hamburg.
 
 The Trainingcamp App has been developed to make the club life in a sport-bootcamp easier for you. Use the Trainingcamp App to get a quick overview of your member list or plan sparring assignments of athletes anytime and anywhere.
 
