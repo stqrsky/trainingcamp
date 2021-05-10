@@ -27,3 +27,5 @@ The Trainingcamp App has been developed to make the club life in a sport-bootcam
 -   **Kanban**
 -   **Javascript**
 -   **PHPUnit**
+---
+![img](public/assets/images/Gesellenstück.jpeg)
