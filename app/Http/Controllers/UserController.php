@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Skill;
 use App\Models\UserDetail;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Team;
 use Illuminate\Support\Facades\DB;
@@ -86,7 +86,7 @@ class UserController extends Controller
     private function validateProfileUser()
     {
         return $this->validate(request(), [
-            'file' => 'mimes:jpg,jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png|max:2048',
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',

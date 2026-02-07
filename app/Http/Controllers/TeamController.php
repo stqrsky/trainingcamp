@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Skill;
 use App\Models\Role;
@@ -43,7 +43,7 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $this->validate($request, [
-            'file' => 'mimes:jpg,jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png|max:2048',
             'user_type' => 'required|in:coach,athlete',
             'email' => 'required|unique:users,email',
             'password' => 'required',
@@ -90,12 +90,12 @@ class TeamController extends Controller
                 $upload_image = UploadImage::uploadProfilePicture($file, $user);
                 if (isset($upload_image['error'])) {
                     DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+                    return redirect()->back()->withErrors(['error' => $upload_image['error']])->withInput();
                 }
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
         }
         DB::commit();
         return redirect()->route('user.athletes');
@@ -126,6 +126,7 @@ class TeamController extends Controller
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
         $this->validate($request, [
+            'file' => 'mimes:jpg,jpeg,png|max:2048',
             'email' => 'required|unique:users,email,' . $id,
             'first_name' => 'required',
             'last_name' => 'required',
@@ -159,7 +160,7 @@ class TeamController extends Controller
                 $upload_image = UploadImage::uploadProfilePicture($file, $user);
                 if (isset($upload_image['error'])) {
                     DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+                    return redirect()->back()->withErrors(['error' => $upload_image['error']])->withInput();
                 }
             }
         } catch (\Throwable $th) {
