@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Notification;
 
 class HomeController extends Controller

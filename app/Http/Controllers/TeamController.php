@@ -80,6 +80,9 @@ class TeamController extends Controller
             $user->skills()->attach($request->input('skills'));
             $user->roles()->attach($role);
             $team = Team::where('user_id', $profile->id)->first();
+            if (!$team) {
+                throw new \RuntimeException('Create your team in profile settings before adding members.');
+            }
             if ($request->input('user_type') == 'coach') {
                 $team->coaches()->attach($user);
             } else {
@@ -95,7 +98,10 @@ class TeamController extends Controller
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($th, 'Unable to add this member.')])
+                ->withInput();
         }
         DB::commit();
         return redirect()->route('user.athletes');
@@ -105,6 +111,10 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
         $user = $team->athletes()->with(['userDetail', 'userDetail.image'])
             ->where('user_id', $id)->first();
         if (!$user) {
@@ -121,6 +131,10 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
         $user = $team->athletes()->where('user_id', $id)->first();
         if (!$user) {
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
@@ -175,6 +189,10 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
         $user = $team->athletes()->where('user_id', $id)->first();
         if (!$user) {
             return redirect()->back()->withErrors(['error' => 'User not found']);
@@ -191,6 +209,10 @@ class TeamController extends Controller
     {
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
         $user = $team->athletes()->where('user_id', $id)->first();
         if (!$user) {
             $user = $team->coaches()->where('user_id', $id)->first();

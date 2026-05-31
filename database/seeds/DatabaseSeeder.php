@@ -1,18 +1,15 @@
 <?php
 
+use Database\Seeders\DatabaseSeeder as LaravelDatabaseSeeder;
 use Illuminate\Database\Seeder;
 
+/**
+ * @deprecated Use Database\Seeders\DatabaseSeeder via `php artisan db:seed`.
+ */
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
     public function run()
     {
-        $this->call(RoleSeeder::class);
-        $this->call(SkillSeeder::class);
-        $this->call(UserSeeder::class);
+        $this->call(LaravelDatabaseSeeder::class);
     }
 }

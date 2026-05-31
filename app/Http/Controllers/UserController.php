@@ -23,14 +23,16 @@ class UserController extends Controller
     public function loginUser(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required',
-            'password' => 'required'
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
         try {
             $user = User::whereEmail($request->input('email'))->first();
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+        } catch (\Throwable $e) {
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($e, 'Unable to sign in right now.')])
+                ->withInput();
         }
 
         if ($user) {
@@ -58,19 +60,31 @@ class UserController extends Controller
     public function registerUser(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|unique:users,email',
-            'password' => 'required|confirmed'
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed',
         ]);
+
+        $coachRole = Role::where('title', 'coach')->first();
+        if (!$coachRole) {
+            return redirect()->back()
+                ->withErrors(['error' => 'Application roles are missing. Run: php artisan migrate --seed'])
+                ->withInput();
+        }
+
         try {
             $user = User::create([
                 'email' => $request->input('email'),
-                'password' => $request->input('password')
+                'password' => $request->input('password'),
             ]);
-            $user->roles()->attach(Role::where('title', 'coach')->first());
-        } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+            $user->roles()->attach($coachRole->id);
+        } catch (\Throwable $e) {
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($e, 'Unable to create your account.')])
+                ->withInput();
         }
+
         Auth::login($user);
+
         return redirect()->route('user.setting');
     }
 
