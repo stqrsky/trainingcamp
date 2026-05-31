@@ -32,6 +32,8 @@ composer setup && npm install && npm run dev
 
 Run tests: `composer test` or `php vendor/bin/phpunit`
 
+CI runs PHPUnit on every push/PR to `master`/`main` using **SQLite in memory** (see `.github/workflows/tests.yml`).
+
 ---
 
 ## About "Training Camp"
