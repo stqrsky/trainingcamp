@@ -1,28 +1,15 @@
 <?php
 
+use Database\Seeders\RoleSeeder as LaravelRoleSeeder;
 use Illuminate\Database\Seeder;
-use App\Models\Role;
 
+/**
+ * @deprecated Use Database\Seeders\RoleSeeder via `php artisan db:seed`.
+ */
 class RoleSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        Role::firstOrCreate([
-            'title' => 'coach',
-            'status' => 1
-        ]);
-        Role::firstOrCreate([
-            'title' => 'athlete',
-            'status' => 1
-        ]);
-        Role::firstOrCreate([
-            'title' => 'admin',
-            'status' => 1
-        ]);
+        $this->call(LaravelRoleSeeder::class);
     }
 }
