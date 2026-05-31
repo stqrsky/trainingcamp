@@ -24,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Schema::defaultStringLength(191);
+        try {
+            Schema::defaultStringLength(191);
+        } catch (\Throwable $exception) {
+            // Database may be unavailable during `composer install` (package:discover).
+        }
     }
 }
