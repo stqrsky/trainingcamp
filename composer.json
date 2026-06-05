@@ -8,24 +8,23 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
-        "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "intervention/image": "^4.1",
-        "laravel/framework": "^8.75",
-        "laravel/tinker": "^2.5"
+        "php": "^8.2",
+        "intervention/image": "^3.0",
+        "laravel/framework": "^11.0",
+        "nunomaduro/collision": "^8.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^5.10",
-        "phpunit/phpunit": "^9.5.10"
+        "fakerphp/faker": "^1.24",
+        "mockery/mockery": "^1.6",
+        "phpunit/phpunit": "^10.5"
     },
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "8.2.0"
+        }
     },
     "extra": {
         "laravel": {
@@ -51,6 +50,7 @@
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
+            "@php -r \"is_dir('database') || mkdir('database'); if (!file_exists('database/database.sqlite')) { touch('database/database.sqlite'); }\"",
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
         ],
