@@ -3,6 +3,7 @@
 namespace App\Http\Libraries;
 
 use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 use App\Models\Image;
 
 class UploadImage
@@ -16,9 +17,8 @@ class UploadImage
         $public_path = "$file_path/$filename";
         try {
             $path = $file->storeAs($file_path, $filename);
-            $image = new ImageManager();
-            $img = $image->make($path);
-            $img->fit(400);
+            $img = (new ImageManager(new Driver()))->read($storage_path);
+            $img->cover(400, 400);
             $img->save($storage_path);
             if ($user->userDetail->image_id) {
                 Image::find($user->userDetail->image_id)->update([
