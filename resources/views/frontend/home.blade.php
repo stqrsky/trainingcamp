@@ -7,7 +7,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3 head-title">
                 <span></span>
                 <h4 class="title overview">Bootcamp Overview</h4>
-                <a href="{{ route('notification.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
+                <a href="{{ route('notification.create') }}" type="button" class="ms-2 mb-1 close btn-add" name="button">
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>
             </div>
@@ -19,11 +19,11 @@
                             $notification->user->userDetail && $notification->user->userDetail->image ? 
                             asset($notification->user->userDetail->image->file_name) :
                             "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
-                        }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
-                        <strong class="mr-auto"></strong>
+                        }}" class="rounded-circle me-3" height="50px" width="50px" alt="avatar">
+                        <strong class="me-auto"></strong>
                         <small class="text-muted">{{ $notification->time }}</small>
                         <div class="btn-group">
-                            <button type="button" class="ml-2 mb-1 close" id="dropdown{{$notification->id}}" data-dismiss="toast" aria-label="Close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <button type="button" class="ms-2 mb-1 close" id="dropdown{{$notification->id}}" data-bs-dismiss="toast" aria-label="Close" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span aria-hidden="true" class="material-icons">more_vert</span>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown{{$notification->id}}">

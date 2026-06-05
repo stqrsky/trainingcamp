@@ -25,5 +25,6 @@
         <server name="DB_DATABASE" value=":memory:"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
+        <server name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     </php>
 </phpunit>

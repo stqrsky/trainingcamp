@@ -10,7 +10,7 @@
         <div class="d-flex justify-content-between align-items-center mb-3 head-title">
             <span></span>
             <h4 class="title schedule">Calendar and Sparring Assignments</h4>
-            <a href="{{ route('schedules.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
+            <a href="{{ route('schedules.create') }}" type="button" class="ms-2 mb-1 close btn-add" name="button">
                 <span aria-hidden="true" class="material-icons add">add</span>
             </a>
         </div>
@@ -27,7 +27,7 @@
                 <div class="toast-header time d-flex align-items-center justify-content-between">
                     <strong class="text-muted">{{ $schedule->startEndTime }}</strong>
                     <div class="btn-group">
-                        <button type="button" class="ml-2 mb-1 close" id="dropdown{{$schedule->id}}" data-dismiss="toast" aria-label="Close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button type="button" class="ms-2 mb-1 close" id="dropdown{{$schedule->id}}" data-bs-dismiss="toast" aria-label="Close" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span aria-hidden="true" class="material-icons">more_vert</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown{{$schedule->id}}">
@@ -46,8 +46,8 @@
                         $athlete->userDetail && $athlete->userDetail->image ? 
                         asset($athlete->userDetail->image->file_name) :
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
-                    }}" class="rounded-circle mr-3" height="50px" width="50px" alt="avatar">
-                    <strong class="mr-auto">{{ $athlete->full_name }}</strong>
+                    }}" class="rounded-circle me-3" height="50px" width="50px" alt="avatar">
+                    <strong class="me-auto">{{ $athlete->full_name }}</strong>
                 </div>
                 @endforeach
             </div>
