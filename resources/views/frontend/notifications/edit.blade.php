@@ -26,3 +26,17 @@
     </div>
 </div>
 @endsection
+
+@section('script')
+<script>
+    document.getElementById('notification-file').addEventListener('change', function() {
+        var file = this.files[0]
+        if (!file) return
+        var preview = document.getElementById('notification-preview')
+        var objectUrl = URL.createObjectURL(file)
+        preview.src = objectUrl
+        preview.classList.remove('d-none')
+        preview.onload = function() { URL.revokeObjectURL(objectUrl) }
+    })
+</script>
+@endsection

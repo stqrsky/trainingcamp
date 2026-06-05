@@ -1,14 +1,14 @@
 <div class="form-group row">
     <label for="title" class="col-sm-12 col-form-label">Image</label>
     <div class="col-sm-12">
-        <input type="file" class="@error('file') is-invalid @enderror" id="title" name="file">
+        <input type="file" class="@error('file') is-invalid @enderror" id="notification-file" name="file">
         @error('file')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
-    @if(isset($notification) && $notification->image)
     <div class="col-sm-12 pt-3">
-        <img src="{{ asset($notification->image->file_name) }}" class="img-fluid" alt="Responsive image">
+        <img id="notification-preview" src="{{
+            isset($notification) && $notification->image ? asset($notification->image->file_name) : ''
+        }}" class="img-fluid rounded {{ isset($notification) && $notification->image ? '' : 'd-none' }}" alt="Image preview">
     </div>
-    @endif
 </div>
 <div class="form-group row">
     <label for="title" class="col-sm-12 col-form-label">Title</label>

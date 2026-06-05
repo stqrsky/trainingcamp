@@ -47,5 +47,14 @@
             }
         });
     })
+    document.getElementById('picture').addEventListener('change', function() {
+        var file = this.files[0]
+        if (!file) return
+        document.getElementById('filename').textContent = file.name
+        var preview = document.getElementById('picture-preview')
+        var objectUrl = URL.createObjectURL(file)
+        preview.src = objectUrl
+        preview.onload = function() { URL.revokeObjectURL(objectUrl) }
+    })
 </script>
 @endsection

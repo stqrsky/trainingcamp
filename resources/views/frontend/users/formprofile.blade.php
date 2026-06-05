@@ -1,9 +1,9 @@
 <div class="form-group row">
     <div class="col-sm-12 text-center">
-        <input class="inputfile @error('file') is-invalid @enderror" type="file" id="picture" name="file" onChange="selectFile(event)">
+        <input class="inputfile @error('file') is-invalid @enderror" type="file" id="picture" name="file">
         <label for="picture" class="border picture">
-            <img src="{{
-                isset($user) && $user->userDetail && $user->userDetail->image ? 
+            <img id="picture-preview" src="{{
+                isset($user) && $user->userDetail && $user->userDetail->image ?
                 asset($user->userDetail->image->file_name) :
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
             }}" class="mx-auto d-block rounded-circle" height="128" width="128" alt="...">
