@@ -21,7 +21,7 @@
             @include('frontend.schedules.form')
 
             <button type="submit" class="btn create btn-outline-dark float-right">Add</button>
-            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning btn-outline-dark float-right mr-1">Cancel</a>
+            <a href="{{ route('schedules.index') }}" type="button" class="btn btn-warning btn-outline-dark float-right me-1">Cancel</a>
         </form>
     </div>
 </div>

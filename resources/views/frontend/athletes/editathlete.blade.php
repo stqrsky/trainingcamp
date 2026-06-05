@@ -18,7 +18,7 @@
                 @csrf
                 @method('PUT')
                 @include('frontend.athletes.form', ['edit' => true])
-                <button type="submit" class="btn edit update float-right ml-2">Update</button>
+                <button type="submit" class="btn edit update float-right ms-2">Update</button>
                 <button type="submit" class="btn delete btn-danger float-right">Delete</button>
             </form>
 

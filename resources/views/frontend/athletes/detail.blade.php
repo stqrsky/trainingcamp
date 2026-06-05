@@ -11,12 +11,12 @@
                         $user->userDetail && $user->userDetail->image ?
                         asset($user->userDetail->image->file_name) :
                         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
-                    }}" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
+                    }}" class="rounded-circle me-3" height="70px" width="70px" alt="avatar">
                     <div class="d-flex flex-column">
-                        <strong class="mr-auto">
+                        <strong class="me-auto">
                             {{ $user->full_name }}
                         </strong>
-                        <strong class="mr-auto">{{ $team->name }}</strong>
+                        <strong class="me-auto">{{ $team->name }}</strong>
                     </div>
                 </div>
                 <div class="toast-body">

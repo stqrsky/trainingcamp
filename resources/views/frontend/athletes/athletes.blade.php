@@ -17,7 +17,7 @@
             <div class="d-flex justify-content-between align-items-center mb-3 head-title">
                 <span></span>
                 <h4 class="title-team"><u>{{ $team->name }}</u></h4>
-                <a href="{{ route('user.athletes.create') }}" type="button" class="ml-2 mb-1 close btn-add" name="button">
+                <a href="{{ route('user.athletes.create') }}" type="button" class="ms-2 mb-1 close btn-add" name="button">
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>
             </div>
@@ -38,7 +38,7 @@
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
                                     }}" alt="img avatar">
                                     </div>
-                                    <div class="name ml-3">
+                                    <div class="name ms-3">
                                         <span class="font-weight-bold">
                                             {{ $coach->full_name }}
                                         </span>
@@ -70,17 +70,17 @@
                                         $athlete->userDetail && $athlete->userDetail->image ? 
                                         asset($athlete->userDetail->image->file_name) :
                                         "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
-                                    }}" class="rounded-circle mr-3" height="70px" width="70px" alt="avatar">
+                                    }}" class="rounded-circle me-3" height="70px" width="70px" alt="avatar">
                                     <div class="d-flex flex-column text-truncate">
-                                        <strong class="mr-auto">
+                                        <strong class="me-auto">
                                             {{ $athlete->full_name }}
                                         </strong>
-                                        <strong class="mr-auto">{{ $athlete->userDetail->nick_name }}</strong>
+                                        <strong class="me-auto">{{ $athlete->userDetail->nick_name }}</strong>
                                     </div>
                                 </div>
                             </a>
                             <div class="btn-group float-right">
-                                <a type="button" class="ml-2 mb-1 close" id="dropdown{{$athlete->id}}" data-dismiss="toast" aria-label="Close" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a type="button" class="ms-2 mb-1 close" id="dropdown{{$athlete->id}}" data-bs-dismiss="toast" aria-label="Close" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span aria-hidden="true" class="material-icons">more_vert</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown{{$athlete->id}}">
