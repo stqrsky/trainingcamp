@@ -11,14 +11,14 @@
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>
             </div>
-            @foreach($notifications as $notification)
+            @forelse($notifications as $notification)
             <div class="card home mb-3">
                 <div aria-live="assertive" aria-atomic="true">
                     <div class="toast-header d-flex align-items-center">
                         <img src="{{
                             $notification->user->userDetail && $notification->user->userDetail->image ? 
                             asset($notification->user->userDetail->image->file_name) :
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                            asset('assets/default-avatar.svg')
                         }}" class="rounded-circle me-3" height="50px" width="50px" alt="avatar">
                         <strong class="me-auto"></strong>
                         <small class="text-muted">{{ $notification->time }}</small>
@@ -52,11 +52,18 @@
                 </div>
                 @endif
             </div>
-            @endforeach
-
-            <div class="d-flex justify-content-center">
-                {!! $notifications->links() !!}
+            @empty
+            <div class="text-center py-5 text-muted">
+                <span class="material-icons" style="font-size:48px">inbox</span>
+                <p class="mt-2">No posts yet. Tap <strong>+</strong> to add one.</p>
             </div>
+            @endforelse
+
+            @if($notifications->hasPages())
+            <div class="d-flex justify-content-center">
+                {!! $notifications->links('pagination::bootstrap-5') !!}
+            </div>
+            @endif
         </div>
     </div>
 </div>

@@ -26,7 +26,7 @@
             </div>
             <div class="list-team-members">
                 <ul>
-                    @foreach($team->coaches as $coach)
+                    @forelse($team->coaches as $coach)
                     <li class="d-flex align-items-center mb-4">
                         <a href="{{ route('user.athletes.detail', ['id' => $coach->id]) }}">
                             <div class="cont-user-wrapper col-lg-3">
@@ -35,7 +35,7 @@
                                         <img class="img-fluid" src="{{
                                         $coach->userDetail && $coach->userDetail->image ? 
                                         asset($coach->userDetail->image->file_name) :
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                                        asset('assets/default-avatar.svg')
                                     }}" alt="img avatar">
                                     </div>
                                     <div class="name ms-3">
@@ -47,7 +47,9 @@
                             </div>
                         </a>
                     </li>
-                    @endforeach
+                    @empty
+                    <li class="text-muted py-2 ps-2">No coaches yet.</li>
+                    @endforelse
                 </ul>
             </div>
             <div class="head-title d-flex align-items-center justify-content-between my-3">
@@ -61,7 +63,7 @@
             </div>
             <div class="list-team-members">
                 <ul>
-                    @foreach($team->athletes as $athlete)
+                    @forelse($team->athletes as $athlete)
                     <li class="justify-content-between mb-3">
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <a href="{{ route('user.athletes.detail', ['id' => $athlete->id]) }}">
@@ -69,7 +71,7 @@
                                     <img src="{{
                                         $athlete->userDetail && $athlete->userDetail->image ? 
                                         asset($athlete->userDetail->image->file_name) :
-                                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                                        asset('assets/default-avatar.svg')
                                     }}" class="rounded-circle me-3" height="70px" width="70px" alt="avatar">
                                     <div class="d-flex flex-column text-truncate">
                                         <strong class="me-auto">
@@ -99,7 +101,12 @@
                             @endforeach
                         </div>
                     </li>
-                    @endforeach
+                    @empty
+                    <li class="text-center py-4 text-muted">
+                        <span class="material-icons" style="font-size:40px">people_outline</span>
+                        <p class="mt-1">No athletes yet. Tap <strong>+</strong> to add one.</p>
+                    </li>
+                    @endforelse
                 </ul>
             </div>
             @else

@@ -10,7 +10,7 @@
                     <img src="{{
                         $user->userDetail && $user->userDetail->image ?
                         asset($user->userDetail->image->file_name) :
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                        asset('assets/default-avatar.svg')
                     }}" class="rounded-circle me-3" height="70px" width="70px" alt="avatar">
                     <div class="d-flex flex-column">
                         <strong class="me-auto">

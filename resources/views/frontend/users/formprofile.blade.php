@@ -5,7 +5,7 @@
             <img id="picture-preview" src="{{
                 isset($user) && $user->userDetail && $user->userDetail->image ?
                 asset($user->userDetail->image->file_name) :
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                asset('assets/default-avatar.svg')
             }}" class="mx-auto d-block rounded-circle" height="128" width="128" alt="...">
             <label class="add-profile btn btn-sm btn-info" for="picture">Select Picture</label>
         </label>

@@ -14,14 +14,17 @@
                 <span aria-hidden="true" class="material-icons add">add</span>
             </a>
         </div>
-        <h5>{{ $date_format }}</h5>
-        <form class="form-inline">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <h5 class="mb-0">{{ $date_format }}</h5>
+            <button id="today-btn" type="button" class="btn btn-sm btn-outline-secondary">Today</button>
+        </div>
+        <form class="form-inline" id="date-form" data-no-spinner>
             <input class="form-control col-9" name="date" id="date" type="text" value="{{ $date }}" aria-label="Search">
             <button class="btn search btn-outline-dark col-3" type="submit">Search</button>
         </form>
     </div>
     <div class="card-body">
-        @foreach($schedules as $schedule)
+        @forelse($schedules as $schedule)
         <div class="card schedule mb-3">
             <div aria-live="assertive" aria-atomic="true">
                 <div class="toast-header time d-flex align-items-center justify-content-between">
@@ -45,14 +48,19 @@
                     <img src="{{
                         $athlete->userDetail && $athlete->userDetail->image ? 
                         asset($athlete->userDetail->image->file_name) :
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRQ8xzdv564ewROcTBYDdv51oTD5SgNOCDDwMw4XXIdvxFGyQzn&usqp=CAU"
+                        asset('assets/default-avatar.svg')
                     }}" class="rounded-circle me-3" height="50px" width="50px" alt="avatar">
                     <strong class="me-auto">{{ $athlete->full_name }}</strong>
                 </div>
                 @endforeach
             </div>
         </div>
-        @endforeach
+        @empty
+        <div class="text-center py-5 text-muted">
+            <span class="material-icons" style="font-size:48px">event_busy</span>
+            <p class="mt-2">No sessions scheduled for this day.</p>
+        </div>
+        @endforelse
     </div>
 </div>
 @endsection
@@ -67,12 +75,16 @@
             showDropdowns: true,
             minYear: 1901,
             maxYear: parseInt(moment().format('YYYY'), 10),
-            locale: {
-                format: 'DD/MM/YYYY'
-            }
-        }, function(start, end, label) {
-            console.log(moment(start).format('YYYY-MM-DD'));
-        });
+            locale: { format: 'DD/MM/YYYY' }
+        }, function(start) {
+            document.getElementById('date-form').submit()
+        })
+
+        // Today shortcut
+        $('#today-btn').on('click', function() {
+            $('#date').val(moment().format('DD/MM/YYYY'))
+            document.getElementById('date-form').submit()
+        })
     })
 </script>
 @endsection
