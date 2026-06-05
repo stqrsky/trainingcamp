@@ -42,6 +42,6 @@ class UserTest extends TestCase
 
         $user->delete();
 
-        $this->assertDeleted($user);
+        $this->assertModelMissing($user);
     }
 }
