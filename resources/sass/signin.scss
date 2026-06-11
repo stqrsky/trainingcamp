@@ -3,9 +3,9 @@
 //  Immersive dark "gym" look with Trainingcamp gold accents.
 // ============================================================
 
-$gold:        #d4af37;
-$gold-strong: #e7cd76;
-$gold-grad:   linear-gradient(135deg, #f0d77a 0%, #d4af37 50%, #b08714 100%);
+$gold:        #f3c63b;
+$gold-strong: #ffdc66;
+$gold-grad:   linear-gradient(135deg, #ffe98a 0%, #ffd23f 50%, #e0a815 100%);
 
 html, body { height: 100%; }
 
@@ -17,7 +17,7 @@ body {
     min-height: 100dvh;
     color: #f4f1e8;
     background:
-        radial-gradient(900px 600px at 50% 0%, rgba(212, 175, 55, .16), transparent 55%),
+        radial-gradient(900px 600px at 50% 0%, rgba(243, 198, 59, .16), transparent 55%),
         linear-gradient(180deg, rgba(8, 8, 10, .82) 0%, rgba(8, 8, 10, .92) 100%),
         url("/assets/images/Background.jpg");
     background-position: center;
@@ -37,7 +37,7 @@ body {
     background: rgba(18, 18, 22, .72);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border: 1px solid rgba(212, 175, 55, .35);
+    border: 1px solid rgba(243, 198, 59, .35);
     border-radius: 1.25rem;
     box-shadow: 0 24px 60px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .04);
 }
@@ -50,7 +50,7 @@ body {
         width: 104px; height: 104px;
         object-fit: contain;
         margin-bottom: .5rem;
-        filter: drop-shadow(0 4px 14px rgba(212, 175, 55, .35));
+        filter: drop-shadow(0 4px 14px rgba(243, 198, 59, .35));
     }
     h1 {
         font-size: 1.6rem;
@@ -91,7 +91,7 @@ body {
             outline: none;
             background: rgba(255, 255, 255, .08);
             border-color: $gold;
-            box-shadow: 0 0 0 .2rem rgba(212, 175, 55, .28);
+            box-shadow: 0 0 0 .2rem rgba(243, 198, 59, .28);
         }
         &.is-invalid {
             border-color: #f87171;
@@ -147,12 +147,12 @@ body {
     background: $gold-grad;
     border: none;
     color: #1c1709;
-    box-shadow: 0 10px 26px rgba(212, 175, 55, .35);
+    box-shadow: 0 10px 26px rgba(243, 198, 59, .35);
     transition: filter .15s ease, transform .12s ease;
 
     &:hover  { filter: brightness(1.07); color: #1c1709; }
     &:active { transform: translateY(1px); }
-    &:focus-visible { outline: none; box-shadow: 0 0 0 .2rem rgba(212, 175, 55, .5); }
+    &:focus-visible { outline: none; box-shadow: 0 0 0 .2rem rgba(243, 198, 59, .5); }
     .spinner-border { vertical-align: -.15em; }
 }
 
