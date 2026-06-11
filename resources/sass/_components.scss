@@ -1,0 +1,454 @@
+// ============================================================
+//  Components — Trainingcamp design system
+//  Built on Bootstrap 5; styled with semantic tokens (_tokens).
+// ============================================================
+
+// ---- App shell ---------------------------------------------------
+body {
+    background-color: var(--tc-bg);
+    color: var(--tc-text);
+    min-height: 100dvh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.base {
+    .content {
+        margin-top: 5.25rem;          // clear the fixed top bar
+        padding-bottom: 6.5rem;       // clear the fixed bottom nav
+    }
+    #content { padding: 0; }
+}
+
+// Undo the old negative-margin hacks that caused horizontal overflow
+.row { margin-right: 0; margin-left: 0; }
+.content.schedule-body { margin: 5.25rem 0 0; }
+
+// Generic surface card used across screens
+.tc-card,
+.card.form,
+.content.create-schedule,
+.content.schedule {
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius);
+    box-shadow: var(--tc-shadow-sm);
+}
+
+// ---- Top bar -----------------------------------------------------
+.navbar.fixed-top {
+    background: var(--tc-surface) !important;
+    border-bottom: 1px solid var(--tc-border);
+    box-shadow: var(--tc-shadow-sm);
+    min-height: 64px;
+    gap: .75rem;
+    padding-inline: 1rem;
+
+    .img { border-radius: 12px; }
+}
+
+.tc-brand {
+    font-weight: 800;
+    letter-spacing: -.02em;
+    color: var(--tc-text);
+    font-size: 1.15rem;
+    margin: 0;
+}
+
+// Theme toggle button (top-right)
+.tc-theme-toggle {
+    margin-inline-start: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--tc-radius-pill);
+    border: 1px solid var(--tc-border);
+    background: var(--tc-surface-2);
+    color: var(--tc-text);
+    cursor: pointer;
+    transition: background .15s ease, transform .15s ease;
+
+    &:hover { background: var(--tc-primary-soft); }
+    &:active { transform: scale(.94); }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+
+    .material-icons { font-size: 22px; }
+    .tc-icon-dark  { display: none; }
+}
+[data-bs-theme="dark"] .tc-theme-toggle {
+    .tc-icon-light { display: none; }
+    .tc-icon-dark  { display: inline; }
+}
+
+// ---- Bottom navigation ------------------------------------------
+.navbar-bottom {
+    background: var(--tc-surface) !important;
+    border-top: 1px solid var(--tc-border);
+    box-shadow: 0 -2px 14px rgba(15, 23, 42, .06);
+    padding: .35rem 0 calc(.35rem + env(safe-area-inset-bottom));
+
+    .nav-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--tc-text-muted);
+        padding: .4rem 0 .15rem;
+        transition: color .15s ease;
+        .material-icons { font-size: 24px; }
+    }
+    h6 {
+        font-size: .68rem;
+        font-style: normal !important;
+        font-weight: 600;
+        color: var(--tc-text-muted);
+        text-align: center;
+    }
+
+    // Active tab
+    .nav-item.active {
+        .nav-link, h6 { color: var(--tc-primary); }
+        .nav-link { position: relative; }
+        .nav-link::before {
+            content: "";
+            position: absolute;
+            top: -.35rem;
+            width: 26px;
+            height: 3px;
+            border-radius: 3px;
+            background: var(--tc-primary);
+        }
+    }
+    .nav-link:hover { color: var(--tc-primary); }
+}
+
+// ---- Section heading row ----------------------------------------
+.head-title {
+    .title,
+    .title-team,
+    h4 {
+        font-weight: 800;
+        letter-spacing: -.02em;
+        color: var(--tc-text);
+        margin: 0;
+    }
+    // Neutralise the old hard-coded right margins
+    .title.overview,
+    .title.schedule,
+    .title-team { margin-right: 0; }
+    .title-team u { text-decoration: none; }
+
+    .btn-add {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 42px;
+        width: 42px;
+        border-radius: var(--tc-radius-pill);
+        border: none !important;
+        background: var(--tc-primary);
+        color: var(--tc-on-primary);
+        box-shadow: var(--tc-shadow-sm);
+        transition: background .15s ease, transform .15s ease;
+
+        .material-icons.add { font-size: 26px; color: var(--tc-on-primary); }
+        &:hover { background: var(--tc-primary-hover); }
+        &:active { transform: scale(.92); }
+        &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+    }
+}
+
+// ---- Buttons -----------------------------------------------------
+.btn.search,
+.btn.create,
+.btn.edit {
+    background: var(--tc-primary);
+    border-color: var(--tc-primary);
+    color: var(--tc-on-primary);
+    font-weight: 600;
+    &:hover,
+    &:focus { background: var(--tc-primary-hover); border-color: var(--tc-primary-hover); color: var(--tc-on-primary); }
+    &:focus-visible { box-shadow: var(--tc-ring); }
+}
+
+// ---- Overview (home) cards --------------------------------------
+.card.home,
+.card.schedule {
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border) !important;
+    border-radius: var(--tc-radius);
+    box-shadow: var(--tc-shadow-sm);
+    overflow: hidden;
+    transition: box-shadow .18s ease, transform .18s ease;
+
+    &:hover { box-shadow: var(--tc-shadow-md); transform: translateY(-2px); }
+
+    .toast-header {
+        background: transparent;
+        border: none;
+        padding: .9rem 1rem .25rem;
+        color: var(--tc-text);
+    }
+    .toast-body {
+        padding: .25rem 1rem 1rem;
+        color: var(--tc-text);
+    }
+    .card-title { color: var(--tc-text); font-weight: 800; }
+    img.card-img-top { border-radius: 0; }
+}
+
+// Schedule "time" header strip
+.card.schedule .toast-header.time {
+    background: var(--tc-primary-soft) !important;
+    border-bottom: 1px solid var(--tc-border);
+    padding: .7rem 1rem;
+    strong { color: var(--tc-primary); font-size: 1.05rem; letter-spacing: .01em; }
+}
+
+// Kebab / dropdown trigger
+.toast-header .close,
+.head-title .close,
+.list-team-members .close {
+    background: transparent;
+    border: none;
+    color: var(--tc-text-muted);
+    border-radius: var(--tc-radius-pill);
+    width: 36px; height: 36px;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .15s ease, color .15s ease;
+    &:hover { background: var(--tc-surface-2); color: var(--tc-text); }
+    .material-icons { font-size: 22px; }
+}
+
+// ---- Avatars & initials -----------------------------------------
+.tc-avatar {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--tc-radius-pill);
+    object-fit: cover;
+    background: var(--tc-primary-soft);
+    color: var(--tc-primary);
+    font-weight: 800;
+    letter-spacing: .02em;
+    border: 2px solid var(--tc-surface);
+    box-shadow: 0 0 0 1px var(--tc-border);
+    overflow: hidden;
+    text-transform: uppercase;
+}
+.tc-avatar--sm { width: 44px; height: 44px; font-size: .9rem; }
+.tc-avatar--md { width: 52px; height: 52px; font-size: 1rem; }
+.tc-avatar--lg { width: 64px; height: 64px; font-size: 1.2rem; }
+.tc-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+
+// ---- Role / skill badges ----------------------------------------
+.tc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    padding: .2rem .55rem;
+    border-radius: var(--tc-radius-pill);
+    line-height: 1;
+}
+.tc-badge--coach   { background: var(--tc-info-soft);    color: var(--tc-info); }
+.tc-badge--athlete { background: var(--tc-primary-soft); color: var(--tc-primary); }
+.tc-badge--skill   { background: var(--tc-warning-soft); color: var(--tc-warning); }
+
+// legacy skill badges in athlete list
+.badge.badge-warning {
+    background: var(--tc-warning-soft);
+    color: var(--tc-warning);
+    font-weight: 700;
+    border-radius: var(--tc-radius-pill);
+    padding: .3rem .6rem;
+}
+
+// ---- "VS" divider between sparring partners ---------------------
+.tc-vs {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    color: var(--tc-text-muted);
+    font-size: .72rem;
+    font-weight: 800;
+    letter-spacing: .12em;
+    margin: .15rem 0;
+    &::before, &::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--tc-border);
+    }
+}
+.tc-slot-body { padding: .35rem 0 .65rem; }
+.tc-spar-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .55rem 1rem;
+    .tc-spar-name { font-weight: 700; color: var(--tc-text); }
+    .tc-badge { align-self: flex-start; }
+}
+
+// ---- Banners (greeting / insurance) -----------------------------
+.tc-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: .8rem;
+    border-radius: var(--tc-radius);
+    padding: .95rem 1.05rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+
+    .material-icons { font-size: 24px; flex: 0 0 auto; margin-top: 1px; }
+    .tc-banner-body { flex: 1; min-width: 0; }
+    strong { font-weight: 800; }
+    p { margin: .15rem 0 0; font-size: .9rem; line-height: 1.45; }
+
+    .tc-banner-close {
+        flex: 0 0 auto;
+        background: transparent;
+        border: none;
+        color: inherit;
+        opacity: .6;
+        cursor: pointer;
+        line-height: 1;
+        &:hover { opacity: 1; }
+        .material-icons { font-size: 20px; }
+    }
+}
+.tc-banner--greeting {
+    background: linear-gradient(135deg, var(--tc-primary), var(--tc-primary-hover));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: var(--tc-shadow-md);
+    .material-icons { color: rgba(255,255,255,.9); }
+    p { color: rgba(255,255,255,.92); }
+}
+.tc-banner--warning {
+    background: var(--tc-warning-soft);
+    border-color: var(--tc-warning-border);
+    color: var(--tc-warning);
+    p { color: var(--tc-text); }
+    .material-icons { color: var(--tc-warning); }
+}
+
+// ---- Date header (schedule) -------------------------------------
+.tc-date-head {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    color: var(--tc-text);
+    font-weight: 800;
+    letter-spacing: -.01em;
+    .material-icons { color: var(--tc-primary); font-size: 26px; }
+}
+
+// ---- Forms -------------------------------------------------------
+.form-control,
+.form-select {
+    background: var(--tc-surface);
+    border-color: var(--tc-border);
+    color: var(--tc-text);
+    border-radius: var(--tc-radius-sm);
+    min-height: 46px;
+    &:focus {
+        border-color: var(--tc-primary);
+        box-shadow: var(--tc-ring);
+        background: var(--tc-surface);
+        color: var(--tc-text);
+    }
+    &::placeholder { color: var(--tc-text-muted); }
+}
+.col-form-label,
+label { color: var(--tc-text); font-weight: 600; }
+
+.tc-search {
+    display: flex;
+    gap: .5rem;
+    .form-control { flex: 1; }
+    .btn { flex: 0 0 auto; white-space: nowrap; }
+}
+
+// ---- Athlete / member list --------------------------------------
+.list-team-members ul { padding: 0; margin: 0; }
+.list-team-members ul li {
+    list-style: none;
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius);
+    padding: .75rem .9rem;
+    margin-bottom: .7rem;
+    transition: box-shadow .16s ease, transform .16s ease, border-color .16s ease;
+
+    a { color: var(--tc-text); text-decoration: none; }
+
+    &:hover {
+        background: var(--tc-surface);
+        border-color: var(--tc-primary);
+        box-shadow: var(--tc-shadow-md);
+        transform: translateY(-1px);
+        color: var(--tc-text) !important;
+        a { color: var(--tc-text) !important; }
+    }
+    .name span,
+    .tc-spar-name,
+    strong { color: var(--tc-text); }
+    .dropdown-item { color: var(--tc-text) !important; }
+}
+.user-photo {
+    max-width: 56px; height: 56px;
+    border-radius: var(--tc-radius-pill);
+    border: 2px solid var(--tc-surface);
+    box-shadow: 0 0 0 1px var(--tc-border);
+    overflow: hidden;
+    img { width: 100%; height: 100%; object-fit: cover; }
+}
+.w-30 { width: auto; }
+
+// ---- Dropdown menu ----------------------------------------------
+.dropdown-menu {
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-sm);
+    box-shadow: var(--tc-shadow-lg);
+    padding: .35rem;
+    .dropdown-item {
+        border-radius: var(--tc-radius-sm);
+        font-weight: 600;
+        color: var(--tc-text);
+        &:hover { background: var(--tc-primary-soft); color: var(--tc-primary); }
+    }
+    form .dropdown-item:hover { background: var(--tc-danger-soft); color: var(--tc-danger); }
+}
+
+// ---- Empty states ------------------------------------------------
+.tc-empty,
+.text-muted.py-5,
+.text-center.py-5 {
+    color: var(--tc-text-muted) !important;
+    .material-icons { color: var(--tc-text-muted); opacity: .65; }
+}
+
+// ---- Alerts ------------------------------------------------------
+.alert-danger {
+    background: var(--tc-danger-soft);
+    border-color: var(--tc-danger);
+    color: var(--tc-danger);
+    border-radius: var(--tc-radius-sm);
+    font-weight: 600;
+}
+
+// ---- Pagination --------------------------------------------------
+.pagination { --bs-pagination-color: var(--tc-text-muted); --bs-pagination-active-bg: var(--tc-primary); --bs-pagination-active-border-color: var(--tc-primary); }
+
+// ---- Motion preferences -----------------------------------------
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}

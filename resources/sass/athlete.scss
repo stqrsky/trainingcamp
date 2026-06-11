@@ -1,75 +1,39 @@
-p {
-    margin: 0;
+// ============================================================
+//  Athlete page extras — compiled to public/css/athlete.css
+//  Core member-list styling lives in app.css (_components.scss);
+//  this file only adds page-specific touches.
+// ============================================================
+
+p  { margin: 0; }
+ul { padding: 0; }
+li { list-style: none; }
+
+// Quick "Assign sparring" action shown per athlete row
+.tc-assign-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .8rem;
+    font-weight: 700;
+    padding: .4rem .75rem;
+    border-radius: var(--tc-radius-pill);
+    border: 1.5px solid var(--tc-border);
+    background: var(--tc-surface);
+    color: var(--tc-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+
+    .material-icons { font-size: 18px; }
+    &:hover { background: var(--tc-primary); border-color: var(--tc-primary); color: var(--tc-on-primary); }
 }
 
-ul {
-    padding: 0;
-}
-
-li {
-    list-style: none;
-}
-
-.list-team-members ul li {
-    background-color: #f2f2f2;
-    padding: 5px;
-    border-radius: 4px;
-    transition: 0.3s all ease-in-out;
-    -webkit-transition: 0.3s all ease-in-out;
-    a {
-        color: rgb(52, 58, 63);
-    }
-}
-
-.list-team-members ul li:hover {
-    background-color: rgb(52, 58, 63);
-    color: #fff !important;
-    a {
-        color: #fff !important;
-        text-decoration: none;
-    }
-    a.dropdown-item {
-        color: rgb(52, 58, 63) !important;
-    }
-    a:hover {
-        color: #fff !important;
-        text-decoration: none;
-    }
-}
-
-.list-team-members ul li {
-    // Dropdown menu
-    .dropdown-menu {
-        a:hover {
-            color: rgb(52, 58, 63) !important;
-        }
-    }
-}
-
-.user-photo img {
-    height: 100%;
-    object-fit: cover;
-    border-radius: 100px;
-}
-
-.user-photo {
-    max-width: 60px;
-    height: 60px;
-    border-radius: 100px;
-    border: 2px solid azure;
-    /* overflow: hidden; */
-}
-
-.w-30 {
-    width: 296px;
-}
-
-@media screen and (max-width: 991px) {
-    .list-team-members {
-        /* overflow-x: auto; */
-    }
-}
-
-.btn.search {
-    background-color: #ab8d3fb3;
+// Section sub-heads (Coaches / Athletes)
+.list-section-label {
+    font-size: .78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--tc-text-muted);
+    margin: 1.25rem 0 .6rem;
 }
