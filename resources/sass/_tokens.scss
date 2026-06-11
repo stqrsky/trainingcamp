@@ -14,11 +14,13 @@
     --tc-text:        #0f172a;   // slate-900
     --tc-text-muted:  #64748b;   // slate-500
 
-    // Brand
-    --tc-primary:        #4f46e5;
-    --tc-primary-hover:  #4338ca;
-    --tc-primary-soft:   #eef2ff;
-    --tc-on-primary:     #ffffff;
+    // Brand — Trainingcamp gold
+    --tc-primary:        #b8860b;   // gold fill
+    --tc-primary-hover:  #9c7209;
+    --tc-primary-strong: #8a6510;   // darker gold, ≥4.5:1 text on light
+    --tc-primary-soft:   #f7efd3;   // pale gold tint
+    --tc-on-primary:     #1c1709;   // near-black text on gold fills
+    --tc-gold-grad:      linear-gradient(135deg, #e7c757 0%, #c79a23 45%, #a9790c 100%);
 
     // Semantic soft fills
     --tc-success:        #16a34a;
@@ -39,7 +41,7 @@
     --tc-shadow-sm:   0 1px 2px rgba(15, 23, 42, .06), 0 1px 3px rgba(15, 23, 42, .08);
     --tc-shadow-md:   0 6px 18px rgba(15, 23, 42, .08);
     --tc-shadow-lg:   0 14px 38px rgba(15, 23, 42, .14);
-    --tc-ring:        0 0 0 .2rem rgba(79, 70, 229, .35);
+    --tc-ring:        0 0 0 .2rem rgba(184, 134, 11, .4);
 }
 
 [data-bs-theme="dark"] {
@@ -51,10 +53,12 @@
     --tc-text:        #e2e8f0;   // slate-200
     --tc-text-muted:  #94a3b8;   // slate-400
 
-    --tc-primary:        #818cf8;   // lighter indigo for dark surfaces
-    --tc-primary-hover:  #a5b4fc;
-    --tc-primary-soft:   rgba(99, 102, 241, .16);
-    --tc-on-primary:     #0b1120;
+    --tc-primary:        #d4af37;   // bright gold on dark surfaces
+    --tc-primary-hover:  #e2c25a;
+    --tc-primary-strong: #e7cd76;   // light gold text on dark
+    --tc-primary-soft:   rgba(212, 175, 55, .15);
+    --tc-on-primary:     #1c1709;
+    --tc-gold-grad:      linear-gradient(135deg, #f0d77a 0%, #d4af37 50%, #b08714 100%);
 
     --tc-success:        #4ade80;
     --tc-success-soft:   rgba(34, 197, 94, .16);
@@ -70,5 +74,5 @@
     --tc-shadow-sm:   0 1px 2px rgba(0, 0, 0, .4);
     --tc-shadow-md:   0 6px 18px rgba(0, 0, 0, .45);
     --tc-shadow-lg:   0 14px 38px rgba(0, 0, 0, .55);
-    --tc-ring:        0 0 0 .2rem rgba(129, 140, 248, .4);
+    --tc-ring:        0 0 0 .2rem rgba(212, 175, 55, .45);
 }

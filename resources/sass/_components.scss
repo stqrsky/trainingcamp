@@ -107,7 +107,7 @@ body {
 
     // Active tab
     .nav-item.active {
-        .nav-link, h6 { color: var(--tc-primary); }
+        .nav-link, h6 { color: var(--tc-primary-strong); }
         .nav-link { position: relative; }
         .nav-link::before {
             content: "";
@@ -119,7 +119,7 @@ body {
             background: var(--tc-primary);
         }
     }
-    .nav-link:hover { color: var(--tc-primary); }
+    .nav-link:hover { color: var(--tc-primary-strong); }
 }
 
 // ---- Section heading row ----------------------------------------
@@ -147,13 +147,13 @@ body {
         width: 42px;
         border-radius: var(--tc-radius-pill);
         border: none !important;
-        background: var(--tc-primary);
+        background: var(--tc-gold-grad);
         color: var(--tc-on-primary);
         box-shadow: var(--tc-shadow-sm);
-        transition: background .15s ease, transform .15s ease;
+        transition: filter .15s ease, transform .15s ease;
 
         .material-icons.add { font-size: 26px; color: var(--tc-on-primary); }
-        &:hover { background: var(--tc-primary-hover); }
+        &:hover { filter: brightness(1.06); }
         &:active { transform: scale(.92); }
         &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
     }
@@ -163,12 +163,12 @@ body {
 .btn.search,
 .btn.create,
 .btn.edit {
-    background: var(--tc-primary);
-    border-color: var(--tc-primary);
+    background: var(--tc-gold-grad);
+    border: none;
     color: var(--tc-on-primary);
-    font-weight: 600;
+    font-weight: 700;
     &:hover,
-    &:focus { background: var(--tc-primary-hover); border-color: var(--tc-primary-hover); color: var(--tc-on-primary); }
+    &:focus { filter: brightness(1.06); color: var(--tc-on-primary); }
     &:focus-visible { box-shadow: var(--tc-ring); }
 }
 
@@ -203,7 +203,7 @@ body {
     background: var(--tc-primary-soft) !important;
     border-bottom: 1px solid var(--tc-border);
     padding: .7rem 1rem;
-    strong { color: var(--tc-primary); font-size: 1.05rem; letter-spacing: .01em; }
+    strong { color: var(--tc-primary-strong); font-size: 1.05rem; letter-spacing: .01em; }
 }
 
 // Kebab / dropdown trigger
@@ -230,7 +230,7 @@ body {
     border-radius: var(--tc-radius-pill);
     object-fit: cover;
     background: var(--tc-primary-soft);
-    color: var(--tc-primary);
+    color: var(--tc-primary-strong);
     font-weight: 800;
     letter-spacing: .02em;
     border: 2px solid var(--tc-surface);
@@ -257,7 +257,7 @@ body {
     line-height: 1;
 }
 .tc-badge--coach   { background: var(--tc-info-soft);    color: var(--tc-info); }
-.tc-badge--athlete { background: var(--tc-primary-soft); color: var(--tc-primary); }
+.tc-badge--athlete { background: var(--tc-primary-soft); color: var(--tc-primary-strong); }
 .tc-badge--skill   { background: var(--tc-warning-soft); color: var(--tc-warning); }
 
 // legacy skill badges in athlete list
@@ -324,12 +324,13 @@ body {
     }
 }
 .tc-banner--greeting {
-    background: linear-gradient(135deg, var(--tc-primary), var(--tc-primary-hover));
-    color: #fff;
+    background: var(--tc-gold-grad);
+    color: var(--tc-on-primary);
     border-color: transparent;
     box-shadow: var(--tc-shadow-md);
-    .material-icons { color: rgba(255,255,255,.9); }
-    p { color: rgba(255,255,255,.92); }
+    .material-icons { color: var(--tc-on-primary); }
+    strong { color: var(--tc-on-primary); }
+    p { color: rgba(28, 23, 9, .82); }
 }
 .tc-banner--warning {
     background: var(--tc-warning-soft);
@@ -347,7 +348,7 @@ body {
     color: var(--tc-text);
     font-weight: 800;
     letter-spacing: -.01em;
-    .material-icons { color: var(--tc-primary); font-size: 26px; }
+    .material-icons { color: var(--tc-primary-strong); font-size: 26px; }
 }
 
 // ---- Forms -------------------------------------------------------
@@ -423,7 +424,7 @@ label { color: var(--tc-text); font-weight: 600; }
         border-radius: var(--tc-radius-sm);
         font-weight: 600;
         color: var(--tc-text);
-        &:hover { background: var(--tc-primary-soft); color: var(--tc-primary); }
+        &:hover { background: var(--tc-primary-soft); color: var(--tc-primary-strong); }
     }
     form .dropdown-item:hover { background: var(--tc-danger-soft); color: var(--tc-danger); }
 }
