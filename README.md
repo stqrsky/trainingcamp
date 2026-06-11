@@ -87,6 +87,17 @@ The frontend was rebuilt into a clean, card-based design system with the Trainin
 | **Theme** | light only | **light + dark mode** (remembered) |
 | **Accessibility** | minimal | visible focus states, form labels, contrast-checked colours |
 
+### Before → after (mobile)
+
+| | Login | Overview | Schedule |
+|---|---|---|---|
+| **Before** | <img src="docs/screenshots/before-login.png" width="190" alt="Old login"> | <img src="docs/screenshots/before-overview.png" width="190" alt="Old overview"> | <img src="docs/screenshots/before-schedule.png" width="190" alt="Old schedule"> |
+| **After** | <img src="docs/screenshots/after-login.png" width="190" alt="New login"> | <img src="docs/screenshots/after-overview.png" width="190" alt="New overview"> | <img src="docs/screenshots/after-schedule.png" width="190" alt="New schedule"> |
+
+And brand-new: a built-in **dark mode** (here the Members screen):
+
+<img src="docs/screenshots/after-members-dark.png" width="200" alt="Members screen in dark mode">
+
 ---
 
 ## Changing the look (styling)
