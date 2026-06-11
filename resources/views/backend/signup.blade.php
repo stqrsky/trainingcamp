@@ -3,37 +3,42 @@
 @section('content')
 <form class="form-signin" method="POST" action="{{ route('signup.post') }}">
     @csrf
-    <div class="text-center">
-        <img class="img-signup mb-4 mt-3" src="{{ asset('assets/images/TCTrainingCampLogo.png') }}" alt="Training Camp" width="169" height="169">
-        <h1 class="h3 mb-4 font-weight-normal">SIGN UP</h1>
+    <div class="tc-auth-brand">
+        <img src="{{ asset('assets/images/TCTrainingCampLogo.png') }}" alt="Trainingcamp logo">
+        <h1>Create your account</h1>
+        <p>Join your team on Trainingcamp</p>
     </div>
+
     @error('error')
-    <div class="alert alert-danger" role="alert">
-        {{ $message }}
-    </div>
+    <div class="alert" role="alert">{{ $message }}</div>
     @enderror
+
     <div class="form-label-group">
-        <input type="email" id="inputEmail" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="" required autofocus value="{{ old('email') }}">
+        <input type="email" id="inputEmail" name="email" autocomplete="email"
+               class="@error('email') is-invalid @enderror" placeholder="Email address" required autofocus value="{{ old('email') }}">
         <label for="inputEmail">Email address</label>
-        @error('email')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="" required value="{{ old('password') }}">
+        <input type="password" id="password" name="password" autocomplete="new-password"
+               class="@error('password') is-invalid @enderror" placeholder="Password" required>
         <label for="password">Password</label>
-        @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
     <div class="form-label-group">
-        <input type="password" id="password_confirmation" name="password_confirmation" class="form-control @error('password') is-invalid @enderror" placeholder="" required value="{{ old('password_confirmation') }}">
-        <label for="password_confirmation">Confirm Password</label>
-        @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        <input type="password" id="password_confirmation" name="password_confirmation" autocomplete="new-password"
+               class="@error('password') is-invalid @enderror" placeholder="Confirm password" required>
+        <label for="password_confirmation">Confirm password</label>
+        @error('password')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 
-    <button class="btn signup btn-lg text-white btn-block" type="submit">SIGN UP NOW</button>
-    <p class="mt-3 mb-3 text-white text-center">
+    <button class="btn signup" type="submit">Create account</button>
+
+    <p class="tc-auth-footer">
         Already have an account?
-        <a class="mt-3 mb-3" href="{{ route('login') }}">LOGIN</a>
+        <a href="{{ route('login') }}">Sign in</a>
     </p>
 </form>
 @endsection

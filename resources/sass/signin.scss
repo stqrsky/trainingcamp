@@ -1,124 +1,182 @@
-html,
-body {
-    height: 100%;
-}
+// ============================================================
+//  Auth screens (login / signup) — compiled to public/css/signin.css
+//  Immersive dark "gym" look with Trainingcamp gold accents.
+// ============================================================
+
+$gold:        #f3c63b;
+$gold-strong: #ffdc66;
+$gold-grad:   linear-gradient(135deg, #ffe98a 0%, #ffd23f 50%, #e0a815 100%);
+
+html, body { height: 100%; }
 
 body {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-align: center;
     align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-    background-image: radial-gradient(circle, black 35%, transparent),
+    justify-content: center;
+    padding: 2rem 1rem;
+    min-height: 100dvh;
+    color: #f4f1e8;
+    background:
+        radial-gradient(900px 600px at 50% 0%, rgba(243, 198, 59, .16), transparent 55%),
+        linear-gradient(180deg, rgba(8, 8, 10, .82) 0%, rgba(8, 8, 10, .92) 100%),
         url("/assets/images/Background.jpg");
-    background-position: 0 0;
+    background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
+.bd-placeholder-img { user-select: none; }
 
+// ---- Auth card (dark glass) -------------------------------------
 .form-signin {
     width: 100%;
     max-width: 420px;
-    padding: 15px;
     margin: auto;
+    padding: 2.25rem 1.85rem 1.85rem;
+    background: rgba(18, 18, 22, .72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(243, 198, 59, .35);
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .04);
 }
 
+.tc-auth-brand {
+    text-align: center;
+    margin-bottom: 1.6rem;
+
+    img {
+        width: 104px; height: 104px;
+        object-fit: contain;
+        margin-bottom: .5rem;
+        filter: drop-shadow(0 4px 14px rgba(243, 198, 59, .35));
+    }
+    h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: .01em;
+        text-transform: none;
+        margin: 0;
+        background: $gold-grad;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: $gold;
+    }
+    p {
+        color: rgba(244, 241, 232, .62);
+        font-size: .92rem;
+        margin: .3rem 0 0;
+    }
+}
+
+// ---- Floating-label inputs --------------------------------------
 .form-label-group {
     position: relative;
-    margin-bottom: 1rem;
+    margin-bottom: .9rem;
+
+    > input {
+        height: 3.4rem;
+        padding: 1.35rem .9rem .35rem;
+        font-size: 1rem;
+        color: #f4f1e8;
+        background: rgba(255, 255, 255, .05);
+        border: 1.5px solid rgba(255, 255, 255, .14);
+        border-radius: .7rem;
+        width: 100%;
+        transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+
+        &:focus {
+            outline: none;
+            background: rgba(255, 255, 255, .08);
+            border-color: $gold;
+            box-shadow: 0 0 0 .2rem rgba(243, 198, 59, .28);
+        }
+        &.is-invalid {
+            border-color: #f87171;
+            &:focus { box-shadow: 0 0 0 .2rem rgba(248, 113, 113, .25); }
+        }
+    }
+
+    > label {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 3.4rem;
+        padding: 1.05rem .95rem;
+        margin: 0;
+        color: rgba(244, 241, 232, .55);
+        font-weight: 500;
+        pointer-events: none;
+        border: 1px solid transparent;
+        transition: all .12s ease-in-out;
+    }
+
+    input::placeholder { color: transparent; }
+    input:focus ~ label,
+    input:not(:placeholder-shown) ~ label {
+        padding-top: .4rem;
+        height: auto;
+        font-size: .72rem;
+        font-weight: 700;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: $gold-strong;
+    }
 }
 
-.form-label-group > input,
-.form-label-group > label {
-    height: 3.125rem;
-    padding: 0.75rem;
-    color: black;
-    opacity: 0.9;
-}
-
-.form-label-group > label {
-    position: absolute;
-    top: 0;
-    left: 0;
+.invalid-feedback {
     display: block;
+    font-size: .8rem;
+    color: #fca5a5;
+    margin-top: .3rem;
+    float: none !important;
+}
+
+// ---- Primary button & footer ------------------------------------
+.btn.login,
+.btn.signup {
     width: 100%;
-    margin-bottom: 0; /* Override default `<label>` margin */
-    line-height: 1.5;
-    color: #495057;
-    pointer-events: none;
-    cursor: text; /* Match the input under the label */
-    border: 1px solid transparent;
-    border-radius: 0.25rem;
-    transition: all 0.1s ease-in-out;
+    height: 3.2rem;
+    margin-top: .6rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    border-radius: .7rem;
+    background: $gold-grad;
+    border: none;
+    color: #1c1709;
+    box-shadow: 0 10px 26px rgba(243, 198, 59, .35);
+    transition: filter .15s ease, transform .12s ease;
+
+    &:hover  { filter: brightness(1.07); color: #1c1709; }
+    &:active { transform: translateY(1px); }
+    &:focus-visible { outline: none; box-shadow: 0 0 0 .2rem rgba(243, 198, 59, .5); }
+    .spinner-border { vertical-align: -.15em; }
 }
 
-.form-label-group input::-webkit-input-placeholder {
-    color: transparent;
-}
+.tc-auth-footer {
+    text-align: center;
+    margin: 1.35rem 0 0;
+    color: rgba(244, 241, 232, .65);
+    font-size: .92rem;
 
-.form-label-group input:-ms-input-placeholder {
-    color: transparent;
-}
-
-.form-label-group input::-ms-input-placeholder {
-    color: transparent;
-}
-
-.form-label-group input::-moz-placeholder {
-    color: transparent;
-}
-
-.form-label-group input::placeholder {
-    color: transparent;
-}
-
-.form-label-group input:not(:placeholder-shown) {
-    padding-top: 1.25rem;
-    padding-bottom: 0.25rem;
-}
-
-.form-label-group input:not(:placeholder-shown) ~ label {
-    padding-top: 0.25rem;
-    padding-bottom: 0.25rem;
-    font-size: 12px;
-    color: #777;
-}
-
-/* Fallback for Edge
--------------------------------------------------- */
-@supports (-ms-ime-align: auto) {
-    .form-label-group > label {
-        display: none;
-    }
-    .form-label-group input::-ms-input-placeholder {
-        color: #777;
+    a {
+        color: $gold-strong;
+        font-weight: 700;
+        text-decoration: none;
+        &:hover { text-decoration: underline; }
     }
 }
 
-/* Fallback for IE
--------------------------------------------------- */
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    .form-label-group > label {
-        display: none;
-    }
-    .form-label-group input:-ms-input-placeholder {
-        color: rgb(43, 42, 42);
-    }
-}
-
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
+.alert {
+    border-radius: .7rem;
+    padding: .75rem 1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid rgba(248, 113, 113, .4);
+    background: rgba(220, 38, 38, .18);
+    color: #fca5a5;
 }
