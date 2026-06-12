@@ -1,91 +1,67 @@
-![img](public/assets/images/tc-trainingcamp.jpg)
+<p align="center">
+  <img src="public/assets/images/tc-trainingcamp.jpg" alt="Training Camp hero image" width="100%">
+</p>
 
-## Installation (quick start)
+<h1 align="center">Training Camp</h1>
 
-You need just two things to **run** the app: **PHP 8.2+** and **Composer**.
-(Node.js 18+ is only needed if you want to *change the styling* — see [Changing the look](#changing-the-look-styling).)
+<p align="center">
+  A mobile-first Laravel app for managing a sports club's members, sparring sessions, schedules, and tasks.
+</p>
 
-```bash
-git clone https://github.com/stqrsky/trainingcamp.git
-cd trainingcamp
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-13-red" alt="Laravel 13">
+  <img src="https://img.shields.io/badge/PHP-8.3%2B-777bb4" alt="PHP 8.3+">
+  <img src="https://img.shields.io/badge/PHPUnit-12-0d5c63" alt="PHPUnit 12">
+  <img src="https://img.shields.io/badge/Bootstrap-5-7952b3" alt="Bootstrap 5">
+</p>
 
-composer install
-cp .env.example .env        # skip if .env already exists
-php artisan key:generate
-php artisan migrate --seed   # creates the SQLite database + demo data
+## Overview
 
-php artisan serve            # → http://127.0.0.1:8000
-```
+Training Camp is a graduation project built to make daily club coordination easier for coaches and athletes. It combines team management, sparring schedules, profile management, and a lightweight task planner in one responsive web app.
 
-> 💡 The CSS is **already compiled and committed** in `public/css/`, so you do **not** need `npm` just to run the app.
-> To start on a different port: `php artisan serve --port=8007`.
+## Table of contents
 
-Even shorter — after `composer install`, the `setup` script does the key + database steps for you:
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Tech stack](#tech-stack)
+- [Requirements](#requirements)
+- [Quick start](#quick-start)
+- [Useful routes](#useful-routes)
+- [Testing and code quality](#testing-and-code-quality)
+- [Styling and front-end workflow](#styling-and-front-end-workflow)
+- [Project structure](#project-structure)
 
-```bash
-composer setup && php artisan serve
-```
+## Features
 
-### First login
+### Core product features
 
-| Page | URL |
-|------|-----|
-| Sign up | http://127.0.0.1:8000/signup |
-| Sign in | http://127.0.0.1:8000/login |
+- **Authentication**: sign up, sign in, sign out, account settings, and profile setup.
+- **Team management**: create your team, add coaches and athletes, manage roles and skills.
+- **Member profiles**: avatars, personal details, and team-based profile views.
+- **Notifications / dashboard**: quick overview of club activity and reminders.
 
-After `migrate --seed`, all demo users have the password **`secret`** (e.g. `alena.johnston@example.net`).
+### Scheduling features
 
-### Useful extras
+- **Daily sparring schedule** with time slots and paired athletes.
+- **Multiple calendar views**: List, Day, Week, Month, and Planner.
+- **Schedule metadata**: title, location, notes, color, video URL, and video type.
+- **Fast filtering**: search schedules for athletes on the selected day.
+- **Planner view**: combines the day's sparring schedule with open tasks.
 
-- **MySQL instead of SQLite:** set `DB_CONNECTION=mysql` + DB credentials in `.env`, create the database, then `php artisan migrate --seed`.
-- **Run tests:** `composer test` (or `php vendor/bin/phpunit`).
-- **CI:** PHPUnit runs on every push/PR to `master`/`main` using in-memory SQLite (`.github/workflows/tests.yml`).
+### Task management
 
----
+- Create, edit, delete, and complete tasks.
+- Organize tasks by **overdue**, **today**, **upcoming**, **no date**, and **done**.
+- Track optional notes, labels, priorities, due dates, and due times.
+- Team scoping ensures users only manage tasks from their own team.
 
-## About "Training Camp"
+### UX and design
 
-This is my graduation project from the web development bootcamp at neuefische Hamburg.
+- **Responsive mobile-first UI** built for quick use at the gym.
+- **Light and dark mode** with persistent theme selection.
+- Refreshed card-based interface with branded Training Camp styling.
 
-The Trainingcamp App has been developed to make the club life in a sport-bootcamp easier for you. Use the Trainingcamp App to get a quick overview of your member list or plan sparring assignments of athletes anytime and anywhere.
-
----
-
-## What it does (features)
-
-- 🏠 **Overview** – team announcements, a welcome banner and an insurance reminder.
-- 🥊 **Sparring schedule** – plan who spars whom, on which day and at what time.
-- 👥 **Members** – your coaches and athletes with avatars, roles and skills.
-- 👤 **Profile** – your account and team settings.
-- 🌙 **Light & dark mode** – switch any time with the toggle in the top bar (your choice is remembered).
-- 📱 **Mobile-first & responsive** – built to be used on the phone, at the gym.
-
----
-
-## Usage (in 4 steps)
-
-1. **Create an account** at `/signup` (or sign in with a demo user — password `secret`).
-2. **Complete your profile.** This also creates **your team** — you become the coach.
-3. **Add members** in the **Athletes** tab (coaches & athletes, with skills).
-4. **Plan sparring** in the **Schedule** tab: pick a date, add a slot and choose two athletes.
-
-> Tip: use the 🔍 filter on the Schedule page to find an athlete instantly, and the 🌙/☀️ icon (top right) to switch dark mode.
-
----
-
-## Old vs. new (frontend redesign)
-
-The frontend was rebuilt into a clean, card-based design system with the Trainingcamp gold brand colours.
-
-| Area | Old version | New version |
-|------|-------------|-------------|
-| **UI base** | Bootstrap 4, mostly unstyled HTML | Bootstrap 5 + custom design-token layer |
-| **Look & feel** | plain text, flat lists | card layout, clear hierarchy, **gold** brand accents |
-| **Login / signup** | text-only links | branded card on a dark "gym" backdrop, gold button |
-| **Schedule** | raw list of names & times | date header, slot cards, avatars, **"VS"** pairing, role badges, instant name filter |
-| **Members** | basic name list | initials avatars, role & skill badges, quick **"Assign sparring"** |
-| **Theme** | light only | **light + dark mode** (remembered) |
-| **Accessibility** | minimal | visible focus states, form labels, contrast-checked colours |
+## Screenshots
 
 ### Before → after (mobile)
 
@@ -94,51 +70,163 @@ The frontend was rebuilt into a clean, card-based design system with the Trainin
 | **Before** | <img src="docs/screenshots/before-login.png" width="190" alt="Old login"> | <img src="docs/screenshots/before-overview.png" width="190" alt="Old overview"> | <img src="docs/screenshots/before-schedule.png" width="190" alt="Old schedule"> |
 | **After** | <img src="docs/screenshots/after-login.png" width="190" alt="New login"> | <img src="docs/screenshots/after-overview.png" width="190" alt="New overview"> | <img src="docs/screenshots/after-schedule.png" width="190" alt="New schedule"> |
 
-And brand-new: a built-in **dark mode** (here the Members screen):
+### Dark mode
 
-<img src="docs/screenshots/after-members-dark.png" width="200" alt="Members screen in dark mode">
+<p align="center">
+  <img src="docs/screenshots/after-members-dark.png" width="220" alt="Members screen in dark mode">
+</p>
 
----
+## Tech stack
 
-## Changing the look (styling)
+- **PHP 8.3+**
+- **Laravel 13**
+- **Blade** templates
+- **Eloquent ORM**
+- **Bootstrap 5**
+- **Sass**
+- **Vite**
+- **SQLite** by default, **MySQL** optional
+- **PHPUnit 12**
+- **PHP_CodeSniffer** with PSR-12
+- **GitHub Actions** CI on PHP 8.3 and 8.4
 
-The styles live in `resources/sass/` and are compiled into `public/css/` — and **that compiled CSS is what the app loads**. So after editing any `.scss`, recompile:
+## Requirements
+
+### To run the app
+
+- PHP **8.3+**
+- Composer
+
+### To work on styles / front-end assets
+
+- Node.js **18+**
+- npm
+
+> The compiled CSS in `public/css/` is committed, so Node.js is not required just to run the app.
+
+## Quick start
 
 ```bash
-npx sass resources/sass/app.scss     public/css/app.css     --load-path=. --style=compressed
-npx sass resources/sass/signin.scss  public/css/signin.css  --style=compressed
+git clone https://github.com/stqrsky/trainingcamp.git
+cd trainingcamp
+
+composer install
+composer setup
+php artisan serve
+```
+
+The app will be available at `http://127.0.0.1:8000`.
+
+### What `composer setup` does
+
+- creates `.env` if needed
+- creates `database/database.sqlite` if needed
+- generates `APP_KEY`
+- runs `php artisan migrate --seed --force`
+
+### Seeded data
+
+- The seeders create demo users, roles, skills, and teams.
+- Seeded demo users use the password `secret`.
+- You can also simply create your own account at `/signup`.
+
+### Using MySQL instead of SQLite
+
+Update your `.env` with:
+
+- `DB_CONNECTION=mysql`
+- your database host, port, database name, username, and password
+
+Then run:
+
+```bash
+php artisan migrate --seed
+```
+
+## Useful routes
+
+| Area | Route |
+|---|---|
+| Home | `/` |
+| Sign up | `/signup` |
+| Sign in | `/login` |
+| Athletes / members | `/user/athletes` |
+| Profile | `/user/profile` |
+| Schedules list | `/schedules` |
+| Calendar day view | `/schedules/day` |
+| Calendar week view | `/schedules/week` |
+| Calendar month view | `/schedules/month` |
+| Planner view | `/schedules/planner` |
+| Tasks | `/tasks` |
+
+## Testing and code quality
+
+Run the test suite:
+
+```bash
+composer test
+```
+
+Or:
+
+```bash
+php artisan test
+```
+
+Run PHP_CodeSniffer:
+
+```bash
+./vendor/bin/phpcs --standard=PSR12 app tests
+```
+
+CI runs automatically on pushes and pull requests against `master` and `main` using GitHub Actions.
+
+## Styling and front-end workflow
+
+This project currently loads compiled CSS files directly from `public/css/`:
+
+- `public/css/app.css`
+- `public/css/signin.css`
+- `public/css/athlete.css`
+
+The source styles live in `resources/sass/`.
+
+Install front-end dependencies first if you have not already:
+
+```bash
+npm install
+```
+
+If you change Sass files, recompile them manually:
+
+```bash
+npx sass resources/sass/app.scss public/css/app.css --load-path=. --style=compressed
+npx sass resources/sass/signin.scss public/css/signin.css --style=compressed
 npx sass resources/sass/athlete.scss public/css/athlete.css --style=compressed
 ```
 
-The design system is organised as:
+Useful Sass files include:
 
-- `_variables.scss` – Bootstrap overrides (brand gold, fonts, radii)
-- `_tokens.scss` – semantic colours + dark-mode values
-- `_components.scss` – shared components (cards, buttons, badges, banners, nav)
+- `_variables.scss` - Bootstrap overrides
+- `_tokens.scss` - theme-aware design tokens
+- `_components.scss` - shared UI components
+- `_calendar_tasks.scss` - calendar and task styling
+
+## Project structure
+
+| Path | Purpose |
+|---|---|
+| `app/Http/Controllers` | request handling for auth, schedules, tasks, teams, notifications |
+| `app/Models` | Eloquent models such as `User`, `Team`, `Schedule`, and `Task` |
+| `database/migrations` | schema changes including schedules and tasks |
+| `database/seeders` | demo data for users, teams, roles, and skills |
+| `resources/views/frontend` | Blade views for the user-facing interface |
+| `resources/sass` | Sass source files |
+| `routes/web.php` | web routes for auth, team, schedule, and task features |
+| `tests/Feature` | feature coverage for schedules and tasks |
 
 ---
 
-## Git workflow
-
-- Main branch: **`master`**.
-- Create a feature branch, edit the views (`resources/views/`) and/or styles (`resources/sass/`), **recompile the CSS**, then commit.
-- Open a pull request — the test suite runs automatically in CI.
-
----
-
-## Used technologies:
-
--   **PHP 8.2+**
--   **Laravel 11**
--   **Eloquent ORM**
--   **Blade** templates
--   **Bootstrap 5** + **Sass** (custom design-token system)
--   **HTML5 / CSS3 / JavaScript**
--   **SQLite** (default) · **MySQL** (optional)
--   **OOP**
--   **Composer** · **npm**
--   **Git / GitHub** · Git-Workflow · **Kanban**
--   **PHPUnit** (CI on every push/PR)
--   [**Uberspace-Hosting**](https://star.uber.space)
----
-![img](public/assets/images/Gesellenstück.jpeg)
+<p align="center">
+  <img src="public/assets/images/Gesellenstück.jpeg" alt="Training Camp project image" width="70%">
+</p>
