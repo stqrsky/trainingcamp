@@ -23,7 +23,7 @@ class UserController extends Controller
     public function loginUser(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => 'required|email:filter',
             'password' => 'required',
         ]);
 
@@ -60,7 +60,7 @@ class UserController extends Controller
     public function registerUser(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email:filter|unique:users,email',
             'password' => 'required|confirmed',
         ]);
 
@@ -232,7 +232,7 @@ class UserController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $this->validate($request, [
-            'email' => 'sometimes|required|unique:users,email,' . $user->id,
+            'email' => 'sometimes|required|email:filter|unique:users,email,' . $user->id,
             'current_password' => 'sometimes|required_with:new_password',
             'new_password' => 'sometimes|required|confirmed'
         ]);

@@ -45,7 +45,7 @@ class TeamController extends Controller
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
             'user_type' => 'required|in:coach,athlete',
-            'email' => 'required|unique:users,email',
+            'email' => 'required|email:filter|unique:users,email',
             'password' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
@@ -141,7 +141,7 @@ class TeamController extends Controller
         }
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
-            'email' => 'required|unique:users,email,' . $id,
+            'email' => 'required|email:filter|unique:users,email,' . $id,
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',

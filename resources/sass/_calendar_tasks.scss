@@ -1,0 +1,390 @@
+/* ============================================================
+   Training Camp – Calendar & Tasks UI
+   ============================================================ */
+
+/* --- Utility fallbacks (Bootstrap 4 base lacks BS5 helpers) --- */
+.gap-1 { gap: .25rem; }
+.gap-2 { gap: .5rem; }
+.gap-3 { gap: 1rem; }
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.text-start { text-align: left !important; }
+.ms-1 { margin-left: .25rem !important; }
+.me-1 { margin-right: .25rem !important; }
+.ms-auto { margin-left: auto !important; }
+.align-middle { vertical-align: middle !important; }
+.input-group-text {
+    display: flex;
+    align-items: center;
+    padding: .375rem .75rem;
+    background: #f1f5f9;
+    border: 1px solid #ced4da;
+    border-right: 0;
+    border-radius: .85rem 0 0 .85rem;
+}
+.input-group .form-control {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.bg-primary { background-color: #e3a70f !important; }
+
+/* --- View toggle tabs --- */
+.tc-view-tabs {
+    display: flex;
+    gap: .35rem;
+    overflow-x: auto;
+    padding-bottom: .25rem;
+    -webkit-overflow-scrolling: touch;
+}
+.tc-view-tab {
+    flex: 0 0 auto;
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 600;
+    color: #475569;
+    background: #e2e8f0;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: .15s;
+}
+.tc-view-tab:hover {
+    text-decoration: none;
+    color: #1e293b;
+    background: #cbd5e1;
+}
+.tc-view-tab.active {
+    background: #e3a70f;
+    color: #fff;
+}
+
+/* --- Color picker --- */
+.tc-color-picker {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+.tc-color-swatch {
+    position: relative;
+    cursor: pointer;
+    margin: 0;
+}
+.tc-color-swatch span {
+    display: block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #cbd5e1;
+    transition: .15s;
+}
+.tc-color-swatch.selected span {
+    box-shadow: 0 0 0 2px #0f172a;
+    transform: scale(1.1);
+}
+
+/* --- Video conference picker --- */
+.tc-video-toggle {
+    display: flex;
+    align-items: center;
+}
+.tc-video-options {
+    border: 1px solid #e2e8f0;
+    border-radius: .85rem;
+    padding: .5rem;
+}
+.tc-video-option {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    padding: .5rem;
+    border-radius: .6rem;
+    cursor: pointer;
+    transition: .15s;
+}
+.tc-video-option:hover { background: #f1f5f9; }
+.tc-video-option.selected {
+    background: #f1f5f9;
+    box-shadow: inset 0 0 0 1px #16a34a;
+}
+.tc-video-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+}
+
+/* --- Meta pills (location / video link in list cards) --- */
+.tc-meta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .75rem;
+    font-weight: 600;
+    color: #475569;
+    background: #f1f5f9;
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    text-decoration: none;
+}
+.tc-meta-pill--video {
+    color: #2563eb;
+    background: #dbeafe;
+}
+.tc-meta-pill--video:hover {
+    text-decoration: none;
+    background: #bfdbfe;
+}
+
+/* --- Month grid --- */
+.tc-month-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 1px;
+    background: #e2e8f0;
+    border: 1px solid #e2e8f0;
+    border-radius: .85rem;
+    overflow: hidden;
+}
+.tc-month-day-header {
+    background: #f8fafc;
+    text-align: center;
+    font-size: .7rem;
+    font-weight: 700;
+    color: #64748b;
+    padding: .4rem 0;
+    text-transform: uppercase;
+}
+.tc-month-day-cell {
+    background: #fff;
+    min-height: 78px;
+    padding: .25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.tc-month-oom { background: #f8fafc; }
+.tc-month-oom .tc-month-day-num { color: #cbd5e1; }
+.tc-month-day-num {
+    font-size: .75rem;
+    font-weight: 600;
+    color: #334155;
+    align-self: flex-end;
+}
+.tc-today-num {
+    background: #e3a70f;
+    color: #fff !important;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tc-month-event {
+    font-size: .65rem;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* --- Week & Day time grids --- */
+.tc-week-grid-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.tc-week-header {
+    display: grid;
+    grid-template-columns: 48px repeat(7, minmax(72px, 1fr));
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 2;
+}
+.tc-week-time-col { width: 48px; }
+.tc-week-day-header {
+    text-align: center;
+    padding: .35rem 0;
+    border-left: 1px solid #f1f5f9;
+}
+.tc-week-dow {
+    font-size: .65rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+.tc-week-dnum {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #334155;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+.tc-today-col { background: rgba(227, 167, 15, .06); }
+.tc-week-body {
+    display: grid;
+    grid-template-columns: 48px repeat(7, minmax(72px, 1fr));
+    position: relative;
+}
+.tc-week-day-col {
+    position: relative;
+    border-left: 1px solid #f1f5f9;
+}
+.tc-time-label {
+    font-size: .65rem;
+    color: #94a3b8;
+    text-align: right;
+    padding-right: 4px;
+    border-top: 1px solid #f1f5f9;
+}
+.tc-hour-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-top: 1px solid #f1f5f9;
+}
+.tc-event-block {
+    position: absolute;
+    left: 2px;
+    right: 2px;
+    border-left: 3px solid;
+    border-radius: 5px;
+    padding: 2px 4px;
+    overflow: hidden;
+    font-size: 11px;
+}
+
+.tc-day-grid-wrap {
+    position: relative;
+    padding-left: 52px;
+}
+.tc-day-hour-row { position: relative; }
+.tc-day-hour-label {
+    position: absolute;
+    left: -52px;
+    top: -7px;
+    width: 46px;
+    text-align: right;
+    font-size: .65rem;
+    color: #94a3b8;
+}
+.tc-day-hour-line {
+    border-top: 1px solid #f1f5f9;
+    height: 100%;
+}
+.tc-day-events {
+    position: absolute;
+    top: 0;
+    left: 52px;
+    right: 8px;
+    bottom: 0;
+}
+.tc-day-event {
+    position: absolute;
+    left: 0;
+    right: 0;
+    border-left: 4px solid;
+    border-radius: 6px;
+    padding: 4px 8px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.tc-day-event strong { font-size: 12px; }
+
+.tc-empty { color: #94a3b8; }
+
+/* --- Tasks --- */
+.tc-task-group-header {
+    font-size: .75rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+}
+.tc-task-group-header--overdue { color: #dc2626; }
+.tc-task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    padding: .6rem .25rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+.tc-task-checkbox {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    background: #fff;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .15s;
+}
+.tc-task-checkbox:hover { border-color: #16a34a; }
+.tc-task-checkbox.done {
+    background: #16a34a;
+    border-color: #16a34a;
+}
+.tc-task-title {
+    font-size: .95rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+.tc-task-title.done {
+    color: #94a3b8;
+    text-decoration: line-through;
+}
+.tc-task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem;
+    margin-top: .15rem;
+}
+.tc-task-badge {
+    font-size: .7rem;
+    font-weight: 600;
+    color: #475569;
+    background: #f1f5f9;
+    padding: .1rem .45rem;
+    border-radius: 999px;
+}
+.tc-task-badge--overdue {
+    color: #dc2626;
+    background: #fee2e2;
+}
+.tc-task-edit-btn {
+    flex: 0 0 auto;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+}
+.tc-task-edit-btn:hover { color: #64748b; }
+.tc-task-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    margin-top: 1rem;
+    font-size: .9rem;
+    font-weight: 600;
+    color: #e3a70f;
+    text-decoration: none;
+}
+.tc-task-add-btn:hover {
+    text-decoration: none;
+    color: #b9870c;
+}

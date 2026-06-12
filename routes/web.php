@@ -44,4 +44,13 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
 
 Route::resource('notification', 'NotificationController')->middleware('auth:web');
 
+// Calendar view routes MUST come before the resource to avoid {schedule} conflict
+Route::get('schedules/month',   'ScheduleController@month')->name('schedules.month')->middleware('auth:web');
+Route::get('schedules/week',    'ScheduleController@week')->name('schedules.week')->middleware('auth:web');
+Route::get('schedules/day',     'ScheduleController@day')->name('schedules.day')->middleware('auth:web');
+Route::get('schedules/planner', 'ScheduleController@planner')->name('schedules.planner')->middleware('auth:web');
+
 Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
+
+Route::resource('tasks', 'TaskController')->middleware('auth:web');
+Route::post('tasks/{task}/toggle', 'TaskController@toggle')->name('tasks.toggle')->middleware('auth:web');

@@ -31,7 +31,7 @@ class UserDetail extends Model
         $dob = $this->date_of_birth;
         $age = '-';
         if ($dob) {
-            $age = Carbon::now()->diffInYears($dob) . " years old";
+            $age = Carbon::parse($dob)->age . " years old";
         }
         return $age;
     }

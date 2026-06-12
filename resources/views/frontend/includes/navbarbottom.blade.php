@@ -7,11 +7,17 @@
                 </a>
                 <h6 class="mb-0 mt-0 font-italic">Overview</h6>
             </li>
-            <li class="nav-item {{ set_active(['schedules.index', 'schedules.create', 'schedules.edit']) }}">
+            <li class="nav-item {{ set_active(['schedules.index','schedules.create','schedules.edit','schedules.month','schedules.week','schedules.day','schedules.planner']) }}">
                 <a class="nav-link pb-0" href="{{ route('schedules.index') }}">
                     <i class="material-icons">date_range</i>
                 </a>
                 <h6 class="mb-0 mt-0 font-italic">Schedule</h6>
+            </li>
+            <li class="nav-item {{ set_active(['tasks.index','tasks.create','tasks.edit']) }}">
+                <a class="nav-link pb-0" href="{{ route('tasks.index') }}">
+                    <i class="material-icons">checklist</i>
+                </a>
+                <h6 class="mb-0 mt-0 font-italic">Tasks</h6>
             </li>
             <li class="nav-item {{ set_active(['user.athletes', 'user.athletes.create', 'user.athletes.edit', 'user.athletes.detail']) }}">
                 <a class="nav-link pb-0" href="{{ route('user.athletes') }}">

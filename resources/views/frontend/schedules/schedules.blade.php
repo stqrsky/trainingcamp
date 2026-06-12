@@ -14,6 +14,8 @@
             </a>
         </div>
 
+        @include('frontend.schedules._view_tabs')
+
         {{-- Prominent date header --}}
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div class="tc-date-head">
@@ -44,9 +46,17 @@
         @php
             $names = $schedule->participants->pluck('full_name')->implode(' ');
         @endphp
-        <div class="card schedule mb-3 tc-slot" data-names="{{ \Illuminate\Support\Str::lower($names) }}">
+        <div class="card schedule mb-3 tc-slot" data-names="{{ \Illuminate\Support\Str::lower($names) }}"
+             style="border-left: 4px solid {{ $schedule->colorHex }}">
             <div class="toast-header time d-flex align-items-center justify-content-between">
-                <strong>{{ $schedule->startEndTime }}</strong>
+                <div>
+                    @if($schedule->title)
+                    <strong class="d-block">{{ $schedule->title }}</strong>
+                    <small class="text-muted">{{ $schedule->startEndTime }}</small>
+                    @else
+                    <strong>{{ $schedule->startEndTime }}</strong>
+                    @endif
+                </div>
                 <div class="d-flex align-items-center">
                     <a href="{{ route('schedules.edit', ['schedule' => $schedule->id]) }}"
                        class="close" aria-label="Edit assignment" title="Edit">
@@ -94,6 +104,22 @@
                 </div>
                 @endforeach
             </div>
+            @if($schedule->location || $schedule->video_url)
+            <div class="px-3 pb-2 d-flex flex-wrap gap-2">
+                @if($schedule->location)
+                <span class="tc-meta-pill">
+                    <span class="material-icons" style="font-size:14px">location_on</span>
+                    {{ $schedule->location }}
+                </span>
+                @endif
+                @if($schedule->video_url)
+                <a href="{{ $schedule->video_url }}" target="_blank" rel="noopener" class="tc-meta-pill tc-meta-pill--video">
+                    <span class="material-icons" style="font-size:14px">videocam</span>
+                    {{ $schedule->videoLabel }}
+                </a>
+                @endif
+            </div>
+            @endif
         </div>
         @empty
         <div class="text-center py-5 text-muted tc-empty">
