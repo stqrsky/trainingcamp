@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         php-version:
-          - "8.2"
           - "8.3"
+          - "8.4"
 
     env:
       APP_KEY: base64:S9clwvQEFNzSZapr6F82bCwoLKZam1CAiDnynU9NrQ4=
