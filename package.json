@@ -9,7 +9,7 @@
         "postinstall": "patch-package"
     },
     "devDependencies": {
-        "axios": "^1.15",
+        "axios": "^1.18",
         "laravel-vite-plugin": "^3.1.0",
         "lodash": "^4.17.23",
         "patch-package": "^8.0.1",
