@@ -289,9 +289,14 @@ class UserController extends Controller
     public function updateNotificationSettings(Request $request)
     {
         $types = array_keys(\App\Services\Reminders::TYPES);
-        $this->validate($request, ['reminders' => 'nullable|array', 'reminders.*' => 'in:1']);
+        $this->validate($request, [
+            'reminders' => 'nullable|array',
+            'reminders.*' => 'in:1',
+            'daily_digest' => 'nullable|in:1',
+        ]);
         $enabled = array_keys($request->input('reminders', []));
         $preferences = collect($types)->mapWithKeys(fn ($type) => [$type => in_array($type, $enabled, true)]);
+        $preferences['daily_digest'] = $request->boolean('daily_digest');
         Auth::user()->update(['notification_preferences' => $preferences->all()]);
         $request->session()->flash('msg', 'Reminder settings saved');
         return redirect()->route('user.notifications');

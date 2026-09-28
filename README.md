@@ -28,6 +28,7 @@ Training Camp is a graduation project built to make daily club coordination easi
 - [Quick start](#quick-start)
 - [Useful routes](#useful-routes)
 - [Testing and code quality](#testing-and-code-quality)
+- [Automation](#automation)
 - [Styling and front-end workflow](#styling-and-front-end-workflow)
 - [Project structure](#project-structure)
 
@@ -181,6 +182,33 @@ Run PHP_CodeSniffer:
 ```
 
 CI runs automatically on pushes and pull requests against `master` and `main` using GitHub Actions.
+
+## Automation
+
+### Daily summary email
+
+Account holders can switch on a morning summary under **Profile → Reminders**. It is sent at 07:00 by the scheduler and only when there is something to do (overdue or due tasks, sparrings that day). The scheduler needs the usual cron entry:
+
+```bash
+* * * * * cd /path/to/trainingcamp && php artisan schedule:run >> /dev/null 2>&1
+```
+
+Configure a real mailer in `.env` (`MAIL_MAILER`, `MAIL_HOST`, …). For local testing use `MAIL_MAILER=log` and run the command by hand:
+
+```bash
+php artisan trainingcamp:daily-digest
+```
+
+### Activity webhook (n8n)
+
+Every activity (tasks, sparrings, projects, announcements, member changes) can be pushed to an automation tool such as an n8n **Webhook** trigger. Set in `.env`:
+
+```dotenv
+N8N_WEBHOOK_URL=http://localhost:5678/webhook/trainingcamp
+N8N_WEBHOOK_SECRET=a-long-random-string
+```
+
+Each request is a JSON `POST` with the headers `X-Trainingcamp-Event` (e.g. `task.created`) and `X-Trainingcamp-Signature: sha256=<HMAC-SHA256 of the raw body with the secret>`. Verify the signature in the receiving workflow before acting on the data. The URL is set by the operator only, never through the UI.
 
 ## Styling and front-end workflow
 

@@ -26,6 +26,15 @@
                             </div>
                             @endforeach
                         </fieldset>
+                        <fieldset class="mt-3">
+                            <legend class="col-form-label pt-0">Email</legend>
+                            <div class="form-check form-switch mb-1">
+                                <input class="form-check-input" type="checkbox" role="switch" id="daily-digest"
+                                       name="daily_digest" value="1" @checked($user->wantsDailyDigest()) @disabled(!$user->email)>
+                                <label class="form-check-label" for="daily-digest">Daily summary at 07:00 to {{ $user->email }}</label>
+                            </div>
+                            <p class="text-muted small">Only sent when there is something to do or a sparring that day.</p>
+                        </fieldset>
                         <button type="submit" class="btn create btn-outline-dark float-end">Save</button>
                     </form>
                 </div>

@@ -147,6 +147,14 @@ class User extends Authenticatable
         return (bool) ($this->notification_preferences[$type] ?? true);
     }
 
+    /**
+     * The morning summary email is opt-in.
+     */
+    public function wantsDailyDigest(): bool
+    {
+        return (bool) ($this->notification_preferences['daily_digest'] ?? false);
+    }
+
     public function getInitialsAttribute(): string
     {
         $parts = array_filter(explode(' ', trim("{$this->first_name} {$this->last_name}")));

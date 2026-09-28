@@ -24,7 +24,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // Needs the usual cron entry: * * * * * php artisan schedule:run
+        $schedule->command('trainingcamp:daily-digest')->dailyAt('07:00');
     }
 
     /**

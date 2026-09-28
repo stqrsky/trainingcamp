@@ -14,6 +14,17 @@ return [
     |
     */
 
+    /*
+    | Outbound activity events for automation (e.g. an n8n "Webhook" trigger node).
+    | Configured by the operator via .env only, never through the UI, so users
+    | cannot make the server call arbitrary internal URLs.
+    */
+    'n8n' => [
+        'webhook_url' => env('N8N_WEBHOOK_URL'),
+        'webhook_secret' => env('N8N_WEBHOOK_SECRET'),
+        'timeout' => (int) env('N8N_WEBHOOK_TIMEOUT', 5),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

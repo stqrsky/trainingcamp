@@ -24,15 +24,17 @@ class Reminders
     private const LIMIT = 10;
 
     /**
+     * @param array<int, string>|null $only limit to these reminder types (still respecting the user's settings)
      * @return array{count: int, items: Collection}
      */
-    public function for(User $user, Team $team): array
+    public function for(User $user, Team $team, ?array $only = null): array
     {
         $items = collect();
         $today = Carbon::today();
         $openTasks = fn () => Task::where('team_id', $team->id)->open()->whereNotNull('due_date');
+        $wants = fn (string $type) => $user->wantsReminder($type) && ($only === null || in_array($type, $only, true));
 
-        if ($user->wantsReminder('overdue_tasks')) {
+        if ($wants('overdue_tasks')) {
             $items = $items->concat($openTasks()->whereDate('due_date', '<', $today->toDateString())
                 ->orderBy('due_date')->get()
                 ->map(fn ($task) => [
@@ -43,7 +45,7 @@ class Reminders
                     'tone'     => 'danger',
                 ]));
         }
-        if ($user->wantsReminder('due_today')) {
+        if ($wants('due_today')) {
             $items = $items->concat($openTasks()->whereDate('due_date', $today->toDateString())
                 ->orderByPriority()->get()
                 ->map(fn ($task) => [
@@ -54,7 +56,7 @@ class Reminders
                     'tone'     => 'warning',
                 ]));
         }
-        if ($user->wantsReminder('upcoming_sparrings')) {
+        if ($wants('upcoming_sparrings')) {
             $items = $items->concat($this->upcomingSparrings($team)->map(fn ($schedule) => [
                 'title'    => $schedule->title ?: 'Sparring',
                 'subtitle' => (Carbon::parse($schedule->date)->isToday() ? 'Today' : 'Tomorrow')

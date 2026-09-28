@@ -15,6 +15,16 @@ class Activity extends Model
         'created_at' => 'datetime',
     ];
 
+    protected static function booted(): void
+    {
+        // Hand every recorded activity to the automation webhook, after the response is sent
+        static::created(function (Activity $activity) {
+            if (config('services.n8n.webhook_url')) {
+                \App\Jobs\SendActivityWebhook::dispatch($activity->id)->afterResponse();
+            }
+        });
+    }
+
     public function team()
     {
         return $this->belongsTo(\App\Models\Team::class);
