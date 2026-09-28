@@ -14,6 +14,7 @@ class ScheduleController extends Controller
 {
     private const COLORS = ['blue', 'green', 'red', 'orange', 'purple', 'pink', 'teal', 'amber'];
     private const VIDEO_TYPES = ['google_meet', 'zoom', 'gotomeeting'];
+    private const AGENDA_DAYS = 14;
 
     public function index(Request $request)
     {
@@ -197,7 +198,11 @@ class ScheduleController extends Controller
         }
         $calStart = $date->copy()->startOfMonth()->startOfWeek(Carbon::MONDAY);
         $calEnd   = $date->copy()->endOfMonth()->endOfWeek(Carbon::SUNDAY);
-        return view('frontend.schedules.month', compact('date', 'schedulesByDate', 'calStart', 'calEnd'));
+        $tasksByDate = $this->deadlinesByDate($team, $calStart, $calEnd);
+        return view(
+            'frontend.schedules.month',
+            compact('date', 'schedulesByDate', 'tasksByDate', 'calStart', 'calEnd')
+        );
     }
 
     public function week(Request $request)
@@ -213,7 +218,8 @@ class ScheduleController extends Controller
         }
         $days = [];
         for ($i = 0; $i < 7; $i++) $days[] = $date->copy()->addDays($i);
-        return view('frontend.schedules.week', compact('date', 'schedulesByDate', 'days'));
+        $tasksByDate = $this->deadlinesByDate($team, $date, $weekEnd);
+        return view('frontend.schedules.week', compact('date', 'schedulesByDate', 'tasksByDate', 'days'));
     }
 
     public function day(Request $request)
@@ -226,7 +232,8 @@ class ScheduleController extends Controller
                 ->whereDate('date', $date->format('Y-m-d'))
                 ->with(['participants'])->orderBy('start')->get();
         }
-        return view('frontend.schedules.day', compact('date', 'schedules'));
+        $tasks = $this->deadlinesByDate($team, $date, $date)->get($date->format('Y-m-d'), collect());
+        return view('frontend.schedules.day', compact('date', 'schedules', 'tasks'));
     }
 
     public function planner(Request $request)
@@ -246,5 +253,60 @@ class ScheduleController extends Controller
                 })->orderByPriority()->orderBy('due_time')->get();
         }
         return view('frontend.schedules.planner', compact('date', 'schedules', 'tasks'));
+    }
+
+    /**
+     * Sparrings and task deadlines for the next days, grouped by date; overdue tasks come first
+     * when the agenda starts today.
+     */
+    public function agenda(Request $request)
+    {
+        $from = ($this->dateFromQuery($request, 'from', 'Y-m-d') ?? Carbon::today())->startOfDay();
+        $to = $from->copy()->addDays(self::AGENDA_DAYS - 1);
+        $team = $this->currentTeam();
+        $days = collect();
+        $overdue = collect();
+        if ($team) {
+            $sparrings = $team->schedules()->with('participants')
+                ->whereBetween('date', [$from->toDateString(), $to->toDateString()])
+                ->get()
+                ->map(fn ($schedule) => [
+                    'date' => Carbon::parse($schedule->date)->toDateString(),
+                    'time' => $schedule->start,
+                    'type' => 'sparring',
+                    'item' => $schedule,
+                ]);
+            $deadlines = Task::with('assignee')->where('team_id', $team->id)->open()->dueBetween($from, $to)
+                ->orderByPriority()->get()
+                ->map(fn ($task) => [
+                    'date' => Carbon::parse($task->due_date)->toDateString(),
+                    'time' => $task->due_time ? substr($task->due_time, 0, 5) : null,
+                    'type' => 'task',
+                    'item' => $task,
+                ]);
+            // Deadlines without a time lead the day, everything else follows chronologically
+            $days = $sparrings->concat($deadlines)
+                ->sortBy(fn ($entry) => $entry['date'] . ' ' . ($entry['time'] ?? '00:00'))
+                ->groupBy('date');
+            if ($from->isToday()) {
+                $overdue = Task::with('assignee')->where('team_id', $team->id)->open()
+                    ->whereNotNull('due_date')->whereDate('due_date', '<', $from->toDateString())
+                    ->orderBy('due_date')->get();
+            }
+        }
+        return view('frontend.schedules.agenda', compact('from', 'to', 'days', 'overdue'));
+    }
+
+    /**
+     * Open task deadlines of the team between two dates, keyed by Y-m-d.
+     */
+    private function deadlinesByDate($team, Carbon $from, Carbon $to)
+    {
+        if (!$team) {
+            return collect();
+        }
+        return Task::where('team_id', $team->id)->open()->dueBetween($from, $to)
+            ->orderByPriority()->orderBy('due_time')->get()
+            ->groupBy(fn ($task) => Carbon::parse($task->due_date)->format('Y-m-d'));
     }
 }

@@ -1,6 +1,8 @@
 <div class="tc-view-tabs mb-3">
     <a href="{{ route('schedules.index') }}"
        class="tc-view-tab {{ request()->routeIs('schedules.index') ? 'active' : '' }}">List</a>
+    <a href="{{ route('schedules.agenda') }}"
+       class="tc-view-tab {{ request()->routeIs('schedules.agenda') ? 'active' : '' }}">Agenda</a>
     <a href="{{ route('schedules.day') }}"
        class="tc-view-tab {{ request()->routeIs('schedules.day') ? 'active' : '' }}">Day</a>
     <a href="{{ route('schedules.week') }}"

@@ -35,6 +35,9 @@
             @php
                 $key    = $cursor->format('Y-m-d');
                 $dayEvts = $schedulesByDate[$key] ?? collect();
+                $dayTasks = $tasksByDate[$key] ?? collect();
+                $shownTasks = $dayTasks->take(max(0, 3 - $dayEvts->count()));
+                $hiddenCount = $dayEvts->count() + $dayTasks->count() - min(3, $dayEvts->count()) - $shownTasks->count();
                 $isToday = $cursor->isToday();
                 $outOfMonth = $cursor->month !== $date->month;
             @endphp
@@ -47,8 +50,15 @@
                     {{ $ev->title ?: $ev->start }}
                 </a>
                 @endforeach
-                @if($dayEvts->count() > 3)
-                <small class="text-muted">+{{ $dayEvts->count() - 3 }} more</small>
+                @foreach($shownTasks as $task)
+                <a href="{{ route('tasks.edit', $task) }}"
+                   class="tc-month-event tc-month-task d-block text-decoration-none {{ $task->isOverdue() ? 'is-overdue' : '' }}"
+                   title="Due: {{ $task->title }}">
+                    <span class="material-icons" aria-hidden="true">task_alt</span><span class="visually-hidden">Due:</span> {{ $task->title }}
+                </a>
+                @endforeach
+                @if($hiddenCount > 0)
+                <a href="{{ route('schedules.agenda', ['from' => $key]) }}" class="small text-muted text-decoration-none">+{{ $hiddenCount }} more</a>
                 @endif
             </div>
             @php $cursor->addDay(); @endphp

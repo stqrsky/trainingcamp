@@ -7,7 +7,7 @@
                 </a>
                 <h6 class="mb-0 mt-0 font-italic">Overview</h6>
             </li>
-            <li class="nav-item {{ set_active(['schedules.index','schedules.create','schedules.edit','schedules.month','schedules.week','schedules.day','schedules.planner']) }}">
+            <li class="nav-item {{ set_active(['schedules.index','schedules.create','schedules.edit','schedules.month','schedules.week','schedules.day','schedules.planner','schedules.agenda']) }}">
                 <a class="nav-link pb-0" href="{{ route('schedules.index') }}">
                     <i class="material-icons">date_range</i>
                 </a>

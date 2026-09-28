@@ -41,6 +41,24 @@
             @endforeach
         </div>
 
+        {{-- Task deadlines per day --}}
+        @if($tasksByDate->isNotEmpty())
+        <div class="tc-week-deadlines">
+            <div class="tc-week-time-col tc-week-deadlines-label">Due</div>
+            @foreach($days as $day)
+            <div class="tc-week-deadline-cell {{ $day->isToday() ? 'tc-today-col' : '' }}">
+                @foreach($tasksByDate[$day->format('Y-m-d')] ?? [] as $task)
+                <a href="{{ route('tasks.edit', $task) }}"
+                   class="tc-month-event tc-month-task d-block text-decoration-none {{ $task->isOverdue() ? 'is-overdue' : '' }}"
+                   title="Due: {{ $task->title }}">
+                    <span class="visually-hidden">Due:</span>{{ $task->title }}
+                </a>
+                @endforeach
+            </div>
+            @endforeach
+        </div>
+        @endif
+
         {{-- Scrollable body --}}
         <div class="tc-week-body">
             <div class="tc-week-time-col">

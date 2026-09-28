@@ -43,20 +43,22 @@
     border-radius: 999px;
     font-size: .85rem;
     font-weight: 600;
-    color: #475569;
-    background: #e2e8f0;
+    color: var(--tc-text-muted);
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
     text-decoration: none;
     white-space: nowrap;
     transition: .15s;
 }
 .tc-view-tab:hover {
     text-decoration: none;
-    color: #1e293b;
-    background: #cbd5e1;
+    color: var(--tc-text);
+    background: var(--tc-primary-soft);
 }
 .tc-view-tab.active {
-    background: #e3a70f;
-    color: #fff;
+    background: var(--tc-primary);
+    border-color: var(--tc-primary);
+    color: var(--tc-on-primary);
 }
 
 /* --- Color picker --- */
@@ -142,36 +144,37 @@
 /* --- Month grid --- */
 .tc-month-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     gap: 1px;
-    background: #e2e8f0;
-    border: 1px solid #e2e8f0;
+    background: var(--tc-border);
+    border: 1px solid var(--tc-border);
     border-radius: .85rem;
     overflow: hidden;
 }
 .tc-month-day-header {
-    background: #f8fafc;
+    background: var(--tc-surface-2);
     text-align: center;
     font-size: .7rem;
     font-weight: 700;
-    color: #64748b;
+    color: var(--tc-text-muted);
     padding: .4rem 0;
     text-transform: uppercase;
 }
 .tc-month-day-cell {
-    background: #fff;
+    background: var(--tc-surface);
+    min-width: 0;
     min-height: 78px;
     padding: .25rem;
     display: flex;
     flex-direction: column;
     gap: 2px;
 }
-.tc-month-oom { background: #f8fafc; }
-.tc-month-oom .tc-month-day-num { color: #cbd5e1; }
+.tc-month-oom { background: var(--tc-surface-2); }
+.tc-month-oom .tc-month-day-num { color: var(--tc-text-muted); opacity: .6; }
 .tc-month-day-num {
     font-size: .75rem;
     font-weight: 600;
-    color: #334155;
+    color: var(--tc-text);
     align-self: flex-end;
 }
 .tc-today-num {
@@ -185,6 +188,7 @@
     justify-content: center;
 }
 .tc-month-event {
+    position: relative; // contains visually-hidden labels
     font-size: .65rem;
     font-weight: 600;
     padding: 1px 5px;
@@ -204,25 +208,25 @@
     grid-template-columns: 48px repeat(7, minmax(72px, 1fr));
     position: sticky;
     top: 0;
-    background: #fff;
+    background: var(--tc-surface);
     z-index: 2;
 }
 .tc-week-time-col { width: 48px; }
 .tc-week-day-header {
     text-align: center;
     padding: .35rem 0;
-    border-left: 1px solid #f1f5f9;
+    border-left: 1px solid var(--tc-border);
 }
 .tc-week-dow {
     font-size: .65rem;
     font-weight: 700;
-    color: #64748b;
+    color: var(--tc-text-muted);
     text-transform: uppercase;
 }
 .tc-week-dnum {
     font-size: 1rem;
     font-weight: 700;
-    color: #334155;
+    color: var(--tc-text);
     width: 28px;
     height: 28px;
     line-height: 28px;
@@ -237,20 +241,43 @@
 }
 .tc-week-day-col {
     position: relative;
-    border-left: 1px solid #f1f5f9;
+    border-left: 1px solid var(--tc-border);
 }
 .tc-time-label {
     font-size: .65rem;
-    color: #94a3b8;
+    color: var(--tc-text-muted);
     text-align: right;
     padding-right: 4px;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--tc-border);
 }
 .tc-hour-line {
     position: absolute;
     left: 0;
     right: 0;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--tc-border);
+}
+.tc-week-deadlines {
+    display: grid;
+    grid-template-columns: 48px repeat(7, minmax(72px, 1fr));
+    border-top: 1px solid var(--tc-border);
+    border-bottom: 1px solid var(--tc-border);
+}
+.tc-week-deadlines-label {
+    font-size: .65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--tc-text-muted);
+    text-align: right;
+    padding: .3rem 4px 0 0;
+}
+.tc-week-deadline-cell {
+    position: relative;
+    min-width: 0;
+    padding: 2px;
+    border-left: 1px solid var(--tc-border);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 .tc-event-block {
     position: absolute;
@@ -275,10 +302,10 @@
     width: 46px;
     text-align: right;
     font-size: .65rem;
-    color: #94a3b8;
+    color: var(--tc-text-muted);
 }
 .tc-day-hour-line {
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid var(--tc-border);
     height: 100%;
 }
 .tc-day-events {
@@ -300,13 +327,13 @@
 }
 .tc-day-event strong { font-size: 12px; }
 
-.tc-empty { color: #94a3b8; }
+.tc-empty { color: var(--tc-text-muted); }
 
 /* --- Tasks --- */
 .tc-task-group-header {
     font-size: .75rem;
     font-weight: 700;
-    color: #64748b;
+    color: var(--tc-text-muted);
     text-transform: uppercase;
     letter-spacing: .03em;
     margin-bottom: .5rem;
@@ -314,21 +341,21 @@
     align-items: center;
     gap: .3rem;
 }
-.tc-task-group-header--overdue { color: #dc2626; }
+.tc-task-group-header--overdue { color: var(--tc-danger); }
 .tc-task-item {
     display: flex;
     align-items: flex-start;
     gap: .6rem;
     padding: .6rem .25rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--tc-border);
 }
 .tc-task-checkbox {
     flex: 0 0 auto;
     width: 22px;
     height: 22px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--tc-border);
     border-radius: 50%;
-    background: #fff;
+    background: var(--tc-surface);
     padding: 0;
     display: flex;
     align-items: center;
@@ -336,6 +363,7 @@
     transition: .15s;
 }
 .tc-task-checkbox:hover { border-color: #16a34a; }
+.tc-task-checkbox:focus-visible { outline: none; box-shadow: var(--tc-ring); }
 .tc-task-checkbox.done {
     background: #16a34a;
     border-color: #16a34a;
@@ -343,10 +371,11 @@
 .tc-task-title {
     font-size: .95rem;
     font-weight: 600;
-    color: #1e293b;
+    color: var(--tc-text);
 }
+.tc-task-title:hover { color: var(--tc-primary-strong); }
 .tc-task-title.done {
-    color: #94a3b8;
+    color: var(--tc-text-muted);
     text-decoration: line-through;
 }
 .tc-task-meta {
@@ -358,26 +387,29 @@
 .tc-task-badge {
     font-size: .7rem;
     font-weight: 600;
-    color: #475569;
-    background: #f1f5f9;
+    color: var(--tc-text-muted);
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
     padding: .1rem .45rem;
     border-radius: 999px;
 }
 .tc-task-badge--overdue {
-    color: #dc2626;
-    background: #fee2e2;
+    color: var(--tc-danger);
+    background: var(--tc-danger-soft);
+    border-color: transparent;
 }
 .tc-task-badge--status {
     color: var(--tc-info);
     background: var(--tc-info-soft);
+    border-color: transparent;
 }
 .tc-task-edit-btn {
     flex: 0 0 auto;
-    color: #cbd5e1;
+    color: var(--tc-text-muted);
     display: flex;
     align-items: center;
 }
-.tc-task-edit-btn:hover { color: #64748b; }
+.tc-task-edit-btn:hover { color: var(--tc-text); }
 .tc-task-add-btn {
     display: inline-flex;
     align-items: center;
@@ -385,12 +417,12 @@
     margin-top: 1rem;
     font-size: .9rem;
     font-weight: 600;
-    color: #e3a70f;
+    color: var(--tc-primary-strong);
     text-decoration: none;
 }
 .tc-task-add-btn:hover {
     text-decoration: none;
-    color: #b9870c;
+    color: var(--tc-primary-hover);
 }
 
 /* --- Task priority --- */
@@ -514,4 +546,43 @@
     font-size: .8rem;
     text-align: center;
     color: var(--tc-text-muted);
+}
+
+/* --- Calendar deadlines & agenda --- */
+.tc-month-task {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    color: var(--tc-text);
+    background: var(--tc-surface-2);
+    border: 1px dashed var(--tc-border);
+
+    .material-icons { font-size: 10px; }
+
+    &.is-overdue {
+        color: var(--tc-danger);
+        background: var(--tc-danger-soft);
+        border-color: transparent;
+    }
+}
+.tc-agenda-day { margin-bottom: 1.25rem; }
+.tc-agenda-time {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    min-height: 44px;
+    font-size: .85rem;
+    font-weight: 800;
+    border-radius: var(--tc-radius-sm);
+    background: var(--tc-surface-2);
+    border-left: 4px solid var(--tc-upcoming-accent, var(--tc-primary));
+
+    small {
+        font-size: .65rem;
+        font-weight: 600;
+        color: var(--tc-text-muted);
+    }
 }

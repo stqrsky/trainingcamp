@@ -32,6 +32,16 @@
         </div>
     </div>
 
+    {{-- Task deadlines for this day --}}
+    @if($tasks->isNotEmpty())
+    <div class="card-body pt-0">
+        <h2 class="tc-task-group-header">Due this day</h2>
+        @foreach($tasks as $task)
+            @include('frontend.tasks._item', ['task' => $task])
+        @endforeach
+    </div>
+    @endif
+
     {{-- Time grid --}}
     @php $gridStart = 6; $gridEnd = 22; $pxPerHour = 64; @endphp
     <div class="tc-day-grid-wrap">
@@ -72,10 +82,10 @@
         </div>
     </div>
 
-    @if($schedules->isEmpty())
+    @if($schedules->isEmpty() && $tasks->isEmpty())
     <div class="text-center py-5 text-muted tc-empty">
         <span class="material-icons" style="font-size:48px">event_busy</span>
-        <p class="mt-2">No sessions on this day.</p>
+        <p class="mt-2">No sessions or deadlines on this day.</p>
     </div>
     @endif
 </div>

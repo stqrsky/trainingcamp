@@ -53,6 +53,16 @@ class Task extends Model
         return $query->where('status', '!=', 'done');
     }
 
+    /**
+     * Tasks with a deadline inside the given date range (inclusive).
+     */
+    public function scopeDueBetween($query, Carbon $from, Carbon $to)
+    {
+        return $query->whereNotNull('due_date')
+            ->whereDate('due_date', '>=', $from->toDateString())
+            ->whereDate('due_date', '<=', $to->toDateString());
+    }
+
     public function scopeOrderByPriority($query)
     {
         return $query->orderByRaw(

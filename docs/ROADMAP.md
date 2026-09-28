@@ -186,7 +186,10 @@ Umgesetzt auf Branch `feat/p1-5-dashboard`: Kennzahlen des aktiven Teams (offene
 - **Dateien:** `HomeController`, `frontend/home.blade.php`.
 - **Abhängigkeit:** P0-2.
 
-### P1-6 Kalender vereinheitlichen
+### P1-6 Kalender vereinheitlichen ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-6-calendar`, ohne eigenen `CalendarFeed`-Service (ein Scope `Task::dueBetween()` reicht): offene Task-Deadlines erscheinen in Monat (max. 3 Einträge pro Tag, Rest über "+N more"), Woche (eigene Zeile "Due") und Tag ("Due this day" mit Abhaken). Neuer Tab "Agenda": 14 Tage mit Sparrings und Deadlines chronologisch, Überfälliges oben, Navigation in 14-Tage-Schritten. "List" bleibt als Tagesansicht mit Suche. Monats-, Wochen- und Tagesraster, Task-Liste und View-Tabs nutzen jetzt Design-Tokens: Vorher waren die Raster im Dark Mode weiß und offene Task-Titel kaum lesbar. Tests: 73 grün.
+
 
 - **Aktuell:** Kalender zeigt nur Schedules, Deadlines nur im Planner.
 - **Ziel:** `CalendarFeed`-Service bildet Schedules und Task-Deadlines auf ein gemeinsames Item-Format ab. Bestehende Views bleiben, "List" wird zu "Agenda". Eine eigene `events`-Tabelle (Meetings, persönliche Termine) erst, wenn sie gebraucht wird.

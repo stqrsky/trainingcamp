@@ -57,6 +57,7 @@ Route::get('schedules/month',   'ScheduleController@month')->name('schedules.mon
 Route::get('schedules/week',    'ScheduleController@week')->name('schedules.week')->middleware('auth:web');
 Route::get('schedules/day',     'ScheduleController@day')->name('schedules.day')->middleware('auth:web');
 Route::get('schedules/planner', 'ScheduleController@planner')->name('schedules.planner')->middleware('auth:web');
+Route::get('schedules/agenda',  'ScheduleController@agenda')->name('schedules.agenda')->middleware('auth:web');
 
 Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
 
