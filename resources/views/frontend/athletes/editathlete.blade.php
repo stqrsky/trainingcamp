@@ -14,12 +14,17 @@
                 {{ $message }}
             </div>
             @enderror
+            {{-- Separate form: a Delete button inside the update form only saved the changes --}}
+            <form id="member-delete-form" method="POST" action="{{ route('user.athletes.delete', ['id' => $user->id]) }}" class="d-none">
+                @csrf
+                @method('DELETE')
+            </form>
             <form method="POST" action="{{ route('user.athletes.update', ['id' => $user->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('frontend.athletes.form', ['edit' => true])
                 <button type="submit" class="btn edit update float-right ms-2">Update</button>
-                <button type="submit" class="btn delete btn-danger float-right">Delete</button>
+                <button type="submit" form="member-delete-form" class="btn delete btn-danger float-right">Remove from team</button>
             </form>
 
         </div>

@@ -14,21 +14,62 @@ use App\Http\Libraries\UploadImage;
 
 class TeamController extends Controller
 {
+    private const MEMBER_SORTS = ['name', 'name_desc', 'newest'];
+
     public function getUserTeam(Request $request)
     {
-        $search = $request->input('search');
+        $filters = $this->memberFilters($request);
+        $constrain = fn ($members) => $this->applyMemberFilters($members, $filters);
         $team = $this->currentTeam()?->load([
-            'coaches',
-            'coaches.userDetail',
+            'coaches' => $constrain,
             'coaches.userDetail.image',
-            'athletes' => function ($athletes) use ($search) {
-                $athletes->where('first_name', 'like', "%$search%");
-            },
-            'athletes.userDetail',
+            'coaches.skills',
+            'athletes' => $constrain,
             'athletes.userDetail.image',
-            'athletes.skills'
+            'athletes.skills',
         ]);
-        return view('frontend.athletes.athletes', compact('team', 'search'));
+        $skills = Skill::orderBy('name')->get();
+        $search = $filters['search'];
+        return view('frontend.athletes.athletes', compact('team', 'search', 'filters', 'skills'));
+    }
+
+    private function memberFilters(Request $request): array
+    {
+        $pick = fn ($key, array $allowed, $default) => in_array($request->query($key), $allowed, true)
+            ? $request->query($key)
+            : $default;
+        return [
+            'search' => trim((string) $request->query('search', '')),
+            'role'   => $pick('role', ['coach', 'athlete'], 'all'),
+            'skill'  => (int) $request->query('skill') ?: null,
+            'status' => $pick('status', ['inactive', 'all'], 'active'),
+            'sort'   => $pick('sort', self::MEMBER_SORTS, 'name'),
+        ];
+    }
+
+    /**
+     * Search matches every word against first name, last name or nickname, so "Max Mus" finds Max Muster.
+     */
+    private function applyMemberFilters($members, array $filters): void
+    {
+        foreach (preg_split('/\s+/', $filters['search'], -1, PREG_SPLIT_NO_EMPTY) as $term) {
+            $members->where(function ($query) use ($term) {
+                $query->where('users.first_name', 'like', "%$term%")
+                    ->orWhere('users.last_name', 'like', "%$term%")
+                    ->orWhereHas('userDetail', fn ($detail) => $detail->where('nick_name', 'like', "%$term%"));
+            });
+        }
+        if ($filters['skill']) {
+            $members->whereHas('skills', fn ($skills) => $skills->where('skills.id', $filters['skill']));
+        }
+        if ($filters['status'] !== 'all') {
+            $members->wherePivot('active', $filters['status'] === 'active');
+        }
+        match ($filters['sort']) {
+            'name_desc' => $members->orderByDesc('users.first_name')->orderByDesc('users.last_name'),
+            'newest'    => $members->orderByPivot('id', 'desc'),
+            default     => $members->orderBy('users.first_name')->orderBy('users.last_name'),
+        };
     }
 
     public function addUser()
@@ -111,9 +152,8 @@ class TeamController extends Controller
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
         }
-        $user = $team->athletes()->with(['userDetail', 'userDetail.image'])
-            ->where('user_id', $id)->first();
-        if (!$user) {
+        $user = $this->findMember($team, $id);
+        if (!$user || $user->is(Auth::user())) {
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
         $detail = $user->userDetail;
@@ -130,8 +170,8 @@ class TeamController extends Controller
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
         }
-        $user = $team->athletes()->where('user_id', $id)->first();
-        if (!$user) {
+        $user = $this->findMember($team, $id);
+        if (!$user || $user->is(Auth::user())) {
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
         $this->validate($request, [
@@ -151,7 +191,7 @@ class TeamController extends Controller
         $input = $request->all();
         try {
             $user->update([
-                'email' => $input['email'],
+                'email' => $input['email'] ?? null,
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name'],
             ]);
@@ -189,12 +229,13 @@ class TeamController extends Controller
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
         }
-        $user = $team->athletes()->where('user_id', $id)->first();
-        if (!$user) {
+        $user = $this->findMember($team, $id);
+        if (!$user || $user->is(Auth::user())) {
             return redirect()->back()->withErrors(['error' => 'User not found']);
         }
         try {
             $team->athletes()->detach($user);
+            $team->coaches()->detach($user);
         } catch (\Throwable $th) {
             return redirect()->back()
                 ->withErrors(['error' => $this->userFacingError($th, 'Unable to remove this member.')]);
@@ -209,15 +250,35 @@ class TeamController extends Controller
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
         }
-        $user = $team->athletes()->where('user_id', $id)->first();
+        $user = $this->findMember($team, $id);
         if (!$user) {
-            $user = $team->coaches()->where('user_id', $id)->first();
-
-            if (!$user) {
-                return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
-            }
+            return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
         return view('frontend.athletes.detail', compact('user', 'team'));
+    }
+
+    /**
+     * Set a member active or inactive in the current team; inactive members keep their history.
+     */
+    public function toggleMemberStatus($id)
+    {
+        $team = $this->currentTeam();
+        $user = $team ? $this->findMember($team, $id) : null;
+        if (!$user || $user->is(Auth::user())) {
+            abort(404);
+        }
+        $relation = $user->pivot->getTable() === 'team_coach' ? $team->coaches() : $team->athletes();
+        $relation->updateExistingPivot($user->id, ['active' => !$user->pivot->active]);
+        return redirect()->back();
+    }
+
+    /**
+     * A coach or athlete of the given team, with its membership pivot loaded.
+     */
+    private function findMember($team, $id): ?User
+    {
+        return $team->athletes()->with(['userDetail', 'userDetail.image'])->where('users.id', $id)->first()
+            ?? $team->coaches()->with(['userDetail', 'userDetail.image'])->where('users.id', $id)->first();
     }
 
     public function createTeam()

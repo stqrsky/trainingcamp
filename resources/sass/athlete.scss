@@ -37,3 +37,26 @@ li { list-style: none; }
     color: var(--tc-text-muted);
     margin: 1.25rem 0 .6rem;
 }
+
+// Search / filter / sort toolbar
+.tc-filter-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .5rem;
+
+    @media (min-width: 576px) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+.tc-filter-reset {
+    display: inline-block;
+    margin-top: .5rem;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--tc-primary-strong);
+}
+
+// Inactive members stay listed but step back visually
+.tc-member-inactive > div:first-child > a {
+    opacity: .6;
+}

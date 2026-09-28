@@ -34,6 +34,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
     Route::put('athletes/{id}', 'TeamController@updateUser')->name('user.athletes.update');
     Route::delete('athletes/{id}', 'TeamController@deleteUser')->name('user.athletes.delete');
     Route::get('athletes/{id}', 'TeamController@detailUser')->name('user.athletes.detail');
+    Route::post('athletes/{id}/status', 'TeamController@toggleMemberStatus')->name('user.athletes.status');
 
     Route::get('profile', 'UserController@profile')->name('user.profile');
     Route::get('profile/setting', 'UserController@profileSetting')->name('user.profile.setting');

@@ -20,99 +20,68 @@
                 </a>
             </div>
 
-            {{-- Coaches --}}
-            <p class="list-section-label">Coaches</p>
-            <div class="list-team-members">
-                <ul>
-                    @forelse($team->coaches as $coach)
-                    @php $hasImg = $coach->userDetail && $coach->userDetail->image; @endphp
-                    <li>
-                        <a href="{{ route('user.athletes.detail', ['id' => $coach->id]) }}"
-                           class="d-flex align-items-center gap-3">
-                            <span class="tc-avatar tc-avatar--md">
-                                @if($hasImg)
-                                <img src="{{ asset($coach->userDetail->image->file_name) }}" alt="{{ $coach->full_name }}">
-                                @else{{ $coach->initials }}@endif
-                            </span>
-                            <div class="d-flex flex-column">
-                                <strong>{{ $coach->full_name }}</strong>
-                                <span class="tc-badge tc-badge--coach mt-1" style="align-self:flex-start">Coach</span>
-                            </div>
-                        </a>
-                    </li>
-                    @empty
-                    <li class="text-muted tc-empty" style="border-style:dashed">No coaches yet.</li>
-                    @endforelse
-                </ul>
-            </div>
-
-            {{-- Athletes --}}
-            <p class="list-section-label">Athletes</p>
-            <form class="tc-search mb-3" data-no-spinner>
-                <input class="form-control" name="search" type="search" placeholder="Search athletes…"
-                       value="{{ $search }}" aria-label="Search athletes">
-                <button class="btn search" type="submit">
-                    <span class="material-icons align-middle" style="font-size:18px">search</span>
-                </button>
+            {{-- Search, filter and sort (GET, so filtered views can be bookmarked) --}}
+            @php $filtered = $filters['search'] !== '' || $filters['role'] !== 'all' || $filters['skill'] || $filters['status'] !== 'active'; @endphp
+            <form class="tc-member-filters mb-3" method="GET" action="{{ route('user.athletes') }}" data-no-spinner data-member-filters>
+                <div class="tc-search mb-2">
+                    <input class="form-control" name="search" type="search" placeholder="Search by name or nickname…"
+                           value="{{ $filters['search'] }}" aria-label="Search members">
+                    <button class="btn search" type="submit" aria-label="Search">
+                        <span class="material-icons align-middle" style="font-size:18px" aria-hidden="true">search</span>
+                    </button>
+                </div>
+                <div class="tc-filter-row">
+                    <label class="visually-hidden" for="filter-role">Role</label>
+                    <select class="form-select form-select-sm" id="filter-role" name="role">
+                        <option value="all" @selected($filters['role'] === 'all')>All roles</option>
+                        <option value="coach" @selected($filters['role'] === 'coach')>Coaches</option>
+                        <option value="athlete" @selected($filters['role'] === 'athlete')>Athletes</option>
+                    </select>
+                    <label class="visually-hidden" for="filter-skill">Skill</label>
+                    <select class="form-select form-select-sm" id="filter-skill" name="skill">
+                        <option value="">All skills</option>
+                        @foreach($skills as $skill)
+                        <option value="{{ $skill->id }}" @selected($filters['skill'] === $skill->id)>{{ $skill->name }}</option>
+                        @endforeach
+                    </select>
+                    <label class="visually-hidden" for="filter-status">Status</label>
+                    <select class="form-select form-select-sm" id="filter-status" name="status">
+                        <option value="active" @selected($filters['status'] === 'active')>Active</option>
+                        <option value="inactive" @selected($filters['status'] === 'inactive')>Inactive</option>
+                        <option value="all" @selected($filters['status'] === 'all')>All members</option>
+                    </select>
+                    <label class="visually-hidden" for="filter-sort">Sort</label>
+                    <select class="form-select form-select-sm" id="filter-sort" name="sort">
+                        <option value="name" @selected($filters['sort'] === 'name')>Name A–Z</option>
+                        <option value="name_desc" @selected($filters['sort'] === 'name_desc')>Name Z–A</option>
+                        <option value="newest" @selected($filters['sort'] === 'newest')>Recently added</option>
+                    </select>
+                </div>
+                @if($filtered)
+                <a href="{{ route('user.athletes') }}" class="tc-filter-reset">Reset filters</a>
+                @endif
             </form>
 
+            @foreach(['coach' => $team->coaches, 'athlete' => $team->athletes] as $role => $members)
+            @continue($filters['role'] !== 'all' && $filters['role'] !== $role)
+            <p class="list-section-label">{{ $role === 'coach' ? 'Coaches' : 'Athletes' }} ({{ $members->count() }})</p>
             <div class="list-team-members">
                 <ul>
-                    @forelse($team->athletes as $athlete)
-                    @php $hasImg = $athlete->userDetail && $athlete->userDetail->image; @endphp
-                    <li>
-                        <div class="d-flex align-items-center justify-content-between gap-2">
-                            <a href="{{ route('user.athletes.detail', ['id' => $athlete->id]) }}"
-                               class="d-flex align-items-center gap-3 text-truncate flex-grow-1">
-                                <span class="tc-avatar tc-avatar--lg">
-                                    @if($hasImg)
-                                    <img src="{{ asset($athlete->userDetail->image->file_name) }}" alt="{{ $athlete->full_name }}">
-                                    @else{{ $athlete->initials }}@endif
-                                </span>
-                                <div class="d-flex flex-column text-truncate">
-                                    <strong class="text-truncate">{{ $athlete->full_name }}</strong>
-                                    @if($athlete->userDetail && $athlete->userDetail->nick_name)
-                                    <small class="text-muted text-truncate">“{{ $athlete->userDetail->nick_name }}”</small>
-                                    @endif
-                                </div>
-                            </a>
-                            <div class="d-flex align-items-center gap-1">
-                                <a href="{{ route('schedules.create') }}" class="tc-assign-btn" title="Assign sparring">
-                                    <span class="material-icons" aria-hidden="true">sports_kabaddi</span>
-                                    <span class="d-none d-sm-inline">Assign</span>
-                                </a>
-                                <div class="btn-group">
-                                    <a type="button" class="close" id="dropdown{{$athlete->id}}"
-                                       data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="Athlete actions">
-                                        <span aria-hidden="true" class="material-icons">more_vert</span>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown{{$athlete->id}}">
-                                        <a href="{{ route('user.athletes.edit', ['id' => $athlete->id]) }}" class="dropdown-item">Edit</a>
-                                        <form action="{{ route('user.athletes.delete', ['id' => $athlete->id]) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <input type="submit" class="dropdown-item" value="Remove" />
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @if($athlete->skills->count())
-                        <div class="d-flex flex-wrap gap-1 mt-2">
-                            @foreach($athlete->skills as $skill)
-                            <span class="tc-badge tc-badge--skill">{{ $skill->name }}</span>
-                            @endforeach
-                        </div>
-                        @endif
-                    </li>
+                    @forelse($members as $member)
+                        @include('frontend.athletes._member', ['member' => $member, 'role' => $role])
                     @empty
                     <li class="text-center py-4 text-muted tc-empty" style="border-style:dashed">
-                        <span class="material-icons" style="font-size:40px">people_outline</span>
-                        <p class="mt-1">No athletes yet. Tap <strong>+</strong> to add one.</p>
+                        @if($filtered)
+                        <p class="mb-0">No {{ $role === 'coach' ? 'coaches' : 'athletes' }} match these filters.</p>
+                        @else
+                        <span class="material-icons" style="font-size:40px" aria-hidden="true">people_outline</span>
+                        <p class="mt-1 mb-0">No {{ $role === 'coach' ? 'coaches' : 'athletes' }} yet. Tap <strong>+</strong> to add one.</p>
+                        @endif
                     </li>
                     @endforelse
                 </ul>
             </div>
+            @endforeach
             @else
             <div class="d-flex justify-content-center align-items-center py-5 head-title">
                 <a href="{{ route('user.setting') }}" type="button" class="btn btn-primary">Complete Your Profile</a>
@@ -121,4 +90,13 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    // Apply filter selects immediately; the search field still submits with Enter
+    document.querySelectorAll('[data-member-filters] select').forEach(function (select) {
+        select.addEventListener('change', function () { select.form.submit() })
+    })
+</script>
 @endsection

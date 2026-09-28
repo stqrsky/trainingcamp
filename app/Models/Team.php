@@ -23,7 +23,7 @@ class Team extends Model
         return $this->belongsToMany(
             \App\Models\User::class,
             'team_coach'
-        );
+        )->withPivot('id', 'active');
     }
 
     public function athletes()
@@ -31,8 +31,18 @@ class Team extends Model
         return $this->belongsToMany(
             \App\Models\User::class,
             'team_athlete'
-        );
+        )->withPivot('id', 'active');
     }
+    public function activeCoaches()
+    {
+        return $this->coaches()->wherePivot('active', true);
+    }
+
+    public function activeAthletes()
+    {
+        return $this->athletes()->wherePivot('active', true);
+    }
+
     public function schedules()
     {
         return $this->hasMany(\App\Models\Schedule::class);

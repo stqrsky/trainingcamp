@@ -81,14 +81,14 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         $this->authorizeTask($task);
-        $members = $this->assignableMembers();
+        $members = $this->assignableMembers($task);
         return view('frontend.tasks.edit', compact('task', 'members'));
     }
 
     public function update(Request $request, Task $task)
     {
         $this->authorizeTask($task);
-        $this->validateRequest($request);
+        $this->validateRequest($request, $task);
         $task->fill($this->attributesFromRequest($request));
         $task->moveTo($request->input('status', $task->status));
         return redirect()->route('tasks.index');
@@ -127,7 +127,7 @@ class TaskController extends Controller
         return redirect()->back();
     }
 
-    private function validateRequest(Request $request)
+    private function validateRequest(Request $request, ?Task $task = null)
     {
         $this->validate($request, [
             'title'       => 'required|string|max:255',
@@ -137,7 +137,7 @@ class TaskController extends Controller
             'label'       => 'nullable|string|max:50',
             'status'      => ['nullable', Rule::in(array_keys(Task::STATUSES))],
             'priority'    => ['nullable', Rule::in(array_keys(Task::PRIORITIES))],
-            'assignee_id' => ['nullable', Rule::in($this->assignableMembers()->pluck('id')->all())],
+            'assignee_id' => ['nullable', Rule::in($this->assignableMembers($task)->pluck('id')->all())],
         ]);
     }
 
@@ -158,14 +158,18 @@ class TaskController extends Controller
     }
 
     /**
-     * People a task can be assigned to: the account holder plus the current team's coaches and athletes.
+     * People a task can be assigned to: the account holder plus the current team's active coaches
+     * and athletes. An inactive member stays selectable on tasks already assigned to them.
      */
-    private function assignableMembers()
+    private function assignableMembers(?Task $task = null)
     {
         $team = $this->currentTeam();
         $members = collect([Auth::user()]);
         if ($team) {
-            $members = $members->merge($team->coaches()->get())->merge($team->athletes()->get());
+            $members = $members->merge($team->activeCoaches()->get())->merge($team->activeAthletes()->get());
+        }
+        if ($task?->assignee) {
+            $members->push($task->assignee);
         }
         return $members->unique('id')->sortBy('full_name')->values();
     }

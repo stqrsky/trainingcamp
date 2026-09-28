@@ -33,19 +33,31 @@ class ScheduleController extends Controller
         return view('frontend.schedules.schedules', compact('date', 'date_format', 'schedules'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $team = $this->currentTeam();
-        $athletes = [];
-        if ($team) {
-            $athletes = $team->athletes;
-        }
-        return view('frontend.schedules.create', compact('athletes'));
+        $athletes = $team ? $team->activeAthletes()->orderBy('first_name')->get() : collect();
+        // "Assign" on the team page preselects the athlete
+        $first_athlete = $athletes->firstWhere('id', (int) $request->query('athlete'))?->id;
+        return view('frontend.schedules.create', compact('athletes', 'first_athlete'));
     }
 
-    private function validateRequest($request, $team)
+    /**
+     * Athletes selectable for a sparring: the team's active athletes, plus the current
+     * participants when editing so an inactive athlete does not silently drop out.
+     */
+    private function selectableAthletes($team, ?Schedule $schedule = null)
     {
-        $teamAthlete = Rule::exists('team_athlete', 'user_id')->where('team_id', $team->id);
+        $athletes = $team->activeAthletes()->orderBy('first_name')->get();
+        if ($schedule) {
+            $athletes = $athletes->merge($schedule->participants)->unique('id')->values();
+        }
+        return $athletes;
+    }
+
+    private function validateRequest($request, $team, ?Schedule $schedule = null)
+    {
+        $teamAthlete = Rule::in($this->selectableAthletes($team, $schedule)->pluck('id')->all());
         $this->validate($request, [
             'date'           => 'required|date_format:d/m/Y',
             'start'          => 'required|date_format:H:i',
@@ -132,10 +144,7 @@ class ScheduleController extends Controller
         $parcicipants = $schedule->participants;
         $first_athlete = $parcicipants->get(0)?->id;
         $second_athlete = $parcicipants->get(1)?->id;
-        $athletes = [];
-        if ($team) {
-            $athletes = $team->athletes;
-        }
+        $athletes = $this->selectableAthletes($team, $schedule);
         return view('frontend.schedules.edit', compact('schedule', 'athletes', 'first_athlete', 'second_athlete'));
     }
 
@@ -146,7 +155,7 @@ class ScheduleController extends Controller
         if (!$schedule) {
             return redirect()->back()->withErrors(['error' => 'Schedule not found'])->withInput();
         }
-        $this->validateRequest($request, $team);
+        $this->validateRequest($request, $team, $schedule);
         DB::beginTransaction();
         try {
             $date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d');

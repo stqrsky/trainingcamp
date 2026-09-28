@@ -170,7 +170,10 @@ Umgesetzt auf Branch `feat/p1-3-sparring`, angepasst an die Entscheidung ohne Mi
 - **Dateien:** Migration, `Schedule.php`, `ScheduleController`, `frontend/schedules/*`.
 - **Abhängigkeiten:** P0-2, P0-3.
 
-### P1-4 Teamverwaltung
+### P1-4 Teamverwaltung ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-4-team-management` (ohne Einladungen, da Mitglieder sich nicht einloggen): Suche über Vor-, Nach- und Spitzname (auch "Max Mus"), Filter nach Rolle, Skill und Status, Sortierung A–Z, Z–A und zuletzt hinzugefügt, Filter per URL teilbar. Aktiv/Inaktiv pro Team (`active` in `team_athlete`/`team_coach`): Inaktive bleiben mit Historie im Team, sind aber für neue Sparrings und Aufgaben nicht wählbar; bestehende Zuordnungen bleiben erhalten. Coaches sind jetzt bearbeitbar, deaktivierbar und entfernbar, der Owner ist davor geschützt. "Assign" setzt den Athlete im Sparring-Formular vor. Coaches und Athletes teilen sich ein Zeilen-Partial. Nebenbei gefixt: "Delete" auf der Mitglieds-Edit-Seite speicherte nur, statt zu entfernen; fehlende optionale E-Mail führte beim Bearbeiten zu einem Fehler. Tests: 95 grün.
+
 
 - Suche über Voll- und Nickname, Filter nach Rolle, Skill und Status, Sortierung.
 - Coaches bearbeitbar. Aktive/inaktive Mitglieder über Membership-Status statt Löschen.
