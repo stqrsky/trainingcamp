@@ -25,21 +25,21 @@
                         <dd class="col-sm-8">{{ $user->email }}</dd>
 
                         <dt class="col-sm-4">Nick Name</dt>
-                        <dd class="col-sm-8">{{ $user->userDetail->nick_name }}</dd>
+                        <dd class="col-sm-8">{{ $user->userDetail?->nick_name }}</dd>
 
                         <dt class="col-sm-4">Age</dt>
-                        <dd class="col-sm-8">{{ $user->userDetail->age }}</dd>
+                        <dd class="col-sm-8">{{ $user->userDetail?->age }}</dd>
 
                         <dt class="col-sm-4">Height</dt>
-                        <dd class="col-sm-8">{{ $user->userDetail->height }} cm</dd>
+                        <dd class="col-sm-8">{{ $user->userDetail?->height }} cm</dd>
 
                         <dt class="col-sm-4 text-truncate">Weight</dt>
-                        <dd class="col-sm-8">{{ $user->userDetail->height }} kg</dd>
+                        <dd class="col-sm-8">{{ $user->userDetail?->weight }} kg</dd>
                     </dl>
                 </div>
                 <div class="toast-body">
                     <h5>About</h5>
-                    {!! $user->userDetail->about !!}
+                    {!! nl2br(e($user->userDetail?->about)) !!}
                 </div>
                 <div class="toast-body">
                     <h5>Skills</h5>

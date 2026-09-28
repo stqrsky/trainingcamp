@@ -16,12 +16,13 @@ class UploadImage
         $storage_path = storage_path() . "/app/$file_path/$filename";
         $public_path = "$file_path/$filename";
         try {
+            $detail = $user->userDetail ?? $user->userDetail()->create([]);
             $path = $file->storeAs($file_path, $filename);
             $img = (new ImageManager(new Driver()))->read($storage_path);
             $img->cover(400, 400);
             $img->save($storage_path);
-            if ($user->userDetail->image_id) {
-                Image::find($user->userDetail->image_id)->update([
+            if ($detail->image_id) {
+                Image::find($detail->image_id)->update([
                     'file_path' => "storage/app/$file_path/$filename",
                     'file_name' => $public_path
                 ]);
@@ -32,14 +33,14 @@ class UploadImage
                     'status' => 1
                 ]);
             }
-            if (!$user->userDetail->image_id) {
-                $user->userDetail()->update([
+            if (!$detail->image_id) {
+                $detail->update([
                     'image_id' => $images->id
                 ]);
             }
         } catch (\Throwable $e) {
             return [
-                'error' => $e->getMessage()
+                'error' => self::errorMessage($e)
             ];
         }
     }
@@ -72,8 +73,15 @@ class UploadImage
             }
         } catch (\Throwable $e) {
             return [
-                'error' => $e->getMessage()
+                'error' => self::errorMessage($e)
             ];
         }
+    }
+
+    private static function errorMessage(\Throwable $e): string
+    {
+        report($e);
+
+        return config('app.debug') ? $e->getMessage() : 'Image upload failed. Please try another file.';
     }
 }

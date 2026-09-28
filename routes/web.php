@@ -19,7 +19,7 @@ Route::group(['middleware' => ['guest']], function () {
     Route::get('/login', 'UserController@login')->name('login');
     Route::post('/login', 'UserController@loginUser')->name('login.post');
     Route::get('/signup', 'UserController@register')->name('signup');
-    Route::post('/signup', 'UserController@registerUser')->name('signup.post');
+    Route::post('/signup', 'UserController@registerUser')->name('signup.post')->middleware('throttle:10,1');
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {

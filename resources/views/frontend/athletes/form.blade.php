@@ -104,7 +104,7 @@
 <div class="form-group row">
     <label for="about" class="col-sm-12 col-form-label">About</label>
     <div class="col-sm-12">
-        <textarea class="form-control @error('about') is-invalid @enderror" id="about" name="about" rows="8" cols="80">{!! isset($detail) ? $detail->about : old('about') !!}</textarea>
+        <textarea class="form-control @error('about') is-invalid @enderror" id="about" name="about" rows="8" cols="80">{{ isset($detail) ? $detail->about : old('about') }}</textarea>
         @error('about')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>

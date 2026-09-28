@@ -37,13 +37,17 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, ['title' => 'required|string|max:255']);
         $team = $this->team();
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
+        $this->validateRequest($request);
         $due = $request->input('due_date')
              ? Carbon::createFromFormat('d/m/Y', $request->input('due_date'))->format('Y-m-d')
              : null;
         Task::create([
-            'team_id'  => $team ? $team->id : null,
+            'team_id'  => $team->id,
             'user_id'  => Auth::id(),
             'title'    => $request->input('title'),
             'notes'    => $request->input('notes'),
@@ -64,7 +68,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         $this->authorizeTask($task);
-        $this->validate($request, ['title' => 'required|string|max:255']);
+        $this->validateRequest($request);
         $due = $request->input('due_date')
              ? Carbon::createFromFormat('d/m/Y', $request->input('due_date'))->format('Y-m-d')
              : null;
@@ -95,6 +99,18 @@ class TaskController extends Controller
             $task->update(['status' => 0, 'completed_at' => null]);
         }
         return redirect()->back();
+    }
+
+    private function validateRequest(Request $request)
+    {
+        $this->validate($request, [
+            'title'    => 'required|string|max:255',
+            'notes'    => 'nullable|string|max:5000',
+            'due_date' => 'nullable|date_format:d/m/Y',
+            'due_time' => 'nullable|date_format:H:i,H:i:s',
+            'label'    => 'nullable|string|max:50',
+            'priority' => 'nullable|in:0,1',
+        ]);
     }
 
     private function team()

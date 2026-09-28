@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Http\Libraries\UploadImage;
+use Illuminate\Validation\Rules\Password;
 
 class TeamController extends Controller
 {
@@ -46,7 +47,7 @@ class TeamController extends Controller
             'file' => 'mimes:jpg,jpeg,png|max:2048',
             'user_type' => 'required|in:coach,athlete',
             'email' => 'required|email:filter|unique:users,email',
-            'password' => 'required',
+            'password' => ['required', Password::defaults()],
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',
@@ -59,7 +60,8 @@ class TeamController extends Controller
         ]);
         $role = Role::where('title', 'like', '%' . $request->input('user_type') . '%')->first();
         if (!$role) {
-            return redirect()->back()->withErrors(['error' => 'User type not found'])->withInput();
+            return redirect()->back()->withErrors(['error' => 'User type not found'])
+                ->withInput($request->except('password'));
         }
         DB::beginTransaction();
         try {
@@ -93,7 +95,8 @@ class TeamController extends Controller
                 $upload_image = UploadImage::uploadProfilePicture($file, $user);
                 if (isset($upload_image['error'])) {
                     DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => $upload_image['error']])->withInput();
+                    return redirect()->back()->withErrors(['error' => $upload_image['error']])
+                        ->withInput($request->except('password'));
                 }
             }
         } catch (\Throwable $th) {
@@ -101,7 +104,7 @@ class TeamController extends Controller
 
             return redirect()->back()
                 ->withErrors(['error' => $this->userFacingError($th, 'Unable to add this member.')])
-                ->withInput();
+                ->withInput($request->except('password'));
         }
         DB::commit();
         return redirect()->route('user.athletes');
@@ -179,7 +182,9 @@ class TeamController extends Controller
             }
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($th, 'Unable to update this member.')])
+                ->withInput();
         }
         DB::commit();
         return redirect()->route('user.athletes');
@@ -200,7 +205,8 @@ class TeamController extends Controller
         try {
             $team->athletes()->detach($user);
         } catch (\Throwable $th) {
-            return redirect()->back()->withErrors(['error' => $th->getMessage()]);
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($th, 'Unable to remove this member.')]);
         }
         return redirect()->route('user.athletes');
     }

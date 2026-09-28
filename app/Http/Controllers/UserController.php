@@ -12,9 +12,14 @@ use App\Models\Team;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Http\Libraries\UploadImage;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
+    private const MAX_LOGIN_ATTEMPTS = 5;
+
     public function login()
     {
         return view('backend.login', ['title' => 'Sign In']);
@@ -27,29 +32,33 @@ class UserController extends Controller
             'password' => 'required',
         ]);
 
+        $throttle_key = Str::lower($request->input('email')) . '|' . $request->ip();
+        if (RateLimiter::tooManyAttempts($throttle_key, self::MAX_LOGIN_ATTEMPTS)) {
+            $seconds = RateLimiter::availableIn($throttle_key);
+            return redirect()->back()
+                ->withErrors(['error' => "Too many login attempts. Please try again in $seconds seconds."])
+                ->withInput($request->only('email'));
+        }
+
         try {
             $user = User::whereEmail($request->input('email'))->first();
         } catch (\Throwable $e) {
             return redirect()->back()
                 ->withErrors(['error' => $this->userFacingError($e, 'Unable to sign in right now.')])
-                ->withInput();
+                ->withInput($request->only('email'));
         }
 
-        if ($user) {
-            $password_check = \Hash::check($request->input('password'), $user->password);
-            if ($password_check) {
-                Auth::login($user);
-                return redirect()->route('home');
-            } else {
-                return redirect()->back()->withErrors([
-                    'error' => 'Please check your email or password again'
-                ])->withInput();
-            }
-        } else {
+        if (!$user || !\Hash::check($request->input('password'), $user->password)) {
+            RateLimiter::hit($throttle_key);
             return redirect()->back()->withErrors([
                 'error' => 'Please check your email or password again'
-            ])->withInput();
+            ])->withInput($request->only('email'));
         }
+
+        RateLimiter::clear($throttle_key);
+        Auth::login($user);
+
+        return redirect()->route('home');
     }
 
     public function register()
@@ -61,7 +70,7 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'email' => 'required|email:filter|unique:users,email',
-            'password' => 'required|confirmed',
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $coachRole = Role::where('title', 'coach')->first();
@@ -80,7 +89,7 @@ class UserController extends Controller
         } catch (\Throwable $e) {
             return redirect()->back()
                 ->withErrors(['error' => $this->userFacingError($e, 'Unable to create your account.')])
-                ->withInput();
+                ->withInput($request->only('email'));
         }
 
         Auth::login($user);
@@ -140,7 +149,9 @@ class UserController extends Controller
             $team->coaches()->sync($user);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($e, 'Unable to save your profile.')])
+                ->withInput();
         }
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -207,7 +218,9 @@ class UserController extends Controller
             $team->coaches()->sync($user);
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()])->withInput();
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($e, 'Unable to save your profile.')])
+                ->withInput();
         }
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -234,7 +247,7 @@ class UserController extends Controller
         $this->validate($request, [
             'email' => 'sometimes|required|email:filter|unique:users,email,' . $user->id,
             'current_password' => 'sometimes|required_with:new_password',
-            'new_password' => 'sometimes|required|confirmed'
+            'new_password' => ['sometimes', 'required', 'confirmed', Password::defaults()],
         ]);
         $email = $request->input('email');
         $current_password = $request->input('current_password');
@@ -248,12 +261,15 @@ class UserController extends Controller
             // Check current password
             $password_check = \Hash::check($current_password, $user->password);
             if (!$password_check) {
-                return redirect()->back()->withErrors(['current_password' => 'Invalid password'])->withInput();
+                return redirect()->back()->withErrors(['current_password' => 'Invalid password'])
+                    ->withInput($request->only('email'));
             }
             // Check new password
             $new_password_check = \Hash::check($new_password, $user->password);
             if ($new_password_check) {
-                return redirect()->back()->withErrors(['new_password' => 'New password must be different with current password'])->withInput();
+                return redirect()->back()
+                    ->withErrors(['new_password' => 'New password must be different with current password'])
+                    ->withInput($request->only('email'));
             }
             $user->update([
                 'password' => $new_password
@@ -262,9 +278,11 @@ class UserController extends Controller
         return redirect()->route('user.profile');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('login');
     }
 }

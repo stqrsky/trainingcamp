@@ -77,4 +77,25 @@ class TaskTest extends TestCase
         $response = $this->post(route('tasks.toggle', $otherTask));
         $response->assertStatus(403);
     }
+
+    public function test_invalid_due_date_is_rejected()
+    {
+        $response = $this->post(route('tasks.store'), [
+            'title' => 'Broken date',
+            'due_date' => '2026-13-45',
+        ]);
+
+        $response->assertSessionHasErrors('due_date');
+        $this->assertDatabaseMissing('tasks', ['title' => 'Broken date']);
+    }
+
+    public function test_user_without_team_cannot_create_orphan_task()
+    {
+        $this->actingAs(User::factory()->create());
+
+        $response = $this->post(route('tasks.store'), ['title' => 'Orphan task']);
+
+        $response->assertRedirect(route('user.setting'));
+        $this->assertDatabaseMissing('tasks', ['title' => 'Orphan task']);
+    }
 }

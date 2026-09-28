@@ -24,7 +24,7 @@
                 </div>
                 <div class="toast-body about">
                     <h4 class="card-title font-weight-bold mb-2 andreas">Coach</h4>
-                    {!! $user->userDetail ? $user->userDetail->about : '' !!}
+                    {!! nl2br(e($user->userDetail?->about)) !!}
                 </div>
                 <div class="toast-body skill">
                     @foreach($user->skills as $skill)

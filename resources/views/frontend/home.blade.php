@@ -60,7 +60,7 @@
                     </div>
                     <div class="toast-body" style="white-space: pre-line">
                         <h4 class="card-title mb-2">{{ $notification->title }}</h4>
-                        {!! $notification->description !!}
+                        {{ $notification->description }}
                     </div>
                 </div>
 

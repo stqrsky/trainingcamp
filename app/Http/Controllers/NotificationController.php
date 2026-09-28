@@ -21,10 +21,10 @@ class NotificationController extends Controller
         $profile = User::find(Auth::user()->id);
         $team = $profile->team;
         $this->validate($request, [
-            'file' => 'mimes:jpg,jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png|max:2048',
             'image' => '',
-            'title' => 'required',
-            'description' => 'required'
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:10000'
         ]);
         DB::beginTransaction();
         try {
@@ -36,7 +36,9 @@ class NotificationController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($th, 'Unable to save this post.')])
+                ->withInput();
         }
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -64,10 +66,10 @@ class NotificationController extends Controller
         $team = $profile->team;
         $notification = Notification::where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
         $this->validate($request, [
-            'file' => 'mimes:jpg,jpeg,png',
+            'file' => 'mimes:jpg,jpeg,png|max:2048',
             'image' => '',
-            'title' => 'required',
-            'description' => 'required'
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:10000'
         ]);
         DB::beginTransaction();
         try {
@@ -79,7 +81,9 @@ class NotificationController extends Controller
             ]);
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->withErrors(['error' => $th->getMessage()])->withInput();
+            return redirect()->back()
+                ->withErrors(['error' => $this->userFacingError($th, 'Unable to save this post.')])
+                ->withInput();
         }
         if ($request->hasFile('file')) {
             $file = $request->file('file');

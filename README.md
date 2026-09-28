@@ -122,6 +122,7 @@ The app will be available at `http://127.0.0.1:8000`.
 - creates `.env` if needed
 - creates `database/database.sqlite` if needed
 - generates `APP_KEY`
+- links uploaded images into `public/` (`php artisan storage:link`)
 - runs `php artisan migrate --seed --force`
 
 ### Seeded data
