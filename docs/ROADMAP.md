@@ -176,7 +176,10 @@ Umgesetzt auf Branch `feat/p1-2-tasks-kanban`: Status backlog/todo/in_progress/r
 - **Dateien:** `TeamController`, `frontend/athletes/*`, neu `InvitationController` und Mailable.
 - **Abhängigkeiten:** P0-2, Mail-Config.
 
-### P1-5 Dashboard
+### P1-5 Dashboard ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-5-dashboard`: Kennzahlen des aktiven Teams (offene und überfällige Tasks, mir zugewiesen, Sparrings diese Woche, jeweils verlinkt), Liste "Due today & overdue" mit Abhaken direkt im Dashboard, die nächsten 3 Sparrings (heutige vergangene werden ausgeblendet), "Your teams" mit offenen und überfälligen Tasks pro Team und Ein-Klick-Wechsel (nur bei mehreren Teams), darunter die Ankündigungen. Kennzahlen stehen jetzt oben, der Begrüßungs-Banner erscheint nur noch ohne Team, der Versicherungshinweis bleibt. Tests: 66 grün.
+
 
 - **Aktuell:** nur eigene Posts.
 - **Ziel:** kompakte Abschnitte für heute fällige Tasks, überfällige Tasks, die nächsten 3 Sparrings und team-weite Ankündigungen. Nicht mehr.
