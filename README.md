@@ -87,7 +87,6 @@ Training Camp is a graduation project built to make daily club coordination easi
 - **Eloquent ORM**
 - **Bootstrap 5**
 - **Sass**
-- **Vite**
 - **SQLite** by default, **MySQL** optional
 - **PHPUnit 12**
 - **PHP_CodeSniffer** with PSR-12
@@ -237,7 +236,7 @@ The tests never call the real API: `tests/Fakes/FakeClaudeTransport.php` plugs a
 
 ## Styling and front-end workflow
 
-This project currently loads compiled CSS files directly from `public/css/`:
+This project loads compiled CSS files directly from `public/css/`. They are committed, so deploying needs no Node.js build step:
 
 - `public/css/app.css`
 - `public/css/signin.css`
@@ -251,13 +250,19 @@ Install front-end dependencies first if you have not already:
 npm install
 ```
 
-If you change Sass files, recompile them manually:
+If you change Sass files, recompile all three stylesheets:
 
 ```bash
-npx sass resources/sass/app.scss public/css/app.css --load-path=. --style=compressed
-npx sass resources/sass/signin.scss public/css/signin.css --style=compressed
-npx sass resources/sass/athlete.scss public/css/athlete.css --style=compressed
+npm run build
 ```
+
+Or let Sass recompile them on every change while you work:
+
+```bash
+npm run dev
+```
+
+Both scripts run the Dart Sass CLI with `--load-path=. --style=compressed --no-source-map` (see `package.json`). Commit the updated files in `public/css/` together with the Sass changes.
 
 Useful Sass files include:
 

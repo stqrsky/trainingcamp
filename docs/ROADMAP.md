@@ -242,13 +242,14 @@ Umgesetzt auf Branch `feat/p1-7-profiles`. Befund: Die Tabelle `skills` enthielt
 - **2026-09-28:** Ein Account kann mehrere Teams besitzen.
 - **2026-09-28:** Skills legt jeder Manager pro Team selbst an, jedes Mitglied bekommt pro Skill ein Level. Die bisherigen Pseudo-Skills Basic bis Expert werden zum Erfahrungslevel.
 - **2026-09-28:** Der KI-Assistent ist aus, bis der Betreiber selbst einen Anthropic-API-Key in `.env` einträgt. Er liest nur das aktive Team über fest definierte Tools und ändert nie Daten; Aufgaben entstehen nur als Entwurf, den der Nutzer im normalen Formular bestätigt.
+- **2026-09-28:** Kein Build-Schritt beim Deploy. Das kompilierte CSS in `public/css` bleibt committed, `npm run build` (oder `npm run dev` mit Watch) ruft die Sass-CLI auf. Das ungenutzte Vite-Setup (`vite.config.js`, `resources/js`, `vite`, `laravel-vite-plugin`, `axios`, `lodash`) und der liegengebliebene Laravel-Mix-Patch samt `patch-package` sind entfernt (Branch `chore/frontend-tooling`).
 
 Folge für die Roadmap: P0-2 wird zu "Multi-Team und Login nur für Account-Inhaber" statt Rollen-Membership. Einladungen, RSVP durch Teilnehmer, Notifications an Mitglieder und @mentions entfallen vorerst. Alle Zugriffe laufen über `currentTeam()` und Ownership-Checks, damit spätere Co-Manager-Logins ohne Umbau nachrüstbar bleiben.
 
 ## Offene Entscheidungen
 
-1. Asset-Pipeline: Vite mit Build-Schritt beim Deploy, oder kompiliertes CSS weiter committen?
+Keine. Die Frage zur Asset-Pipeline ist entschieden (siehe oben).
 
 ## Nächster Schritt
 
-P0 bis P3 (Matching, Automation, KI-Assistent) sind umgesetzt. Offen sind nur noch Erweiterungen: ICS-Feed für Google Calendar, eingehende API für n8n (braucht Token-Auth) und optional die Laravel-11+-Struktur. Vor dem ersten Deploy: offene Entscheidung 1 klären und `ANTHROPIC_API_KEY` nur setzen, wenn Teamdaten an die Claude API gehen dürfen.
+P0 bis P3 (Matching, Automation, KI-Assistent) sind umgesetzt. Offen sind nur noch Erweiterungen: ICS-Feed für Google Calendar, eingehende API für n8n (braucht Token-Auth) und optional die Laravel-11+-Struktur. Vor dem ersten Deploy: `ANTHROPIC_API_KEY` nur setzen, wenn Teamdaten an die Claude API gehen dürfen.

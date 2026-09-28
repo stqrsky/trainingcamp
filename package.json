@@ -4,17 +4,11 @@
         "node": ">=18"
     },
     "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "postinstall": "patch-package"
+        "dev": "npm run build -- --watch",
+        "build": "sass --load-path=. --style=compressed --no-source-map resources/sass/app.scss:public/css/app.css resources/sass/signin.scss:public/css/signin.css resources/sass/athlete.scss:public/css/athlete.css"
     },
     "devDependencies": {
-        "axios": "^1.15",
-        "laravel-vite-plugin": "^3.1.0",
-        "lodash": "^4.17.23",
-        "patch-package": "^8.0.1",
-        "sass": "^1.15.2",
-        "vite": "^8.0.16"
+        "sass": "^1.15.2"
     },
     "dependencies": {
         "bootstrap": "^5.3.3"
