@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Notification;
+use App\Models\Project;
 use App\Models\Schedule;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -74,8 +75,20 @@ class SearchController extends Controller
                 'icon'     => 'campaign',
             ]);
 
+        $projects = Project::where('team_id', $team->id)
+            ->where(fn ($project) => $project->where('name', 'like', $like)->orWhere('description', 'like', $like))
+            ->orderBy('name')
+            ->limit(self::PER_GROUP)->get()
+            ->map(fn ($project) => [
+                'title'    => $project->name,
+                'subtitle' => 'Project · ' . $project->status_label . ' · ' . $project->progress . '% done',
+                'url'      => route('projects.show', $project),
+                'icon'     => 'folder',
+            ]);
+
         return response()->json(['groups' => collect([
             ['label' => 'Members', 'items' => $members],
+            ['label' => 'Projects', 'items' => $projects],
             ['label' => 'Tasks', 'items' => $tasks],
             ['label' => 'Sparrings', 'items' => $sparrings],
             ['label' => 'Announcements', 'items' => $posts],

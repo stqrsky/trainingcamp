@@ -72,5 +72,6 @@ Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
 Route::patch('schedules/{schedule}/status', 'ScheduleController@updateStatus')->name('schedules.status')->middleware('auth:web');
 
 Route::resource('tasks', 'TaskController')->middleware('auth:web');
+Route::resource('projects', 'ProjectController')->middleware('auth:web');
 Route::post('tasks/{task}/toggle', 'TaskController@toggle')->name('tasks.toggle')->middleware('auth:web');
 Route::patch('tasks/{task}/status', 'TaskController@move')->name('tasks.move')->middleware('auth:web');

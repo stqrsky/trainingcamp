@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         \App\Models\Task::observe(\App\Observers\TaskObserver::class);
         \App\Models\Schedule::observe(\App\Observers\ScheduleObserver::class);
+        \App\Models\Project::observe(\App\Observers\ProjectObserver::class);
         $teamActivity = new \App\Observers\TeamActivityObserver();
         \App\Models\Team::created(fn ($team) => $teamActivity->teamCreated($team));
         \App\Models\Notification::created(fn ($post) => $teamActivity->postCreated($post));

@@ -59,6 +59,14 @@
             })
         })
 
+        // Scrollable view tabs (List/Board/…): bring the active tab into view on narrow screens
+        document.querySelectorAll('.tc-view-tabs').forEach(function(tabs) {
+            var active = tabs.querySelector('.active')
+            if (!active) return
+            var overflow = active.getBoundingClientRect().right - tabs.getBoundingClientRect().right
+            if (overflow > 0) tabs.scrollLeft += overflow + 16
+        })
+
         // Auto-dismiss success messages after 3s; errors stay until the user acts on them
         document.querySelectorAll('.alert-success').forEach(function(alert) {
             setTimeout(function() {

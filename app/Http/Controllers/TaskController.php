@@ -22,7 +22,7 @@ class TaskController extends Controller
 
         $overdue = $today = $upcoming = $noDate = $done = collect();
         if ($team) {
-            $base = Task::with('assignee')->where('team_id', $team->id)
+            $base = Task::with(['assignee', 'project'])->where('team_id', $team->id)
                 ->when($mine, fn ($query) => $query->where('assignee_id', Auth::id()));
             $overdue  = (clone $base)->open()->whereNotNull('due_date')
                             ->whereDate('due_date', '<', Carbon::today())->orderBy('due_date')->get();
@@ -42,7 +42,7 @@ class TaskController extends Controller
     {
         $columns = collect(Task::STATUSES)->map(fn () => collect());
         if ($team) {
-            $base = Task::with('assignee')->where('team_id', $team->id)
+            $base = Task::with(['assignee', 'project'])->where('team_id', $team->id)
                 ->when($mine, fn ($query) => $query->where('assignee_id', Auth::id()));
             $open = (clone $base)->open()->orderByPriority()
                 ->orderByRaw('due_date IS NULL')->orderBy('due_date')->get();
@@ -55,10 +55,12 @@ class TaskController extends Controller
         return view('frontend.tasks.board', compact('columns', 'mine'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $members = $this->assignableMembers();
-        return view('frontend.tasks.create', compact('members'));
+        $projects = $this->projectOptions();
+        $preselectedProject = $projects->firstWhere('id', (int) $request->query('project'))?->id;
+        return view('frontend.tasks.create', compact('members', 'projects', 'preselectedProject'));
     }
 
     public function store(Request $request)
@@ -82,7 +84,8 @@ class TaskController extends Controller
     {
         $this->authorizeTask($task);
         $members = $this->assignableMembers($task);
-        return view('frontend.tasks.edit', compact('task', 'members'));
+        $projects = $this->projectOptions();
+        return view('frontend.tasks.edit', compact('task', 'members', 'projects'));
     }
 
     public function update(Request $request, Task $task)
@@ -138,6 +141,7 @@ class TaskController extends Controller
             'status'      => ['nullable', Rule::in(array_keys(Task::STATUSES))],
             'priority'    => ['nullable', Rule::in(array_keys(Task::PRIORITIES))],
             'assignee_id' => ['nullable', Rule::in($this->assignableMembers($task)->pluck('id')->all())],
+            'project_id'  => ['nullable', Rule::in($this->projectOptions()->pluck('id')->all())],
         ]);
     }
 
@@ -154,6 +158,7 @@ class TaskController extends Controller
             'label'       => $request->input('label'),
             'priority'    => $request->input('priority') ?: 'medium',
             'assignee_id' => $request->input('assignee_id') ?: null,
+            'project_id'  => $request->input('project_id') ?: null,
         ];
     }
 
@@ -164,14 +169,16 @@ class TaskController extends Controller
     private function assignableMembers(?Task $task = null)
     {
         $team = $this->currentTeam();
-        $members = collect([Auth::user()]);
-        if ($team) {
-            $members = $members->merge($team->activeCoaches()->get())->merge($team->activeAthletes()->get());
-        }
+        $members = $team ? $team->assignablePeople(Auth::user()) : collect([Auth::user()]);
         if ($task?->assignee) {
             $members->push($task->assignee);
         }
         return $members->unique('id')->sortBy('full_name')->values();
+    }
+
+    private function projectOptions()
+    {
+        return $this->currentTeam()?->projects()->orderBy('name')->get(['id', 'name', 'status']) ?? collect();
     }
 
     private function authorizeTask(Task $task)

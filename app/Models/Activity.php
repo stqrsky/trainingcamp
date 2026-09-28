@@ -55,6 +55,7 @@ class Activity extends Model
             'sparring' => 'sports_kabaddi',
             'member'   => 'person',
             'post'     => 'campaign',
+            'project'  => 'folder',
             default    => 'groups',
         };
     }
@@ -69,6 +70,7 @@ class Activity extends Model
             $subject instanceof Task => route('tasks.edit', $subject),
             $subject instanceof Schedule => route('schedules.index', ['date' => $subject->date_format]),
             $subject instanceof Notification => route('notification.edit', $subject),
+            $subject instanceof Project => route('projects.show', $subject),
             default => null,
         };
     }

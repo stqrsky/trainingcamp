@@ -28,6 +28,9 @@
             @if($task->label)
             <span class="tc-task-badge">{{ $task->label }}</span>
             @endif
+            @if($task->project_id && !request()->routeIs('projects.show') && $task->relationLoaded('project') && $task->project)
+            <span class="tc-task-badge"><span class="material-icons" style="font-size:12px;vertical-align:-2px" aria-hidden="true">folder</span> {{ $task->project->name }}</span>
+            @endif
             @if($task->due_date)
             <span class="tc-task-badge {{ $task->isOverdue() ? 'tc-task-badge--overdue' : '' }}">
                 {{ $task->dueLabel }}

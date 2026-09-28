@@ -62,6 +62,23 @@
     </div>
 </div>
 
+{{-- Project --}}
+@if($projects->isNotEmpty())
+<div class="form-group mb-3">
+    <label for="project_id">Project <span class="text-muted small">(optional)</span></label>
+    @php $currentProject = (string) old('project_id', isset($task) ? $task->project_id : ($preselectedProject ?? '')); @endphp
+    <select class="form-select @error('project_id') is-invalid @enderror" name="project_id" id="project_id">
+        <option value="">No project</option>
+        @foreach($projects as $project)
+        <option value="{{ $project->id }}" @selected($currentProject === (string) $project->id)>
+            {{ $project->name }}{{ $project->status === 'completed' ? ' (completed)' : '' }}
+        </option>
+        @endforeach
+    </select>
+    @error('project_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+</div>
+@endif
+
 {{-- Priority --}}
 <fieldset class="form-group mb-3">
     <legend class="col-form-label fs-6 pt-0">Priority</legend>

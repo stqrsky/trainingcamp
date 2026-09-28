@@ -113,6 +113,19 @@
                 @endforelse
             </section>
 
+            {{-- Progress of open projects, nearest deadline first --}}
+            @if($projects->isNotEmpty())
+            <section class="tc-home-section" aria-labelledby="home-projects">
+                <div class="tc-home-section-head">
+                    <h2 class="tc-task-group-header mb-0" id="home-projects">Project progress</h2>
+                    <a href="{{ route('projects.index') }}" class="btn btn-sm btn-link p-0">All projects</a>
+                </div>
+                @foreach($projects as $project)
+                    @include('frontend.projects._card', ['project' => $project])
+                @endforeach
+            </section>
+            @endif
+
             {{-- What changed recently in this team --}}
             <section class="tc-home-section" aria-labelledby="home-activity">
                 <div class="tc-home-section-head">

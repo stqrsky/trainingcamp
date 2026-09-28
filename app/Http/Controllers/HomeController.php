@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Activity;
 use App\Models\Notification;
+use App\Models\Project;
 use App\Models\Schedule;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -14,6 +15,7 @@ class HomeController extends Controller
     private const FOCUS_TASK_LIMIT = 6;
     private const UPCOMING_SPARRING_LIMIT = 3;
     private const RECENT_ACTIVITY_LIMIT = 5;
+    private const PROJECT_LIMIT = 3;
 
     public function index()
     {
@@ -30,12 +32,16 @@ class HomeController extends Controller
             ->orderByDesc('created_at')->paginate(12);
 
         $stats = null;
-        $focusTasks = $upcomingSparrings = $teamOverview = $recentActivity = collect();
+        $focusTasks = $upcomingSparrings = $teamOverview = $recentActivity = $projects = collect();
         if ($team) {
             $stats = $this->stats($team);
             $focusTasks = $this->focusTasks($team);
             $upcomingSparrings = $this->upcomingSparrings($team);
             $teamOverview = $this->teamOverview();
+            $projects = Project::where('team_id', $team->id)->open()
+                ->withCount(['tasks', 'tasks as done_tasks_count' => fn ($tasks) => $tasks->where('status', 'done')])
+                ->orderByRaw('deadline IS NULL')->orderBy('deadline')->orderBy('name')
+                ->limit(self::PROJECT_LIMIT)->get();
             $recentActivity = Activity::with(['actor', 'subject'])->where('team_id', $team->id)
                 ->orderByDesc('created_at')->orderByDesc('id')->limit(self::RECENT_ACTIVITY_LIMIT)->get();
         }
@@ -47,7 +53,8 @@ class HomeController extends Controller
             'focusTasks',
             'upcomingSparrings',
             'teamOverview',
-            'recentActivity'
+            'recentActivity',
+            'projects'
         ));
     }
 
@@ -71,7 +78,7 @@ class HomeController extends Controller
      */
     private function focusTasks($team)
     {
-        return Task::with('assignee')->where('team_id', $team->id)->open()
+        return Task::with(['assignee', 'project'])->where('team_id', $team->id)->open()
             ->whereNotNull('due_date')
             ->whereDate('due_date', '<=', Carbon::today())
             ->orderBy('due_date')->orderByPriority()->orderBy('due_time')

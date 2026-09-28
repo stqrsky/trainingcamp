@@ -626,3 +626,44 @@
         white-space: pre-line;
     }
 }
+
+/* --- Projects --- */
+.tc-project-card {
+    display: block;
+    margin-bottom: .6rem;
+    padding: .8rem .9rem;
+    color: var(--tc-text);
+    text-decoration: none;
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius);
+    box-shadow: var(--tc-shadow-sm);
+
+    &:hover { color: var(--tc-text); border-color: var(--tc-primary); text-decoration: none; }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+}
+.tc-progress {
+    height: 8px;
+    margin: .55rem 0 .35rem;
+    overflow: hidden;
+    border-radius: var(--tc-radius-pill);
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
+}
+.tc-progress-bar {
+    display: block;
+    height: 100%;
+    background: var(--tc-primary);
+    border-radius: inherit;
+}
+.tc-project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: .25rem .75rem;
+    font-size: .8rem;
+    color: var(--tc-text-muted);
+}
+.tc-project-status--active    { color: var(--tc-info);    background: var(--tc-info-soft);    border-color: transparent; }
+.tc-project-status--on_hold   { color: var(--tc-warning); background: var(--tc-warning-soft); border-color: transparent; }
+.tc-project-status--completed { color: var(--tc-success); background: var(--tc-success-soft); border-color: transparent; }

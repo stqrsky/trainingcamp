@@ -28,7 +28,7 @@ return [
             'route'  => 'tasks.index',
             'label'  => 'Tasks',
             'icon'   => 'checklist',
-            'active' => ['tasks.*'],
+            'active' => ['tasks.*', 'projects.*'],
         ],
         [
             'route'  => 'user.athletes',
