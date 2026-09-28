@@ -16,7 +16,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Only resolved when the assistant is enabled (see TeamAssistant::enabled())
+        $this->app->bind(\Anthropic\Client::class, fn () => new \Anthropic\Client(
+            apiKey: (string) config('services.anthropic.key'),
+        ));
     }
 
     /**
@@ -50,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'headerReminders' => $team ? app(\App\Services\Reminders::class)->for($user, $team) : null,
                 'headerCurrentTeam' => $team,
+                'headerAssistant' => $team && \App\Services\Assistant\TeamAssistant::enabled(),
                 'headerTeams' => $user ? $user->teams()->orderBy('name')->get(['id', 'name']) : collect(),
             ]);
         });

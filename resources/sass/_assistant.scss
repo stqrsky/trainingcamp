@@ -1,0 +1,114 @@
+// ============================================================
+//  Team assistant: chat exchanges, task drafts, example chips
+// ============================================================
+
+.tc-assistant-exchange {
+    margin-bottom: 1.25rem;
+    scroll-margin-top: 5rem;
+}
+.tc-assistant-question {
+    width: fit-content;
+    max-width: 85%;
+    margin: 0 0 .5rem auto;
+    padding: .55rem .85rem;
+    color: var(--tc-on-primary);
+    background: var(--tc-primary-soft);
+    border-radius: var(--tc-radius) var(--tc-radius) var(--tc-radius-sm) var(--tc-radius);
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+
+    [data-bs-theme="dark"] & { color: var(--tc-text); }
+}
+.tc-assistant-answer {
+    display: flex;
+    gap: .6rem;
+    padding: .75rem .9rem;
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-sm) var(--tc-radius) var(--tc-radius) var(--tc-radius);
+    box-shadow: var(--tc-shadow-sm);
+
+    .material-icons {
+        flex: 0 0 auto;
+        font-size: 20px;
+        color: var(--tc-primary-strong);
+    }
+    p {
+        min-width: 0;
+        margin: 0;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+}
+.tc-assistant-answer--failed {
+    background: var(--tc-warning-soft);
+    border-color: var(--tc-warning-border);
+
+    .material-icons { color: var(--tc-warning); }
+}
+.tc-assistant-drafts {
+    list-style: none;
+    margin: .5rem 0 0;
+    padding: 0;
+}
+.tc-assistant-draft {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: .4rem;
+    padding: .55rem .75rem;
+    background: var(--tc-surface-2);
+    border: 1px dashed var(--tc-border);
+    border-radius: var(--tc-radius-sm);
+
+    .btn { flex: 0 0 auto; }
+    .tc-task-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: .2rem;
+        flex: 0 0 auto;
+        color: var(--tc-success);
+        background: var(--tc-success-soft);
+        border-color: transparent;
+
+        .material-icons { font-size: 14px; }
+    }
+}
+.tc-assistant-draft-text {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+// Gold text keeps the button readable in both themes (btn-outline-dark vanishes on dark surfaces)
+.tc-assistant-review {
+    color: var(--tc-primary-strong);
+    font-weight: 600;
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+
+    &:hover,
+    &:focus-visible {
+        color: var(--tc-primary-strong);
+        background: var(--tc-primary-soft);
+        border-color: var(--tc-primary);
+    }
+    &:focus-visible { box-shadow: var(--tc-ring); }
+}
+.tc-assistant-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: 1rem;
+}
+.tc-chip {
+    padding: .35rem .8rem;
+    font-size: .85rem;
+    color: var(--tc-text);
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-pill);
+
+    &:hover { border-color: var(--tc-primary); }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+}
+.tc-assistant-form textarea { resize: vertical; }

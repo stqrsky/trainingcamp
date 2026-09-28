@@ -25,6 +25,15 @@ return [
         'timeout' => (int) env('N8N_WEBHOOK_TIMEOUT', 5),
     ],
 
+    /*
+    | Team assistant (Claude API). Off while ANTHROPIC_API_KEY is empty: the
+    | assistant is hidden and no team data leaves the server.
+    */
+    'anthropic' => [
+        'key' => env('ANTHROPIC_API_KEY'),
+        'model' => env('ANTHROPIC_MODEL', 'claude-opus-5'),
+    ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

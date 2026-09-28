@@ -13,9 +13,13 @@
         @enderror
         <form action="{{ route('tasks.store') }}" method="POST">
             @csrf
+            @if($draftId)
+            <input type="hidden" name="assistant_draft" value="{{ $draftId }}">
+            <p class="small text-muted">Drafted by the assistant. Check the details, then save to create the task.</p>
+            @endif
             @include('frontend.tasks.form')
             <button type="submit" class="btn create btn-outline-dark float-end">Save</button>
-            <a href="{{ route('tasks.index') }}" class="btn btn-warning btn-outline-dark float-end me-1">Cancel</a>
+            <a href="{{ $draftId ? route('assistant') . '#latest' : route('tasks.index') }}" class="btn btn-warning btn-outline-dark float-end me-1">Cancel</a>
         </form>
     </div>
 </div>

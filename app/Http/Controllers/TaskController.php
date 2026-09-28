@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
+use App\Services\Assistant\AssistantConversation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -60,7 +61,23 @@ class TaskController extends Controller
         $members = $this->assignableMembers();
         $projects = $this->projectOptions();
         $preselectedProject = $projects->firstWhere('id', (int) $request->query('project'))?->id;
-        return view('frontend.tasks.create', compact('members', 'projects', 'preselectedProject'));
+        $draft = $this->assistantDraft($request->query('draft'));
+        $prefill = $draft ? [
+            'title'       => $draft['title'],
+            'notes'       => $draft['notes'],
+            'due_date'    => $draft['due_date'] ? Carbon::parse($draft['due_date'])->format('d/m/Y') : null,
+            'priority'    => $draft['priority'],
+            // The member may have been deactivated since the draft was made
+            'assignee_id' => $members->contains('id', $draft['assignee_id']) ? $draft['assignee_id'] : null,
+        ] : [];
+        $draftId = $draft['id'] ?? null;
+        return view('frontend.tasks.create', compact(
+            'members',
+            'projects',
+            'preselectedProject',
+            'prefill',
+            'draftId'
+        ));
     }
 
     public function store(Request $request)
@@ -77,6 +94,12 @@ class TaskController extends Controller
         ]);
         $task->fill($this->attributesFromRequest($request));
         $task->moveTo($request->input('status', 'todo'));
+
+        // Created from an assistant draft: mark it and go back to the chat for the next one
+        if ($draft = $this->assistantDraft($request->input('assistant_draft'))) {
+            AssistantConversation::for($team)->markDraftCreated($draft['id'], $task->id);
+            return redirect()->to(route('assistant') . '#latest')->with('msg', "Task “{$task->title}” created.");
+        }
         return redirect()->route('tasks.index');
     }
 
@@ -128,6 +151,19 @@ class TaskController extends Controller
             ]);
         }
         return redirect()->back();
+    }
+
+    /**
+     * An assistant draft of the current team that has not been turned into a task yet.
+     */
+    private function assistantDraft($id): ?array
+    {
+        $team = $this->currentTeam();
+        if (!$team || !is_string($id) || !ctype_digit($id)) {
+            return null;
+        }
+        $draft = AssistantConversation::for($team)->draft((int) $id);
+        return $draft && !$draft['task_id'] ? $draft : null;
     }
 
     private function validateRequest(Request $request, ?Task $task = null)

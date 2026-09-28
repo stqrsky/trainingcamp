@@ -29,6 +29,7 @@ Training Camp is a graduation project built to make daily club coordination easi
 - [Useful routes](#useful-routes)
 - [Testing and code quality](#testing-and-code-quality)
 - [Automation](#automation)
+- [Team assistant (AI)](#team-assistant-ai)
 - [Styling and front-end workflow](#styling-and-front-end-workflow)
 - [Project structure](#project-structure)
 
@@ -40,6 +41,7 @@ Training Camp is a graduation project built to make daily club coordination easi
 - **Team management**: create your team, add coaches and athletes, manage roles and skills.
 - **Member profiles**: avatars, personal details, and team-based profile views.
 - **Notifications / dashboard**: quick overview of club activity and reminders.
+- **Team assistant (optional)**: ask questions about the active team in plain language; off until an Anthropic API key is set.
 
 ### Scheduling features
 
@@ -160,6 +162,7 @@ php artisan migrate --seed
 | Calendar month view | `/schedules/month` |
 | Planner view | `/schedules/planner` |
 | Tasks | `/tasks` |
+| Team assistant | `/assistant` |
 
 ## Testing and code quality
 
@@ -209,6 +212,28 @@ N8N_WEBHOOK_SECRET=a-long-random-string
 ```
 
 Each request is a JSON `POST` with the headers `X-Trainingcamp-Event` (e.g. `task.created`) and `X-Trainingcamp-Signature: sha256=<HMAC-SHA256 of the raw body with the secret>`. Verify the signature in the receiving workflow before acting on the data. The URL is set by the operator only, never through the UI.
+
+## Team assistant (AI)
+
+The assistant at `/assistant` answers questions about the active team ("What is overdue?", "Who should Anna spar with?", "How are our projects doing?") and turns meeting notes into task drafts. It uses the Claude API through the official Anthropic PHP SDK.
+
+It is **off by default**. As long as `ANTHROPIC_API_KEY` is empty, the page only shows a setup hint, the header and command palette hide it, and no data is sent anywhere. To turn it on, set in `.env`:
+
+```dotenv
+ANTHROPIC_API_KEY=sk-ant-...
+# optional, defaults to claude-opus-5
+ANTHROPIC_MODEL=claude-opus-5
+```
+
+What it can and cannot do:
+
+- **Read only, one team.** Claude looks data up through a fixed set of tools (tasks, sparrings, sparring partner suggestions, projects, members). Every lookup is limited to the active team. Contact details, birth dates, weight, height and profile texts are never sent.
+- **Drafts, not writes.** Tasks proposed from meeting notes appear as drafts under the answer. **Review** opens the normal task form pre-filled; nothing is created until you save it there.
+- **What leaves the server:** your question, the last few questions and answers of the chat (for follow-ups) and the tool results for the active team go to Anthropic's API.
+- **Limits:** 10 questions per minute per account, at most 6 lookups per question. The chat lives in the session and can be cleared with **Clear chat**.
+- Requests use adaptive thinking, prompt caching and server-side fallbacks (`fallbacks: "default"`, beta `server-side-fallback-2026-07-01`): if the model declines a request, Anthropic retries it on its recommended fallback model.
+
+The tests never call the real API: `tests/Fakes/FakeClaudeTransport.php` plugs a fake HTTP transport into the SDK and records every request.
 
 ## Styling and front-end workflow
 

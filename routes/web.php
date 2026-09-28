@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:web');
 Route::get('search', 'SearchController')->name('search')->middleware(['auth:web', 'throttle:60,1']);
 Route::get('activity', 'ActivityController@index')->name('activity')->middleware('auth:web');
+Route::get('assistant', 'AssistantController@index')->name('assistant')->middleware('auth:web');
+Route::post('assistant', 'AssistantController@ask')->name('assistant.ask')->middleware(['auth:web', 'throttle:10,1']);
+Route::delete('assistant', 'AssistantController@clear')->name('assistant.clear')->middleware('auth:web');
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/login', 'UserController@login')->name('login');

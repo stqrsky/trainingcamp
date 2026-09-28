@@ -7,6 +7,11 @@
             aria-label="Search and commands (Ctrl+K)" title="Search (⌘K / Ctrl+K)">
         <span class="material-icons" aria-hidden="true">search</span>
     </button>
+    @if($headerAssistant)
+    <a href="{{ route('assistant') }}" class="tc-theme-toggle d-none d-sm-inline-flex" aria-label="Assistant" title="Assistant">
+        <span class="material-icons" aria-hidden="true">auto_awesome</span>
+    </a>
+    @endif
     @if($headerReminders)
     @php $reminderCount = $headerReminders['count']; @endphp
     <div class="dropdown tc-reminders">

@@ -34,6 +34,10 @@ class CommandPaletteComposer
             $command('New team', route('teams.create'), 'group_add', 'create'),
         ]);
 
+        if (\App\Services\Assistant\TeamAssistant::enabled()) {
+            $commands->push($command('Ask the assistant', route('assistant'), 'auto_awesome', 'ai claude question'));
+        }
+
         if ($user) {
             $currentId = $user->currentTeam()?->id;
             $user->teams()->orderBy('name')->get(['id', 'name'])

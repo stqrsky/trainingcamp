@@ -3,7 +3,7 @@
     <label for="task-title" class="col-form-label fw-600">Title</label>
     <input type="text" class="form-control @error('title') is-invalid @enderror"
            name="title" id="task-title" placeholder="Task title…"
-           value="{{ isset($task) ? $task->title : old('title') }}" required>
+           value="{{ isset($task) ? $task->title : old('title', $prefill['title'] ?? '') }}" required>
     @error('title')<div class="invalid-feedback">{{ $message }}</div>@enderror
 </div>
 
@@ -13,7 +13,7 @@
         <label for="due_date">Due Date</label>
         <input type="text" class="form-control" name="due_date" id="due_date"
                placeholder="DD/MM/YYYY"
-               value="{{ isset($task) ? $task->due_date_format : old('due_date') }}">
+               value="{{ isset($task) ? $task->due_date_format : old('due_date', $prefill['due_date'] ?? '') }}">
     </div>
     <div class="form-group flex-fill">
         <label for="due_time">Time <span class="text-muted small">(opt.)</span></label>
@@ -49,7 +49,7 @@
     </div>
     <div class="form-group flex-fill">
         <label for="assignee_id">Assignee <span class="text-muted small">(optional)</span></label>
-        @php $currentAssignee = (string) old('assignee_id', isset($task) ? $task->assignee_id : ''); @endphp
+        @php $currentAssignee = (string) old('assignee_id', isset($task) ? $task->assignee_id : ($prefill['assignee_id'] ?? '')); @endphp
         <select class="form-select @error('assignee_id') is-invalid @enderror" name="assignee_id" id="assignee_id">
             <option value="">Unassigned</option>
             @foreach($members as $member)
@@ -82,7 +82,7 @@
 {{-- Priority --}}
 <fieldset class="form-group mb-3">
     <legend class="col-form-label fs-6 pt-0">Priority</legend>
-    @php $currentPriority = old('priority', isset($task) ? $task->priority : 'medium'); @endphp
+    @php $currentPriority = old('priority', isset($task) ? $task->priority : ($prefill['priority'] ?? 'medium')); @endphp
     <div class="d-flex flex-wrap gap-3">
         @foreach(\App\Models\Task::PRIORITIES as $key => $label)
         <label class="d-flex align-items-center gap-1">
@@ -98,5 +98,5 @@
 <div class="form-group mb-3">
     <label for="notes">Notes <span class="text-muted small">(optional)</span></label>
     <textarea class="form-control" name="notes" id="notes" rows="3"
-              placeholder="Additional details…">{{ isset($task) ? $task->notes : old('notes') }}</textarea>
+              placeholder="Additional details…">{{ isset($task) ? $task->notes : old('notes', $prefill['notes'] ?? '') }}</textarea>
 </div>
