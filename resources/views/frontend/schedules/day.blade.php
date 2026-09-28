@@ -62,9 +62,10 @@
                 $ht  = max(32, ($eh - $sh) * $pxPerHour + intdiv(($em - $sm) * $pxPerHour, 60));
             @endphp
             <a href="{{ route('schedules.edit', $ev->id) }}"
-               class="tc-day-event text-decoration-none"
+               class="tc-day-event text-decoration-none {{ $ev->isCancelled() ? 'is-cancelled' : '' }}"
                style="top:{{ $top }}px;height:{{ $ht }}px;background:{{ $ev->colorBg }};border-color:{{ $ev->colorHex }};color:{{ $ev->colorHex }}">
                 <strong>{{ $ev->title ?: 'Sparring' }}</strong>
+                @if($ev->status !== 'planned')<span class="tc-status tc-status--{{ $ev->status }}">{{ $ev->status_label }}</span>@endif
                 <small class="d-block">{{ $ev->start }} – {{ $ev->end }}</small>
                 @if($ev->location)
                 <small class="d-block text-muted">

@@ -21,7 +21,7 @@ class ScheduleFactory extends Factory
             'start'   => '09:00',
             'end'     => '10:00',
             'color'   => 'blue',
-            'status'  => 1,
+            'status'  => 'planned',
         ];
     }
 }

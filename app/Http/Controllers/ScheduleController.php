@@ -58,6 +58,9 @@ class ScheduleController extends Controller
             'color'          => 'nullable|in:' . implode(',', self::COLORS),
             'video_type'     => 'nullable|in:' . implode(',', self::VIDEO_TYPES),
             'video_url'      => 'nullable|url|max:512',
+            'status'         => ['nullable', Rule::in(array_keys(Schedule::STATUSES))],
+            'goal'           => 'nullable|string|max:2000',
+            'result'         => 'nullable|string|max:5000',
         ]);
     }
 
@@ -95,13 +98,15 @@ class ScheduleController extends Controller
                 'title'      => $request->input('title') ?: null,
                 'location'   => $request->input('location') ?: null,
                 'notes'      => $request->input('notes') ?: null,
+                'goal'       => $request->input('goal') ?: null,
+                'result'     => $request->input('result') ?: null,
                 'video_url'  => $request->input('video_url') ?: null,
                 'video_type' => $request->input('video_type') ?: null,
                 'color'      => $request->input('color', 'blue'),
                 'date'       => $date,
                 'start'      => $request->input('start'),
                 'end'        => $request->input('end'),
-                'status'     => 1,
+                'status'     => $request->input('status') ?: 'planned',
             ]);
             $schedule->participants()->attach([
                 $request->input('first_athlete'),
@@ -114,7 +119,7 @@ class ScheduleController extends Controller
                 ->withInput();
         }
         DB::commit();
-        return redirect()->route('schedules.index');
+        return redirect()->route('schedules.index', ['date' => $request->input('date')]);
     }
 
     public function edit($schedule)
@@ -149,13 +154,15 @@ class ScheduleController extends Controller
                 'title'      => $request->input('title') ?: null,
                 'location'   => $request->input('location') ?: null,
                 'notes'      => $request->input('notes') ?: null,
+                'goal'       => $request->input('goal') ?: null,
+                'result'     => $request->input('result') ?: null,
                 'video_url'  => $request->input('video_url') ?: null,
                 'video_type' => $request->input('video_type') ?: null,
                 'color'      => $request->input('color', 'blue'),
                 'date'       => $date,
                 'start'      => $request->input('start'),
                 'end'        => $request->input('end'),
-                'status'     => 1,
+                'status'     => $request->input('status') ?: $schedule->status,
             ]);
             $parcicipant = [
                 $request->input('first_athlete'),
@@ -170,7 +177,24 @@ class ScheduleController extends Controller
                 ->withInput();
         }
         DB::commit();
-        return redirect()->route('schedules.index');
+        return redirect()->route('schedules.index', ['date' => $request->input('date')]);
+    }
+
+    /**
+     * Quick status change from the schedule list (confirm, start, complete, cancel).
+     */
+    public function updateStatus(Request $request, $schedule)
+    {
+        $team = $this->currentTeam();
+        $schedule = $team ? $team->schedules()->where('id', $schedule)->first() : null;
+        if (!$schedule) {
+            abort(404);
+        }
+        $this->validate($request, [
+            'status' => ['required', Rule::in(array_keys(Schedule::STATUSES))],
+        ]);
+        $schedule->update(['status' => $request->input('status')]);
+        return redirect()->back();
     }
 
     public function destroy($schedule)
@@ -193,7 +217,10 @@ class ScheduleController extends Controller
         $schedulesByDate = [];
         if ($team) {
             $schedulesByDate = $team->schedules()
-                ->whereBetween('date', [$date->copy()->startOfMonth(), $date->copy()->endOfMonth()])
+                ->whereBetween('date', [
+                    $date->copy()->startOfMonth()->toDateString(),
+                    $date->copy()->endOfMonth()->toDateString(),
+                ])
                 ->with(['participants'])->orderBy('start')->get()->groupBy('date');
         }
         $calStart = $date->copy()->startOfMonth()->startOfWeek(Carbon::MONDAY);
@@ -213,7 +240,7 @@ class ScheduleController extends Controller
         $schedulesByDate = [];
         if ($team) {
             $schedulesByDate = $team->schedules()
-                ->whereBetween('date', [$date, $weekEnd])
+                ->whereBetween('date', [$date->toDateString(), $weekEnd->toDateString()])
                 ->with(['participants'])->orderBy('start')->get()->groupBy('date');
         }
         $days = [];

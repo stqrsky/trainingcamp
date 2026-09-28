@@ -60,6 +60,7 @@ Route::get('schedules/planner', 'ScheduleController@planner')->name('schedules.p
 Route::get('schedules/agenda',  'ScheduleController@agenda')->name('schedules.agenda')->middleware('auth:web');
 
 Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
+Route::patch('schedules/{schedule}/status', 'ScheduleController@updateStatus')->name('schedules.status')->middleware('auth:web');
 
 Route::resource('tasks', 'TaskController')->middleware('auth:web');
 Route::post('tasks/{task}/toggle', 'TaskController@toggle')->name('tasks.toggle')->middleware('auth:web');

@@ -81,7 +81,7 @@
                     $top = ($sh - $gridStart) * $pxPerHour + intdiv((int)$sm * $pxPerHour, 60);
                     $ht  = max(28, ($eh - $sh) * $pxPerHour + intdiv(($em - $sm) * $pxPerHour, 60));
                 @endphp
-                <a href="{{ route('schedules.edit', $ev->id) }}" class="tc-event-block text-decoration-none"
+                <a href="{{ route('schedules.edit', $ev->id) }}" class="tc-event-block text-decoration-none {{ $ev->isCancelled() ? 'is-cancelled' : '' }}"
                    style="top:{{ $top }}px;height:{{ $ht }}px;background:{{ $ev->colorBg }};border-color:{{ $ev->colorHex }};color:{{ $ev->colorHex }}">
                     <strong class="d-block" style="font-size:11px">{{ $ev->title ?: 'Sparring' }}</strong>
                     <span style="font-size:10px">{{ $ev->start }}–{{ $ev->end }}</span>

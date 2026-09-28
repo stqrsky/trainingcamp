@@ -45,8 +45,9 @@
                 <div class="tc-month-day-num {{ $isToday ? 'tc-today-num' : '' }}">{{ $cursor->day }}</div>
                 @foreach($dayEvts->take(3) as $ev)
                 <a href="{{ route('schedules.day', ['date' => $cursor->format('d/m/Y')]) }}"
-                   class="tc-month-event d-block text-decoration-none"
-                   style="background:{{ $ev->colorBg }};color:{{ $ev->colorHex }}">
+                   class="tc-month-event d-block text-decoration-none {{ $ev->isCancelled() ? 'is-cancelled' : '' }}"
+                   style="background:{{ $ev->colorBg }};color:{{ $ev->colorHex }}"
+                   @if($ev->isCancelled()) title="Cancelled" @endif>
                     {{ $ev->title ?: $ev->start }}
                 </a>
                 @endforeach

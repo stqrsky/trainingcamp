@@ -160,7 +160,10 @@ Umgesetzt auf Branch `feat/p1-2-tasks-kanban`: Status backlog/todo/in_progress/r
 - **Dateien:** Migration, `Task.php`, `TaskController`, `frontend/tasks/*`, `_calendar_tasks.scss`, `TaskTest`.
 - **Abhängigkeit:** Assignee braucht P0-2.
 
-### P1-3 Sparring ausbauen
+### P1-3 Sparring ausbauen ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-3-sparring`, angepasst an die Entscheidung ohne Mitglieder-Logins (kein RSVP, der Manager setzt den Status): Status planned/confirmed/in_progress/completed/cancelled (Migration: vergangene Termine werden `completed`, übrige `planned`, Rollback getestet), Felder `goal` und `result`, Status-Wechsel direkt im Aktionsmenü der Liste (`PATCH /schedules/{id}/status`). Liste zeigt Status, Ziel und Ergebnis; abgesagte Sparrings bleiben im Kalender sichtbar (durchgestrichen, blass), fallen aber aus Dashboard-Kennzahl und "Upcoming". Nach dem Speichern landet man auf dem Tag des Sparrings. Nebenbei gefixt: Monats- und Wochenansicht zeigten unter SQLite keine Sparrings am Monatsersten bzw. am Montag. Tests: 83 grün.
+
 
 - **Aktuell:** fest 2 Teilnehmer, `status` immer 1, kein RSVP.
 - **Ziel:** Status geplant/bestätigt/läuft/abgeschlossen/abgesagt. Felder `goal` und `result`. Im Pivot `schedule_participant` zusätzlich `rsvp_status` und `responded_at`. Bestätigen/Ablehnen für Teilnehmer. Bei Termin- oder Zeitänderung wird das RSVP zurückgesetzt (später mit Notification).

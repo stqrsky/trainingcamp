@@ -55,7 +55,7 @@ class ScheduleTest extends TestCase
     {
         $response = $this->post(route('schedules.store'), $this->payload(['title' => 'Friday sparring']));
 
-        $response->assertRedirect(route('schedules.index'));
+        $response->assertRedirect(route('schedules.index', ['date' => now()->format('d/m/Y')]));
         $schedule = Schedule::where('title', 'Friday sparring')->firstOrFail();
         $this->assertEquals($this->team->id, $schedule->team_id);
         $this->assertCount(2, $schedule->participants);

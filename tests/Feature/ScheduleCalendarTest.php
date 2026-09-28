@@ -56,4 +56,18 @@ class ScheduleCalendarTest extends TestCase
         $response->assertStatus(200);
         $response->assertViewIs('frontend.schedules.planner');
     }
+
+    public function test_sparring_on_first_day_of_month_is_shown_in_month_view()
+    {
+        Schedule::factory()->create(['team_id' => $this->team->id, 'title' => 'First of October', 'date' => '2026-10-01']);
+
+        $this->get(route('schedules.month', ['month' => '2026-10']))->assertSee('First of October');
+    }
+
+    public function test_sparring_on_monday_is_shown_in_week_view()
+    {
+        Schedule::factory()->create(['team_id' => $this->team->id, 'title' => 'Monday session', 'date' => '2026-09-28']);
+
+        $this->get(route('schedules.week', ['week' => '2026-09-30']))->assertSee('Monday session');
+    }
 }

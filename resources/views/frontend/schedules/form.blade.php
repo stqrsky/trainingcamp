@@ -56,6 +56,30 @@
     </div>
 </div>
 
+{{-- Status --}}
+<div class="form-group row mb-3">
+    <label for="status" class="col-sm-12 col-form-label">Status</label>
+    <div class="col-sm-12">
+        @php $currentStatus = old('status', isset($schedule) ? $schedule->status : 'planned'); @endphp
+        <select name="status" id="status" class="form-select @error('status') is-invalid @enderror">
+            @foreach(\App\Models\Schedule::STATUSES as $key => $label)
+            <option value="{{ $key }}" @selected($currentStatus === $key)>{{ $label }}</option>
+            @endforeach
+        </select>
+        @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+</div>
+
+{{-- Goal --}}
+<div class="form-group row mb-3">
+    <label for="goal" class="col-sm-12 col-form-label">Goal <span class="text-muted small">(optional)</span></label>
+    <div class="col-sm-12">
+        <textarea class="form-control @error('goal') is-invalid @enderror" name="goal" id="goal" rows="2"
+                  placeholder="e.g. Work on the jab and footwork">{{ old('goal', isset($schedule) ? $schedule->goal : '') }}</textarea>
+        @error('goal')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+</div>
+
 {{-- Location --}}
 <div class="form-group row mb-3">
     <label for="location" class="col-sm-12 col-form-label">Location <span class="text-muted small">(optional)</span></label>
@@ -118,6 +142,16 @@
     <textarea class="form-control" name="notes" id="notes" rows="3"
               placeholder="Additional details…">{{ isset($schedule) ? $schedule->notes : old('notes') }}</textarea>
 </div>
+
+{{-- Result (after the session) --}}
+@isset($schedule)
+<div class="form-group mb-3">
+    <label for="result" class="col-form-label">Result <span class="text-muted small">(after the session)</span></label>
+    <textarea class="form-control @error('result') is-invalid @enderror" name="result" id="result" rows="3"
+              placeholder="How did it go? What should be trained next?">{{ old('result', $schedule->result) }}</textarea>
+    @error('result')<div class="invalid-feedback">{{ $message }}</div>@enderror
+</div>
+@endisset
 
 <script>
 (function () {

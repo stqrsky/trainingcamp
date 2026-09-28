@@ -586,3 +586,51 @@
         color: var(--tc-text-muted);
     }
 }
+
+/* --- Sparring status --- */
+.tc-status {
+    display: inline-flex;
+    align-items: center;
+    padding: .05rem .45rem;
+    font-size: .68rem;
+    font-weight: 700;
+    border-radius: var(--tc-radius-pill);
+    color: var(--tc-text-muted);
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
+    vertical-align: middle;
+}
+.tc-status--confirmed   { color: var(--tc-info);    background: var(--tc-info-soft);    border-color: transparent; }
+.tc-status--in_progress { color: var(--tc-warning); background: var(--tc-warning-soft); border-color: transparent; }
+.tc-status--completed   { color: var(--tc-success); background: var(--tc-success-soft); border-color: transparent; }
+.tc-status--cancelled   { color: var(--tc-danger);  background: var(--tc-danger-soft);  border-color: transparent; }
+
+// Cancelled sessions stay visible for reference but fade into the background
+.tc-slot.is-cancelled .tc-slot-title,
+.tc-month-event.is-cancelled,
+.tc-event-block.is-cancelled,
+.tc-day-event.is-cancelled,
+.tc-upcoming.is-cancelled strong {
+    text-decoration: line-through;
+}
+.tc-slot.is-cancelled,
+.tc-month-event.is-cancelled,
+.tc-event-block.is-cancelled,
+.tc-day-event.is-cancelled,
+.tc-upcoming.is-cancelled { opacity: .55; }
+
+.tc-slot-notes {
+    font-size: .85rem;
+
+    dt {
+        font-size: .7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        color: var(--tc-text-muted);
+    }
+    dd {
+        margin-bottom: .4rem;
+        white-space: pre-line;
+    }
+}

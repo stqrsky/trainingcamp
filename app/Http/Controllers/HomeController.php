@@ -53,7 +53,7 @@ class HomeController extends Controller
             'open'     => (clone $open)->count(),
             'overdue'  => (clone $open)->whereNotNull('due_date')->whereDate('due_date', '<', Carbon::today())->count(),
             'mine'     => (clone $open)->where('assignee_id', Auth::id())->count(),
-            'sparrings_this_week' => Schedule::where('team_id', $team->id)
+            'sparrings_this_week' => Schedule::where('team_id', $team->id)->active()
                 ->whereBetween('date', [
                     Carbon::now()->startOfWeek(Carbon::MONDAY)->toDateString(),
                     Carbon::now()->endOfWeek(Carbon::SUNDAY)->toDateString(),
@@ -76,7 +76,8 @@ class HomeController extends Controller
     private function upcomingSparrings($team)
     {
         $now = Carbon::now();
-        return Schedule::with('participants')->where('team_id', $team->id)
+        return Schedule::with('participants')->where('team_id', $team->id)->active()
+            ->where('status', '!=', 'completed')
             ->where(function ($query) use ($now) {
                 $query->whereDate('date', '>', $now->toDateString())
                     ->orWhere(function ($today) use ($now) {

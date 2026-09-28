@@ -10,6 +10,14 @@ class Schedule extends Model
 {
     use HasFactory;
 
+    public const STATUSES = [
+        'planned'     => 'Planned',
+        'confirmed'   => 'Confirmed',
+        'in_progress' => 'In Progress',
+        'completed'   => 'Completed',
+        'cancelled'   => 'Cancelled',
+    ];
+
     protected $table = 'schedules';
 
     protected $guarded = ['id'];
@@ -20,6 +28,21 @@ class Schedule extends Model
             \App\Models\User::class,
             'schedule_participant'
         );
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', '!=', 'cancelled');
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status === 'cancelled';
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::STATUSES[$this->status] ?? ucfirst((string) $this->status);
     }
 
     public function getStartAttribute($start)

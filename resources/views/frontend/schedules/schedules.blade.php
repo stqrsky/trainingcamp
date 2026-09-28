@@ -46,16 +46,17 @@
         @php
             $names = $schedule->participants->pluck('full_name')->implode(' ');
         @endphp
-        <div class="card schedule mb-3 tc-slot" data-names="{{ \Illuminate\Support\Str::lower($names) }}"
+        <div class="card schedule mb-3 tc-slot {{ $schedule->isCancelled() ? 'is-cancelled' : '' }}" data-names="{{ \Illuminate\Support\Str::lower($names) }}"
              style="border-left: 4px solid {{ $schedule->colorHex }}">
             <div class="toast-header time d-flex align-items-center justify-content-between">
                 <div>
                     @if($schedule->title)
-                    <strong class="d-block">{{ $schedule->title }}</strong>
+                    <strong class="d-block tc-slot-title">{{ $schedule->title }}</strong>
                     <small class="text-muted">{{ $schedule->startEndTime }}</small>
                     @else
-                    <strong>{{ $schedule->startEndTime }}</strong>
+                    <strong class="tc-slot-title">{{ $schedule->startEndTime }}</strong>
                     @endif
+                    <span class="tc-status tc-status--{{ $schedule->status }} mt-1">{{ $schedule->status_label }}</span>
                 </div>
                 <div class="d-flex align-items-center">
                     <a href="{{ route('schedules.edit', ['schedule' => $schedule->id]) }}"
@@ -69,6 +70,17 @@
                         </button>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown{{$schedule->id}}">
                             <a class="dropdown-item" href="{{ route('schedules.edit', ['schedule' => $schedule->id]) }}">Reschedule</a>
+                            <h6 class="dropdown-header">Set status</h6>
+                            @foreach(\App\Models\Schedule::STATUSES as $statusKey => $statusLabel)
+                            @continue($statusKey === $schedule->status)
+                            <form action="{{ route('schedules.status', ['schedule' => $schedule->id]) }}" method="POST" data-no-spinner>
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="status" value="{{ $statusKey }}">
+                                <button type="submit" class="dropdown-item">{{ $statusLabel }}</button>
+                            </form>
+                            @endforeach
+                            <div class="dropdown-divider"></div>
                             <form action="{{ route('schedules.destroy', ['schedule' => $schedule->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
@@ -104,6 +116,18 @@
                 </div>
                 @endforeach
             </div>
+            @if($schedule->goal || $schedule->result)
+            <dl class="tc-slot-notes px-3 mb-2">
+                @if($schedule->goal)
+                <dt>Goal</dt>
+                <dd>{{ $schedule->goal }}</dd>
+                @endif
+                @if($schedule->result)
+                <dt>Result</dt>
+                <dd>{{ $schedule->result }}</dd>
+                @endif
+            </dl>
+            @endif
             @if($schedule->location || $schedule->video_url)
             <div class="px-3 pb-2 d-flex flex-wrap gap-2">
                 @if($schedule->location)

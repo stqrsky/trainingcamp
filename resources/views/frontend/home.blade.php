@@ -91,7 +91,10 @@
                         <span class="tc-upcoming-day">{{ $sparringDate->format('j') }}</span>
                     </span>
                     <span class="tc-upcoming-body">
-                        <strong class="text-truncate">{{ $sparring->title ?: 'Sparring' }}</strong>
+                        <strong class="text-truncate">
+                            {{ $sparring->title ?: 'Sparring' }}
+                            @if($sparring->status === 'confirmed')<span class="tc-status tc-status--confirmed">Confirmed</span>@endif
+                        </strong>
                         <span class="tc-upcoming-meta">
                             <span class="visually-hidden">{{ $sparringDate->format('l, j F') }},</span>
                             {{ $sparring->start }}–{{ $sparring->end }}

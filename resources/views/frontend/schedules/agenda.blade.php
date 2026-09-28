@@ -45,11 +45,14 @@
             @foreach($entries as $entry)
                 @if($entry['type'] === 'sparring')
                 @php $sparring = $entry['item']; @endphp
-                <a href="{{ route('schedules.edit', $sparring) }}" class="tc-upcoming"
+                <a href="{{ route('schedules.edit', $sparring) }}" class="tc-upcoming {{ $sparring->isCancelled() ? 'is-cancelled' : '' }}"
                    style="--tc-upcoming-accent: {{ $sparring->color_hex }}">
                     <span class="tc-agenda-time">{{ $sparring->start }}<small>{{ $sparring->end }}</small></span>
                     <span class="tc-upcoming-body">
-                        <strong class="text-truncate">{{ $sparring->title ?: 'Sparring' }}</strong>
+                        <strong class="text-truncate">
+                            {{ $sparring->title ?: 'Sparring' }}
+                            @if($sparring->status !== 'planned')<span class="tc-status tc-status--{{ $sparring->status }}">{{ $sparring->status_label }}</span>@endif
+                        </strong>
                         <span class="tc-upcoming-meta">
                             {{ $sparring->participants->pluck('full_name')->implode(' vs ') ?: 'No participants' }}
                             @if($sparring->location) · {{ $sparring->location }}@endif
