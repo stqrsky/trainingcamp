@@ -14,8 +14,8 @@
         <form action="{{ route('tasks.store') }}" method="POST">
             @csrf
             @include('frontend.tasks.form')
-            <button type="submit" class="btn create btn-outline-dark float-right">Save</button>
-            <a href="{{ route('tasks.index') }}" class="btn btn-warning btn-outline-dark float-right me-1">Cancel</a>
+            <button type="submit" class="btn create btn-outline-dark float-end">Save</button>
+            <a href="{{ route('tasks.index') }}" class="btn btn-warning btn-outline-dark float-end me-1">Cancel</a>
         </form>
     </div>
 </div>

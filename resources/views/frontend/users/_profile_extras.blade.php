@@ -23,7 +23,7 @@
             <option value="{{ $key }}" @selected($currentExperience === $key)>{{ $label }}</option>
             @endforeach
         </select>
-        @error('experience_level')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('experience_level')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 

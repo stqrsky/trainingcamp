@@ -181,7 +181,7 @@
             $('#date').val(moment().format('DD/MM/YYYY'))
             document.getElementById('date-form').submit()
         })
-    })
+    });
 
     // Instant client-side filter of the day's sparring slots by athlete name
     (function () {

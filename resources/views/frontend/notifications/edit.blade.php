@@ -16,7 +16,7 @@
                         @csrf
                         @method('PUT')
                         @include('frontend.notifications.form')
-                        <button type="submit" class="btn edit btn-outline-dark float-right">Update</button>
+                        <button type="submit" class="btn edit btn-outline-dark float-end">Update</button>
                     </form>
 
                 </div>

@@ -17,7 +17,7 @@
             <form method="POST" action="{{ route('user.athletes.post') }}" enctype="multipart/form-data">
                 @csrf
                 @include('frontend.athletes.form')
-                <button type="submit" class="btn create float-right">Create</button>
+                <button type="submit" class="btn create float-end">Create</button>
             </form>
 
         </div>

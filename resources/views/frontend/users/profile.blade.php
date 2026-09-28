@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="toast-body about">
-                    <h4 class="card-title font-weight-bold mb-2 andreas">Coach</h4>
+                    <h4 class="card-title fw-bold mb-2 andreas">Coach</h4>
                     {!! nl2br(e($user->userDetail?->about)) !!}
                 </div>
                 <div class="toast-body d-flex justify-content-between">

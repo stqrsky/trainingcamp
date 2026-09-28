@@ -11,7 +11,7 @@
         </label>
         <p id="filename"></p>
 
-        @error('file')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('file')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 @if(!isset($edit))
@@ -31,49 +31,49 @@
     <label for="email" class="col-sm-12 col-form-label">Email <span class="text-muted small">(optional)</span></label>
     <div class="col-sm-12">
         <input type="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="Email" name="email" value="{{ isset($user) ? $user->email : old('email') }}">
-        @error('email')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('email')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="first_name" class="col-sm-12 col-form-label">First Name</label>
     <div class="col-sm-12">
         <input type="text" class="@error('first_name') is-invalid @enderror form-control" id="first_name" placeholder="First Name" name="first_name" value="{{ isset($user) ? $user->first_name : old('first_name') }}">
-        @error('first_name')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('first_name')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="last_name" class="col-sm-12 col-form-label">Last Name</label>
     <div class="col-sm-12">
         <input type="text" class="form-control @error('last_name') is-invalid @enderror" id="last_name" placeholder="Last Name" name="last_name" value="{{ isset($user) ? $user->last_name : old('last_name') }}">
-        @error('last_name')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('last_name')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="nick_name" class="col-sm-12 col-form-label">Nick Name</label>
     <div class="col-sm-12">
         <input type="text" class="form-control @error('nick_name') is-invalid @enderror" id="nick_name" placeholder="Nick Name" name="nick_name" value="{{ isset($detail) ? $detail->nick_name : old('nick_name') }}">
-        @error('nick_name')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('nick_name')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="date_of_birth" class="col-sm-12 col-form-label">Date of Birth</label>
     <div class="col-sm-12">
         <input type="text" class="form-control @error('date_of_birth') is-invalid @enderror" id="date_of_birth" placeholder="Date Of Birth" name="date_of_birth" value="{{ isset($detail) ? $detail->format_date_of_birth : old('date_of_birth') }}">
-        @error('date_of_birth')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('date_of_birth')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="weight" class="col-sm-12 col-form-label">Weight</label>
     <div class="col-sm-12">
         <input type="number" class="form-control @error('weight') is-invalid @enderror" id="weight" placeholder="Weight" name="weight" value="{{ isset($detail) ? $detail->weight : old('weight') }}">
-        @error('weight')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('weight')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 <div class="form-group row">
     <label for="height" class="col-sm-12 col-form-label">Height</label>
     <div class="col-sm-12">
         <input type="number" class="form-control @error('height') is-invalid @enderror" id="height" placeholder="Height" name="height" value="{{ isset($detail) ? $detail->height : old('height') }}">
-        @error('height')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('height')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>
 @include('frontend.users._profile_extras', ['profileUser' => $user ?? null])
@@ -81,6 +81,6 @@
     <label for="about" class="col-sm-12 col-form-label">About</label>
     <div class="col-sm-12">
         <textarea class="form-control @error('about') is-invalid @enderror" id="about" name="about" rows="8" cols="80">{{ isset($detail) ? $detail->about : old('about') }}</textarea>
-        @error('about')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
+        @error('about')<div class="invalid-feedback float-start">{{ $message }}</div>@enderror
     </div>
 </div>

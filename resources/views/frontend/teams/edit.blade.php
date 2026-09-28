@@ -16,7 +16,7 @@
                         @csrf
                         @method('PUT')
                         @include('frontend.teams.form')
-                        <button type="submit" class="btn create btn-outline-dark float-right">Save</button>
+                        <button type="submit" class="btn create btn-outline-dark float-end">Save</button>
                     </form>
                 </div>
             </div>

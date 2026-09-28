@@ -42,4 +42,23 @@ class LayoutTest extends TestCase
 
         $this->assertMatchesRegularExpression('/href="[^"]*\/user\/athletes" class="active"\s+aria-current="page"/', $html);
     }
+
+    public function test_bootstrap_css_is_served_once_from_the_compiled_app_stylesheet()
+    {
+        $this->get(route('home'))
+            ->assertSee('css/app.css', false)
+            ->assertDontSee('bootstrap.min.css', false);
+    }
+
+    public function test_views_use_no_bootstrap_4_only_classes()
+    {
+        $legacy = '/class="[^"]*\\b(float-right|float-left|font-weight-bold|font-italic|ml-\\d|mr-\\d|pl-\\d|pr-\\d|'
+            . 'badge-(primary|secondary|success|danger|warning|info)|custom-select|sr-only|btn-block|form-row|no-gutters)\\b/';
+        $offenders = collect(\Illuminate\Support\Facades\File::allFiles(resource_path('views')))
+            ->filter(fn ($file) => preg_match($legacy, $file->getContents()))
+            ->map(fn ($file) => $file->getRelativePathname())
+            ->values()->all();
+
+        $this->assertSame([], $offenders);
+    }
 }

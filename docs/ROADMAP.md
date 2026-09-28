@@ -142,9 +142,12 @@ Ohne Mitglieder-Logins reichen Ownership-Checks über `currentTeam()`. Eine Poli
 
 ## P1
 
-### P1-1 Asset-Pipeline aufräumen ◐ teilweise erledigt 2026-09-28
+### P1-1 Asset-Pipeline aufräumen ✅ erledigt 2026-09-28
 
-Befund: Kein reines Duplikat. `package-lock.json` pinnt Bootstrap 4.4.1 (obwohl `package.json` `^5.3.0` sagt), `app.css` enthält also BS4, das CDN liefert BS5. Die Views nutzen beide Versionen (BS4: `float-right/left` 45×, `form-group` 53×, `.close` 17×, `font-italic`; BS5: `form-select`, `visually-hidden`, `data-bs-*`, Dark Mode). Erledigt: das ungenutzte Mix-Bundle `js/app.js` (728 KB, axios, lodash, BS4-JS) wird nicht mehr geladen. Offen als eigener Schritt: Migration auf reines Bootstrap 5 (Lockfile auf 5.3, BS4-Klassen in den Views ersetzen, `.close` als eigene Komponente, CDN-CSS entfernen, visuelle Prüfung aller Seiten).
+Abschluss auf Branch `chore/bootstrap-5`: Bootstrap 5.3.3 im Lockfile, `app.css` wird mit Bootstrap 5 gebaut, das CDN-Stylesheet entfällt (vorher ca. 185 KB `app.css` plus 227 KB CDN, jetzt 264 KB in einer Datei). BS4-Klassen ersetzt (`float-right/left` → `float-end/start`, `font-weight-bold` → `fw-bold`); `.close`, `.form-group`, `.card-body`/`.toast-*` ohne Wrapper und Label-Abstände als explizite App-Regeln; Variablen für 30px Gutter, feste Überschriftengrößen, `.small` 80 %, Links nur beim Hover unterstrichen, `$dark` wie zuvor. Geprüft per automatischem Vergleich alt gegen neu (Größen und berechnete Styles aller Elemente) auf 19 Seiten plus Login/Signup, Handy und Desktop, Light und Dark: deckungsgleich bis auf bewusst übernommene Verbesserungen (kontrastreicheres `text-muted`, Dark-Mode-Linkfarbe, `.close` ohne 50 % Deckkraft, Orts-Icon-Feld mit Tokens). Nebenbei gefixt: Namensfilter der Sparring-Liste lief wegen eines fehlenden Semikolons nie; Datei-Feld im Ankündigungsformular erzeugte seitliches Scrollen. Regressionstests für CDN-freies Layout und BS4-freie Views.
+
+Ursprünglicher Befund: 
+Befund: Kein reines Duplikat. `package-lock.json` pinnt Bootstrap 4.4.1 (obwohl `package.json` `^5.3.0` sagt), `app.css` enthält also BS4, das CDN liefert BS5. Die Views nutzen beide Versionen (BS4: `float-right/left` 45×, `form-group` 53×, `.close` 17×, `font-italic`; BS5: `form-select`, `visually-hidden`, `data-bs-*`, Dark Mode). Erledigt: das ungenutzte Mix-Bundle `js/app.js` (728 KB, axios, lodash, BS4-JS) wird nicht mehr geladen.
 
 
 - CDN-Bootstrap raus, eine Pipeline. Empfehlung: Vite (schon installiert) mit `@vite`.

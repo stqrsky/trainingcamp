@@ -1,5 +1,5 @@
 <nav class="navbar navbar-bottom fixed-bottom navbar-expand-lg navbar-light justify-content-center d-lg-none" aria-label="Main">
-    <div class="col-md-4 col-sm-6">
+    <div class="tc-bottom-nav-inner">
         <ul class="nav nav-justified">
             @foreach(config('navigation.items') as $item)
             @php $isActive = request()->routeIs(...$item['active']); @endphp

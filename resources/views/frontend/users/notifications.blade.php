@@ -26,7 +26,7 @@
                             </div>
                             @endforeach
                         </fieldset>
-                        <button type="submit" class="btn create btn-outline-dark float-right">Save</button>
+                        <button type="submit" class="btn create btn-outline-dark float-end">Save</button>
                     </form>
                 </div>
             </div>

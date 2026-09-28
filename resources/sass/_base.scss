@@ -8,6 +8,18 @@ body {
     background-color: var(--tc-bg);
 }
 
+// Label spacing as the forms were designed with (Bootstrap 4 reboot); Bootstrap 5 dropped it
+label {
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+.form-check-label,
+.col-form-label { margin-bottom: 0; }
+
+// Hints like "(optional)" inside bold labels stay regular weight (Bootstrap 4 behaviour)
+small,
+.small { font-weight: 400; }
+
 // Account / profile setting surfaces
 .row.accountsetting,
 .col-12.accountsetting.content,

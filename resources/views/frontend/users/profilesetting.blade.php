@@ -18,7 +18,7 @@
                 @csrf
                 @method('PUT')
                 @include('frontend.users.formprofile')
-                <button type="submit" class="btn edit btn-outline-dark float-right">Update Profile</button>
+                <button type="submit" class="btn edit btn-outline-dark float-end">Update Profile</button>
             </form>
         </div>
     </div>

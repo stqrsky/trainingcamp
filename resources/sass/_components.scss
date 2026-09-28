@@ -133,6 +133,11 @@ body {
 }
 
 // ---- Bottom navigation ------------------------------------------
+.tc-bottom-nav-inner {
+    width: 100%;
+    max-width: 480px;
+    margin-inline: auto;
+}
 .navbar-bottom {
     background: var(--tc-surface) !important;
     border-top: 1px solid var(--tc-border);
@@ -258,6 +263,39 @@ body {
 }
 
 // Kebab / dropdown trigger
+// Icon-only button. Kept as an app component: Bootstrap 5 dropped .close (now .btn-close).
+.close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    line-height: 1;
+    color: var(--tc-text-muted);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    &:hover { color: var(--tc-text); }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); border-radius: var(--tc-radius-pill); }
+}
+
+// Form row spacing. Kept as an app rule: Bootstrap 5 dropped .form-group.
+.form-group { margin-bottom: 1rem; }
+
+// .card-body and .toast-header/.toast-body are used as generic sections without a .card or
+// .toast wrapper. Bootstrap 5 reads their padding from variables set on the wrapper only,
+// so the Bootstrap 4 values are set here explicitly.
+.card-body { padding: 1.25rem; }
+.toast-header {
+    display: flex;
+    align-items: center;
+    padding: .25rem .75rem;
+    color: #6c757d;
+    background-color: rgba(255, 255, 255, .85);
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+.toast-body { padding: .75rem; }
+
 .toast-header .close,
 .head-title .close,
 .list-team-members .close {
@@ -727,6 +765,8 @@ label { color: var(--tc-text); font-weight: 600; }
 
     &:focus-visible + label { box-shadow: var(--tc-ring); }
 }
+// "Select Picture" button on the round picture label keeps its white text
+.add-profile.btn { color: #fff; }
 
 // ---- Desktop shell: sidebar + wider content ----------------------
 .tc-skip-link {

@@ -15,7 +15,7 @@
                     <form method="POST" action="{{ route('teams.store') }}">
                         @csrf
                         @include('frontend.teams.form')
-                        <button type="submit" class="btn create btn-outline-dark float-right">Create</button>
+                        <button type="submit" class="btn create btn-outline-dark float-end">Create</button>
                     </form>
                 </div>
             </div>

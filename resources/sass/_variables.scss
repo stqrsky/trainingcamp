@@ -15,6 +15,7 @@ $success:   #16a34a;
 $info:      #0ea5e9;
 $warning:   #d97706;
 $danger:    #dc2626;
+$dark:      #343a40;  // Bootstrap 4 value the outline/dark buttons were designed with
 
 // Neutral surface (light theme base; dark handled by tokens)
 $body-bg:    #f1f5f9;
@@ -25,6 +26,16 @@ $border-radius:    .85rem;
 $border-radius-sm: .55rem;
 $border-radius-lg: 1.1rem;
 
+// Links underline on hover only, as the design was built with (Bootstrap 5 underlines always)
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// <small> and .small at 80% as in Bootstrap 4 (Bootstrap 5 uses .875em)
+$small-font-size: 80%;
+
+// Grid: keep the 30px gutter the layouts were designed with (Bootstrap 5 default is 24px)
+$grid-gutter-width: 30px;
+
 // Components
 $card-border-color:     rgba(15, 23, 42, .08);
 $card-cap-bg:           transparent;
@@ -33,3 +44,6 @@ $btn-font-weight:       600;
 
 // Keep Bootstrap 5.3 colour-mode (data-bs-theme) machinery on
 $enable-dark-mode: true;
+
+// Fixed heading sizes as designed (Bootstrap 5 would shrink them responsively on phones)
+$enable-rfs: false;
