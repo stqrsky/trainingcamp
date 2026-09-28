@@ -21,6 +21,7 @@
                     <span class="tc-badge tc-badge--{{ $role }}" style="align-self:flex-start">{{ ucfirst($role) }}</span>
                     @if($isSelf)<span class="tc-badge tc-badge--skill">You</span>@endif
                     @unless($isActive)<span class="tc-status tc-status--cancelled">Inactive</span>@endunless
+                    @if($member->userDetail?->experience_label)<span class="tc-status">{{ $member->userDetail->experience_label }}</span>@endif
                 </div>
             </div>
         </a>
@@ -63,7 +64,7 @@
     @if($member->skills->count())
     <div class="d-flex flex-wrap gap-1 mt-2">
         @foreach($member->skills as $skill)
-        <span class="tc-badge tc-badge--skill">{{ $skill->name }}</span>
+        <span class="tc-badge tc-badge--skill">{{ $skill->name }} · {{ \App\Models\Skill::LEVELS[$skill->pivot->level] ?? $skill->pivot->level }}</span>
         @endforeach
     </div>
     @endif

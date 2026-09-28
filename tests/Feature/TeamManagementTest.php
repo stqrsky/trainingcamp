@@ -33,10 +33,10 @@ class TeamManagementTest extends TestCase
         $this->team = Team::factory()->create(['user_id' => $this->user->id]);
         $this->team->coaches()->attach($this->user);
 
-        $this->boxing = Skill::create(['name' => 'Boxing']);
+        $this->boxing = Skill::create(['name' => 'Boxing', 'team_id' => $this->team->id]);
         $this->max = $this->member('Max', 'Muster', 'Maxi');
         $this->anna = $this->member('Anna', 'Berg', 'Annie');
-        $this->max->skills()->attach($this->boxing);
+        $this->max->skills()->attach($this->boxing, ['level' => 'advanced']);
         $this->team->athletes()->attach([$this->max->id, $this->anna->id]);
         $this->coach = $this->member('Carla', 'Coach', 'CC');
         $this->team->coaches()->attach($this->coach);

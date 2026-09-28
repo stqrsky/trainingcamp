@@ -26,14 +26,12 @@
                     <h4 class="card-title font-weight-bold mb-2 andreas">Coach</h4>
                     {!! nl2br(e($user->userDetail?->about)) !!}
                 </div>
-                <div class="toast-body skill">
-                    @foreach($user->skills as $skill)
-                    <span class="badge badge-warning">{{ $skill->name }}</span>
-                    @endforeach
-                </div>
                 <div class="toast-body d-flex justify-content-between">
                     <a href="{{ route('user.profile.setting') }}" type="button" class="btn profilebtn btn-outline-dark">Profile Settings</a>
                     <a href="{{ route('user.account.setting') }}" type="button" class="btn profilebtn btn-outline-dark">Account Settings</a>
+                </div>
+                <div class="px-2">
+                    @include('frontend.users._profile_summary', ['user' => $user, 'summary' => $summary])
                 </div>
                 <div class="toast-body sign-out d-flex justify-content-center">
                     <form action="{{ route('user.logout') }}" method="POST">

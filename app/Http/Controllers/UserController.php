@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Models\Role;
 use App\Http\Libraries\UploadImage;
+use App\Http\Libraries\MemberProfile;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -103,11 +104,7 @@ class UserController extends Controller
         if (Auth::user()->currentTeam()) {
             return redirect()->route('home');
         }
-        $skills = Skill::get();
-
-        return view('frontend.users.createprofile', [
-            'skills' => $skills
-        ]);
+        return view('frontend.users.createprofile');
     }
 
     private function validateProfileUser(bool $withTeam = false)
@@ -120,10 +117,8 @@ class UserController extends Controller
             'date_of_birth' => 'required|date_format:d/m/Y',
             'weight' => 'required|numeric',
             'height' => 'required|numeric',
-            'skills' => 'required|array',
-            'skills.*' => 'exists:skills,id',
             'about' => '',
-        ];
+        ] + MemberProfile::rules();
         if ($withTeam) {
             $rules['team'] = 'required|string|max:255';
         }
@@ -152,12 +147,12 @@ class UserController extends Controller
                 'height' => $input['height'],
                 'about' => $input['about'] ?? null
             ]);
-            $user->skills()->sync($input['skills']);
             $team = $user->teams()->create([
                 'name' => $input['team']
             ]);
             $team->coaches()->sync($user);
             $user->switchTeam($team);
+            MemberProfile::save($user, $request, $team);
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -178,17 +173,23 @@ class UserController extends Controller
 
     public function profile()
     {
-        $user = User::with(['userDetail', 'userDetail.image', 'skills', 'teams'])->find(Auth::user()->id);
-        return view('frontend.users.profile', compact('user'));
+        $team = $this->currentTeam();
+        $user = User::with([
+            'userDetail.image',
+            'teams',
+            'availabilities',
+            'skills' => fn ($skills) => $skills->where('team_id', $team?->id),
+        ])->find(Auth::user()->id);
+        $summary = MemberProfile::summary($user);
+        return view('frontend.users.profile', compact('user', 'summary'));
     }
 
     public function profileSetting()
     {
-        $user = User::with('skills')->find(Auth::user()->id);
+        $user = User::with(['skills', 'availabilities'])->find(Auth::user()->id);
         $detail = $user->userDetail;
-        $skills = Skill::get();
-        $skills = collect($user->skills)->merge($skills)->unique('id')->values();
-        return view('frontend.users.profilesetting', compact('user', 'detail', 'skills'));
+        $teamSkills = $this->currentTeam()?->skills ?? collect();
+        return view('frontend.users.profilesetting', compact('user', 'detail', 'teamSkills'));
     }
 
     public function updateProfile(Request $request)
@@ -215,7 +216,7 @@ class UserController extends Controller
                     'about' => $input['about'] ?? null
                 ]
             );
-            $user->skills()->sync($input['skills']);
+            MemberProfile::save($user, $request, $this->currentTeam());
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()

@@ -49,6 +49,8 @@ Route::group(['prefix' => 'teams', 'middleware' => ['auth:web']], function () {
     Route::get('edit', 'TeamController@editTeam')->name('teams.edit');
     Route::put('/', 'TeamController@updateTeam')->name('teams.update');
     Route::post('{team}/switch', 'TeamController@switchTeam')->name('teams.switch');
+    Route::post('skills', 'TeamController@addSkill')->name('teams.skills.store');
+    Route::delete('skills/{skill}', 'TeamController@removeSkill')->name('teams.skills.destroy');
 });
 
 Route::resource('notification', 'NotificationController')->middleware('auth:web');

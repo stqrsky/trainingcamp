@@ -653,3 +653,77 @@ label { color: var(--tc-text); font-weight: 600; }
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+// ---- Profile: skills, availability -------------------------------
+.tc-skill-level-row,
+.tc-availability-row {
+    display: grid;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .4rem;
+}
+.tc-skill-level-row {
+    grid-template-columns: minmax(0, 1fr) 9.5rem;
+
+    label { font-weight: 600; }
+}
+.tc-availability-row {
+    grid-template-columns: 5rem minmax(0, 1fr) minmax(0, 1fr) auto;
+}
+.tc-availability-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        padding: .3rem 0;
+        border-bottom: 1px solid var(--tc-border);
+
+        &:last-child { border-bottom: 0; }
+    }
+}
+.tc-skill-catalog {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+
+    li {
+        display: inline-flex;
+        align-items: center;
+        gap: .25rem;
+        max-width: 100%;
+        padding: .15rem .3rem .15rem .7rem;
+        border-radius: var(--tc-radius-pill);
+        background: var(--tc-warning-soft);
+        color: var(--tc-warning);
+        font-weight: 600;
+        font-size: .85rem;
+
+        .material-icons { font-size: 16px; }
+
+        &.tc-skill-catalog-empty {
+            padding: 0;
+            background: none;
+            color: var(--tc-text-muted);
+            font-weight: 400;
+        }
+    }
+}
+
+// Native file input behind the round picture label (profile and member forms).
+// Visually hidden but still focusable; the label shows the focus ring.
+.inputfile {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+
+    &:focus-visible + label { box-shadow: var(--tc-ring); }
+}

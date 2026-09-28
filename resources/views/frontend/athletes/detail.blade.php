@@ -41,13 +41,9 @@
                     <h5>About</h5>
                     {!! nl2br(e($user->userDetail?->about)) !!}
                 </div>
-                <div class="toast-body">
-                    <h5>Skills</h5>
-                    @foreach($user->skills as $skill)
-                    <span class="badge badge-warning">{{ $skill->name }}</span>
-                    @endforeach
-                </div>
             </div>
+
+            @include('frontend.users._profile_summary', ['user' => $user, 'summary' => $summary])
 
         </div>
     </div>

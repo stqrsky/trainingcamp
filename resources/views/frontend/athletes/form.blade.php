@@ -76,22 +76,7 @@
         @error('height')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>
-<div class="form-group row">
-    <label for="skills" class="col-sm-12 col-form-label">Skills</label>
-    <div class="col-sm-12">
-        <select name="skills[]" value="[1,2]" class="form-control @error('skills') is-invalid @enderror" id="skills" multiple="multiple">
-            @if(isset($skills))
-            @foreach($skills as $skill)
-            <option value="{{ $skill->id }}" @if(isset($skill->pivot))
-                selected="selected"
-                @endif
-                >{{ $skill->name }}</option>
-            @endforeach
-            @endif
-        </select>
-        @error('skills')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
-    </div>
-</div>
+@include('frontend.users._profile_extras', ['profileUser' => $user ?? null])
 <div class="form-group row">
     <label for="about" class="col-sm-12 col-form-label">About</label>
     <div class="col-sm-12">

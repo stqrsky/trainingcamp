@@ -14,21 +14,7 @@ class SkillSeeder extends Seeder
      */
     public function run()
     {
-        Skill::firstOrCreate([
-            'name' => 'Basic',
-            'status' => 1
-        ]);
-        Skill::firstOrCreate([
-            'name' => 'Intermediate',
-            'status' => 1
-        ]);
-        Skill::firstOrCreate([
-            'name' => 'Advance',
-            'status' => 1
-        ]);
-        Skill::firstOrCreate([
-            'name' => 'Expert',
-            'status' => 1
-        ]);
+        // Skills are created per team on the "Edit team" page. The former Basic/Intermediate/
+        // Advance/Expert entries were experience levels and now live in user_detail.experience_level.
     }
 }

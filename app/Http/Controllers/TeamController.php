@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Http\Libraries\UploadImage;
+use App\Http\Libraries\MemberProfile;
+use Illuminate\Validation\Rule;
 
 class TeamController extends Controller
 {
@@ -28,7 +30,7 @@ class TeamController extends Controller
             'athletes.userDetail.image',
             'athletes.skills',
         ]);
-        $skills = Skill::orderBy('name')->get();
+        $skills = $team?->skills ?? collect();
         $search = $filters['search'];
         return view('frontend.athletes.athletes', compact('team', 'search', 'filters', 'skills'));
     }
@@ -74,8 +76,8 @@ class TeamController extends Controller
 
     public function addUser()
     {
-        $skills = Skill::get();
-        return view('frontend.athletes.createathlete', compact('skills'));
+        $teamSkills = $this->currentTeam()?->skills ?? collect();
+        return view('frontend.athletes.createathlete', compact('teamSkills'));
     }
 
     public function createUser(Request $request)
@@ -95,10 +97,8 @@ class TeamController extends Controller
             'date_of_birth' => 'required|date_format:d/m/Y',
             'weight' => 'required|numeric',
             'height' => 'required|numeric',
-            'skills' => 'required|array',
-            'skills.*' => 'exists:skills,id',
             'about' => '',
-        ]);
+        ] + MemberProfile::rules());
         $role = Role::where('title', 'like', '%' . $request->input('user_type') . '%')->first();
         if (!$role) {
             return redirect()->back()->withErrors(['error' => 'User type not found'])->withInput();
@@ -119,7 +119,7 @@ class TeamController extends Controller
                 'height' => $request->input('height'),
                 'about' => $request->input('about')
             ]);
-            $user->skills()->attach($request->input('skills'));
+            MemberProfile::save($user, $request, $team);
             $user->roles()->attach($role);
             if ($request->input('user_type') == 'coach') {
                 $team->coaches()->attach($user);
@@ -157,10 +157,8 @@ class TeamController extends Controller
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
         $detail = $user->userDetail;
-        $user_skills = $user->skills;
-        $skills = Skill::get();
-        $skills = collect($user_skills)->merge($skills)->unique('id')->all();
-        return view('frontend.athletes.editathlete', compact('user', 'detail', 'skills'));
+        $teamSkills = $team->skills;
+        return view('frontend.athletes.editathlete', compact('user', 'detail', 'teamSkills'));
     }
 
     public function updateUser(Request $request, $id)
@@ -183,10 +181,8 @@ class TeamController extends Controller
             'date_of_birth' => 'required|date_format:d/m/Y',
             'weight' => 'required|numeric',
             'height' => 'required|numeric',
-            'skills' => 'required|array',
-            'skills.*' => 'exists:skills,id',
             'about' => '',
-        ]);
+        ] + MemberProfile::rules());
         DB::beginTransaction();
         $input = $request->all();
         try {
@@ -203,7 +199,7 @@ class TeamController extends Controller
                 'height' => $input['height'],
                 'about' => $input['about'] ?? null,
             ]);
-            $user->skills()->sync($input['skills']);
+            MemberProfile::save($user, $request, $team);
             if ($request->hasFile('file')) {
                 $file = $request->file('file');
                 $upload_image = UploadImage::uploadProfilePicture($file, $user);
@@ -254,7 +250,9 @@ class TeamController extends Controller
         if (!$user) {
             return redirect()->back()->withErrors(['error' => 'User not found'])->withInput();
         }
-        return view('frontend.athletes.detail', compact('user', 'team'));
+        $user->load(['skills' => fn ($skills) => $skills->where('team_id', $team->id), 'availabilities']);
+        $summary = MemberProfile::summary($user);
+        return view('frontend.athletes.detail', compact('user', 'team', 'summary'));
     }
 
     /**
@@ -317,6 +315,31 @@ class TeamController extends Controller
         }
         $team->update($this->validateTeam($request));
         return redirect()->route('user.athletes');
+    }
+
+    public function addSkill(Request $request)
+    {
+        $team = $this->currentTeam();
+        abort_unless($team, 404);
+        $this->validate($request, [
+            'skill_name' => [
+                'required', 'string', 'max:50',
+                Rule::unique('skills', 'name')->where('team_id', $team->id),
+            ],
+        ], [], ['skill_name' => 'skill']);
+        $team->skills()->create(['name' => trim($request->input('skill_name')), 'status' => 1]);
+        return redirect()->route('teams.edit');
+    }
+
+    public function removeSkill(Skill $skill)
+    {
+        $team = $this->currentTeam();
+        abort_unless($team && $skill->team_id === $team->id, 404);
+        DB::transaction(function () use ($skill) {
+            $skill->users()->detach();
+            $skill->delete();
+        });
+        return redirect()->route('teams.edit');
     }
 
     public function switchTeam(Team $team)

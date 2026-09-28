@@ -102,7 +102,12 @@ class User extends Authenticatable
         return $this->belongsToMany(
             \App\Models\Skill::class,
             'user_skill'
-        );
+        )->withPivot('level');
+    }
+
+    public function availabilities()
+    {
+        return $this->hasMany(\App\Models\Availability::class)->orderBy('weekday')->orderBy('start');
     }
 
     public function userDetail()

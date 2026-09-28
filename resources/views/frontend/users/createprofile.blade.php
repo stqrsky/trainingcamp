@@ -34,9 +34,6 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#skills').select2({
-            placeholder: 'Select Your Skills'
-        });
         $('#date_of_birth').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,

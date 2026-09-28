@@ -201,7 +201,10 @@ Umgesetzt auf Branch `feat/p1-6-calendar`, ohne eigenen `CalendarFeed`-Service (
 - **Ziel:** `CalendarFeed`-Service bildet Schedules und Task-Deadlines auf ein gemeinsames Item-Format ab. Bestehende Views bleiben, "List" wird zu "Agenda". Eine eigene `events`-Tabelle (Meetings, persönliche Termine) erst, wenn sie gebraucht wird.
 - **Dateien:** neu `app/Services/CalendarFeed.php`, `ScheduleController`, Kalender-Views.
 
-### P1-7 Profile
+### P1-7 Profile ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-7-profiles`. Befund: Die Tabelle `skills` enthielt keine Skills, sondern Erfahrungsstufen (Basic/Intermediate/Advance/Expert, Mehrfachauswahl). Entscheidung (2026-09-28): Skills pro Team selbst anlegen, Altdaten ins Erfahrungslevel übernehmen. Umsetzung: `user_detail.experience_level` (höchste bisherige Stufe übernommen, Pseudo-Skills entfernt), Skill-Katalog pro Team (`skills.team_id`, gepflegt auf "Edit team"), Level pro Mitglied und Skill (`user_skill.level`), Verfügbarkeit als Wochentag plus Zeitfenster (`availabilities`, gleichzeitig bevorzugte Sparring-Zeiten). Speichern und Validierung für Mitglieds- und eigenes Profil zentral in `App\Http\Libraries\MemberProfile`; Skills anderer Teams bleiben beim Speichern unberührt. Mitglieds-Detail und eigenes Profil zeigen Level, Skills mit Level, Verfügbarkeit, offene und erledigte Aufgaben, kommende und absolvierte Sparrings (nur aus den eigenen Teams). Social Links und Benutzername bewusst weggelassen (optional in der Anforderung, Spitzname existiert). Nebenbei gefixt: Das native Datei-Feld der Profilbild-Auswahl war sichtbar und erzeugte auf dem Handy seitliches Scrollen (Regel lag in einer nie importierten Sass-Datei). Tests: 104 grün.
+
 
 - `level` im Pivot `user_skill`, `availability` (Wochentag plus Zeitfenster, eigene kleine Tabelle), Social-Links, Username.
 - Profilseite mit Task-Statistik und kommenden Sparrings.
@@ -231,6 +234,7 @@ Umgesetzt auf Branch `feat/p1-6-calendar`, ohne eigenen `CalendarFeed`-Service (
 
 - **2026-09-28:** Athletes und Coaches loggen sich nicht selbst ein. Nur der Account-Inhaber (Manager) nutzt die App, Mitglieder sind verwaltete Profile ohne Login.
 - **2026-09-28:** Ein Account kann mehrere Teams besitzen.
+- **2026-09-28:** Skills legt jeder Manager pro Team selbst an, jedes Mitglied bekommt pro Skill ein Level. Die bisherigen Pseudo-Skills Basic bis Expert werden zum Erfahrungslevel.
 
 Folge für die Roadmap: P0-2 wird zu "Multi-Team und Login nur für Account-Inhaber" statt Rollen-Membership. Einladungen, RSVP durch Teilnehmer, Notifications an Mitglieder und @mentions entfallen vorerst. Alle Zugriffe laufen über `currentTeam()` und Ownership-Checks, damit spätere Co-Manager-Logins ohne Umbau nachrüstbar bleiben.
 

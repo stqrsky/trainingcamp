@@ -7,6 +7,8 @@ use Carbon\Carbon;
 
 class UserDetail extends Model
 {
+    public const EXPERIENCE_LEVELS = \App\Models\Skill::LEVELS;
+
     protected $table = 'user_detail';
 
     protected $guarded = ['id'];
@@ -19,6 +21,11 @@ class UserDetail extends Model
     public function image()
     {
         return $this->belongsTo(\App\Models\Image::class);
+    }
+
+    public function getExperienceLabelAttribute(): ?string
+    {
+        return self::EXPERIENCE_LEVELS[$this->experience_level] ?? null;
     }
 
     public function getFormatDateOfBirthAttribute()

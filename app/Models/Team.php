@@ -43,6 +43,11 @@ class Team extends Model
         return $this->athletes()->wherePivot('active', true);
     }
 
+    public function skills()
+    {
+        return $this->hasMany(\App\Models\Skill::class)->orderBy('name');
+    }
+
     public function schedules()
     {
         return $this->hasMany(\App\Models\Schedule::class);
