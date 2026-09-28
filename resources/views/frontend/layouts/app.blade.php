@@ -19,24 +19,28 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/app.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script defer src="{{ asset('js/app.js')}}"></script>
     @yield('style')
 </head>
 
-<body>
+@php $withNav = Route::currentRouteName() != 'user.setting'; @endphp
+<body class="{{ $withNav ? 'tc-has-sidebar' : '' }}">
+    <a class="visually-hidden-focusable tc-skip-link" href="#main">Skip to content</a>
     <div class="container-fluid base">
+        @if($withNav)
+        @include('frontend.includes.sidebar')
+        @endif
         <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-7 col-sm-9 content">
-                @if(Route::currentRouteName() != 'user.setting')
+            <main id="main" class="col-lg-5 col-md-7 col-sm-9 content tc-main-col">
+                @if($withNav)
                 @include('frontend.includes.header')
                 @endif
 
                 @yield('content')
 
-                @if(Route::currentRouteName() != 'user.setting')
+                @if($withNav)
                 @include('frontend.includes.navbarbottom')
                 @endif
-            </div>
+            </main>
         </div>
     </div>
 
@@ -54,8 +58,8 @@
             })
         })
 
-        // Auto-dismiss alerts after 3s
-        document.querySelectorAll('.alert').forEach(function(alert) {
+        // Auto-dismiss success messages after 3s; errors stay until the user acts on them
+        document.querySelectorAll('.alert-success').forEach(function(alert) {
             setTimeout(function() {
                 alert.style.transition = 'opacity 0.5s'
                 alert.style.opacity = '0'

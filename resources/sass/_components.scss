@@ -148,17 +148,17 @@ body {
         transition: color .15s ease;
         .material-icons { font-size: 24px; }
     }
-    h6 {
+    .tc-nav-label {
         font-size: .68rem;
-        font-style: normal !important;
         font-weight: 600;
-        color: var(--tc-text-muted);
+        line-height: 1.2;
         text-align: center;
     }
+    .nav-link:focus-visible { outline: none; box-shadow: var(--tc-ring); border-radius: var(--tc-radius-sm); }
 
     // Active tab
     .nav-item.active {
-        .nav-link, h6 { color: var(--tc-primary-strong); }
+        .nav-link { color: var(--tc-primary-strong); }
         .nav-link { position: relative; }
         .nav-link::before {
             content: "";
@@ -726,4 +726,74 @@ label { color: var(--tc-text); font-weight: 600; }
     z-index: -1;
 
     &:focus-visible + label { box-shadow: var(--tc-ring); }
+}
+
+// ---- Desktop shell: sidebar + wider content ----------------------
+.tc-skip-link {
+    position: fixed;
+    top: .5rem;
+    left: .5rem;
+    z-index: 1100;
+    padding: .5rem 1rem;
+    border-radius: var(--tc-radius-sm);
+    background: var(--tc-primary);
+    color: var(--tc-on-primary);
+    font-weight: 700;
+}
+
+.tc-sidebar {
+    position: fixed;
+    top: 64px;
+    bottom: 0;
+    left: 0;
+    width: 220px;
+    z-index: 1020;
+    flex-direction: column;
+    padding: 1rem .75rem;
+    background: var(--tc-surface);
+    border-right: 1px solid var(--tc-border);
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+    }
+
+    a {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        padding: .6rem .8rem;
+        border-radius: var(--tc-radius-sm);
+        color: var(--tc-text-muted);
+        font-weight: 600;
+        text-decoration: none;
+        transition: background .15s ease, color .15s ease;
+
+        &:hover { background: var(--tc-surface-2); color: var(--tc-text); }
+        &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+
+        &.active {
+            background: var(--tc-primary-soft);
+            color: var(--tc-primary-strong);
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    .tc-has-sidebar .base { padding-left: 220px; }
+
+    // Wider reading column next to the sidebar (overrides the phone-width col-lg-5)
+    .base .tc-main-col {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 860px;
+        padding-bottom: 2rem;
+    }
+
+    // Several Kanban columns side by side instead of one per screen
+    .tc-board .tc-board-col { flex-basis: 260px; }
 }

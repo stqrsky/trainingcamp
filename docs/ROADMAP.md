@@ -142,7 +142,10 @@ Ohne Mitglieder-Logins reichen Ownership-Checks über `currentTeam()`. Eine Poli
 
 ## P1
 
-### P1-1 Asset-Pipeline aufräumen
+### P1-1 Asset-Pipeline aufräumen ◐ teilweise erledigt 2026-09-28
+
+Befund: Kein reines Duplikat. `package-lock.json` pinnt Bootstrap 4.4.1 (obwohl `package.json` `^5.3.0` sagt), `app.css` enthält also BS4, das CDN liefert BS5. Die Views nutzen beide Versionen (BS4: `float-right/left` 45×, `form-group` 53×, `.close` 17×, `font-italic`; BS5: `form-select`, `visually-hidden`, `data-bs-*`, Dark Mode). Erledigt: das ungenutzte Mix-Bundle `js/app.js` (728 KB, axios, lodash, BS4-JS) wird nicht mehr geladen. Offen als eigener Schritt: Migration auf reines Bootstrap 5 (Lockfile auf 5.3, BS4-Klassen in den Views ersetzen, `.close` als eigene Komponente, CDN-CSS entfernen, visuelle Prüfung aller Seiten).
+
 
 - CDN-Bootstrap raus, eine Pipeline. Empfehlung: Vite (schon installiert) mit `@vite`.
 - Mix-Reste und tote Views löschen, `database/seeds` entfernen.
@@ -218,7 +221,7 @@ Umgesetzt auf Branch `feat/p1-7-profiles`. Befund: Die Tabelle `skills` enthielt
 - **Projekte:** `projects`-Tabelle plus `tasks.project_id`. Fortschritt wird aus den Tasks berechnet, nicht gespeichert.
 - **Globale Suche und Cmd+K-Palette:** Vanilla JS, ein team-gescopter JSON-Endpoint `/search`, Befehle als statische Liste.
 - **Analytics:** einfache Zählwerte und CSS-Balken, vorerst keine Chart-Library.
-- **Desktop-Layout:** Sidebar ab `lg`, Mobile behält die Bottom-Nav. Nav-Accessibility und Alert-Verhalten fixen.
+- ✅ **Desktop-Layout und Accessibility (2026-09-28):** Navigation zentral in `config/navigation.php`; Sidebar ab 992px, darunter Bottom-Nav mit Beschriftung im Link und `aria-current`; Inhalt auf dem Desktop bis 860px breit, Kanban zeigt mehrere Spalten; `<main>`-Landmark und Skip-Link; nur Erfolgsmeldungen blenden sich aus, Fehler bleiben stehen.
 
 ## P3
 
