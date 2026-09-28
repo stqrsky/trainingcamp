@@ -28,9 +28,25 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => 'secret', // password
+            'login_enabled' => true,
             'status' => 1,
             'remember_token' => Str::random(10),
         ];
+    }
+
+    /**
+     * A managed team member without a login.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function member()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'password' => null,
+                'login_enabled' => false,
+            ];
+        });
     }
 
     /**

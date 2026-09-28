@@ -11,16 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Http\Libraries\UploadImage;
-use Illuminate\Validation\Rules\Password;
 
 class TeamController extends Controller
 {
     public function getUserTeam(Request $request)
     {
-        $input = $request->input();
         $search = $request->input('search');
-        $user = User::find(Auth::user()->id);
-        $team = $user->team()->with([
+        $team = $this->currentTeam()?->load([
             'coaches',
             'coaches.userDetail',
             'coaches.userDetail.image',
@@ -30,7 +27,7 @@ class TeamController extends Controller
             'athletes.userDetail',
             'athletes.userDetail.image',
             'athletes.skills'
-        ])->first();
+        ]);
         return view('frontend.athletes.athletes', compact('team', 'search'));
     }
 
@@ -42,12 +39,15 @@ class TeamController extends Controller
 
     public function createUser(Request $request)
     {
-        $profile = User::find(Auth::user()->id);
+        $team = $this->currentTeam();
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
             'user_type' => 'required|in:coach,athlete',
-            'email' => 'required|email:filter|unique:users,email',
-            'password' => ['required', Password::defaults()],
+            'email' => 'nullable|email:filter|unique:users,email',
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',
@@ -60,8 +60,7 @@ class TeamController extends Controller
         ]);
         $role = Role::where('title', 'like', '%' . $request->input('user_type') . '%')->first();
         if (!$role) {
-            return redirect()->back()->withErrors(['error' => 'User type not found'])
-                ->withInput($request->except('password'));
+            return redirect()->back()->withErrors(['error' => 'User type not found'])->withInput();
         }
         DB::beginTransaction();
         try {
@@ -69,7 +68,7 @@ class TeamController extends Controller
                 'first_name' => $request->input('first_name'),
                 'last_name' => $request->input('last_name'),
                 'email' => $request->input('email'),
-                'password' => $request->input('password')
+                'login_enabled' => false,
             ]);
             $dob = Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth'))->format('Y-m-d');
             $user->userDetail()->create([
@@ -81,10 +80,6 @@ class TeamController extends Controller
             ]);
             $user->skills()->attach($request->input('skills'));
             $user->roles()->attach($role);
-            $team = Team::where('user_id', $profile->id)->first();
-            if (!$team) {
-                throw new \RuntimeException('Create your team in profile settings before adding members.');
-            }
             if ($request->input('user_type') == 'coach') {
                 $team->coaches()->attach($user);
             } else {
@@ -95,8 +90,7 @@ class TeamController extends Controller
                 $upload_image = UploadImage::uploadProfilePicture($file, $user);
                 if (isset($upload_image['error'])) {
                     DB::rollBack();
-                    return redirect()->back()->withErrors(['error' => $upload_image['error']])
-                        ->withInput($request->except('password'));
+                    return redirect()->back()->withErrors(['error' => $upload_image['error']])->withInput();
                 }
             }
         } catch (\Throwable $th) {
@@ -104,7 +98,7 @@ class TeamController extends Controller
 
             return redirect()->back()
                 ->withErrors(['error' => $this->userFacingError($th, 'Unable to add this member.')])
-                ->withInput($request->except('password'));
+                ->withInput();
         }
         DB::commit();
         return redirect()->route('user.athletes');
@@ -112,8 +106,7 @@ class TeamController extends Controller
 
     public function editUser($id)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -132,8 +125,7 @@ class TeamController extends Controller
 
     public function updateUser(Request $request, $id)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -144,7 +136,7 @@ class TeamController extends Controller
         }
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
-            'email' => 'required|email:filter|unique:users,email,' . $id,
+            'email' => 'nullable|email:filter|unique:users,email,' . $id,
             'first_name' => 'required',
             'last_name' => 'required',
             'nick_name' => 'required',
@@ -169,7 +161,7 @@ class TeamController extends Controller
                 'date_of_birth' => $dob,
                 'weight' => $input['weight'],
                 'height' => $input['height'],
-                'about' => $input['about'],
+                'about' => $input['about'] ?? null,
             ]);
             $user->skills()->sync($input['skills']);
             if ($request->hasFile('file')) {
@@ -192,8 +184,7 @@ class TeamController extends Controller
 
     public function deleteUser($id)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -213,8 +204,7 @@ class TeamController extends Controller
 
     public function detailUser($id)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -228,5 +218,59 @@ class TeamController extends Controller
             }
         }
         return view('frontend.athletes.detail', compact('user', 'team'));
+    }
+
+    public function createTeam()
+    {
+        return view('frontend.teams.create');
+    }
+
+    public function storeTeam(Request $request)
+    {
+        $data = $this->validateTeam($request);
+        $user = Auth::user();
+        DB::transaction(function () use ($user, $data) {
+            $team = $user->teams()->create($data);
+            $team->coaches()->attach($user);
+            $user->switchTeam($team);
+        });
+        return redirect()->route('user.athletes');
+    }
+
+    public function editTeam()
+    {
+        $team = $this->currentTeam();
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
+        return view('frontend.teams.edit', compact('team'));
+    }
+
+    public function updateTeam(Request $request)
+    {
+        $team = $this->currentTeam();
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
+        $team->update($this->validateTeam($request));
+        return redirect()->route('user.athletes');
+    }
+
+    public function switchTeam(Team $team)
+    {
+        $user = Auth::user();
+        abort_unless($team->user()->is($user), 404);
+        $user->switchTeam($team);
+        return redirect()->back();
+    }
+
+    private function validateTeam(Request $request): array
+    {
+        return $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
+        ]);
     }
 }

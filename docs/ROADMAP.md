@@ -115,7 +115,12 @@ Umgesetzt auf Branch `fix/p0-1-security-hardening`: Output-Escaping (inkl. Texta
 - **Abhängigkeiten:** keine.
 - **Tests:** XSS-Escaping, Session-Regeneration, fremde Teilnehmer abgelehnt, falsches Datum gibt 422 statt 500.
 
-### P0-2 Team-Membership-Modell (Breaking, Freigabe nötig)
+### P0-2 Multi-Team und Login nur für Account-Inhaber ✅ erledigt 2026-09-28
+
+Ersetzt den ursprünglichen Membership-Plan unten (siehe Entscheidungen). Umgesetzt auf Branch `feat/p0-2-multi-team`: Migration macht `users.email`/`users.password` nullable und ergänzt `login_enabled` und `current_team_id` (Backfill: Login bleibt für alle außer Mitgliedern fremder Teams). Login nur mit `login_enabled`. Mitglieder werden ohne Passwort angelegt, E-Mail optional. `User::teams()` (hasMany) und `User::currentTeam()` mit Fallback aufs älteste eigene Team, alle Controller über `Controller::currentTeam()`. Team-Switcher im Header, Seiten "New team" und "Edit team", Wechsel nur in eigene Teams (sonst 404). Posts, Tasks und Sparrings sind auf das aktive Team gescoped. Teamname nicht mehr in den Profil-Einstellungen. Nebenbei gefixt: Profil-Update entfernte per `sync()` alle anderen Coaches aus dem Team, fehlendes `about` führte zu einem Fehler, erneutes Onboarding legte doppelte Profile an. Tests: 49 grün.
+
+Ursprünglicher Plan (verworfen):
+
 
 - **Aktuell:** Owner über `teams.user_id`, Pivots `team_coach` und `team_athlete`, globale Rollen.
 - **Ziel:** neue Tabelle `team_user` (`team_id`, `user_id`, `role` owner/admin/coach/member/guest, `status` active/inactive/invited, `joined_at`) plus `User::currentTeam()` als zentrale Auflösung (Session-Key bei mehreren Teams).
@@ -125,7 +130,10 @@ Umgesetzt auf Branch `fix/p0-1-security-hardening`: Output-Escaping (inkl. Texta
 - **Risiken:** Datenmigration auf bestehenden DBs. Views, die `$team->athletes` erwarten, laufen über die Kompatibilitäts-Relationen weiter.
 - **Abhängigkeiten:** blockiert Einladungen, RSVP, Notifications, Activity, Kommentare und das team-weite Dashboard.
 
-### P0-3 Authorization über Policies
+### P0-3 Authorization über Policies ✅ durch P0-2 abgedeckt
+
+Ohne Mitglieder-Logins reichen Ownership-Checks über `currentTeam()`. Eine Policies-Matrix wird erst mit Co-Manager-Logins nötig.
+
 
 - **Aktuell:** manuelle Owner-Checks.
 - **Ziel:** `TeamPolicy`, `TaskPolicy`, `SchedulePolicy`, `PostPolicy` auf Basis der Rolle in `team_user`. Rechte-Matrix: Member sehen alles und bearbeiten Eigenes, Coach und Admin verwalten Sparrings und Tasks, nur der Owner verwaltet Rollen.

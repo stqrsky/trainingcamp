@@ -28,21 +28,12 @@
 </div>
 @endif
 <div class="form-group row">
-    <label for="email" class="col-sm-12 col-form-label">Email</label>
+    <label for="email" class="col-sm-12 col-form-label">Email <span class="text-muted small">(optional)</span></label>
     <div class="col-sm-12">
         <input type="email" class="@error('email') is-invalid @enderror form-control" id="email" placeholder="Email" name="email" value="{{ isset($user) ? $user->email : old('email') }}">
         @error('email')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>
-@if(!isset($edit))
-<div class="form-group row">
-    <label for="password" class="col-sm-12 col-form-label">Password</label>
-    <div class="col-sm-12">
-        <input type="password" class="@error('password') is-invalid @enderror form-control" id="password" placeholder="Password" name="password" value="{{ old('password') }}">
-        @error('password')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
-    </div>
-</div>
-@endif
 <div class="form-group row">
     <label for="first_name" class="col-sm-12 col-form-label">First Name</label>
     <div class="col-sm-12">

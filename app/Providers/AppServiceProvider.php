@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,5 +31,13 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Throwable $exception) {
             // Database may be unavailable during `composer install` (package:discover).
         }
+
+        View::composer('frontend.includes.header', function ($view) {
+            $user = Auth::user();
+            $view->with([
+                'headerCurrentTeam' => $user?->currentTeam(),
+                'headerTeams' => $user ? $user->teams()->orderBy('name')->get(['id', 'name']) : collect(),
+            ]);
+        });
     }
 }

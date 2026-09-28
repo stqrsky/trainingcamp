@@ -123,7 +123,7 @@
             </div>
             @else
             <div class="d-flex justify-content-center align-items-center py-5 head-title">
-                <a href="{{ route('user.profile') }}" type="button" class="btn btn-primary">Complete Your Profile</a>
+                <a href="{{ route('user.setting') }}" type="button" class="btn btn-primary">Complete Your Profile</a>
             </div>
             @endif
         </div>

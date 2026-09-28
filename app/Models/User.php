@@ -33,6 +33,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'login_enabled' => 'boolean',
     ];
 
     public function setPasswordAttribute($password)
@@ -67,9 +68,25 @@ class User extends Authenticatable
         return $roles_name;
     }
 
-    public function team()
+    public function teams()
     {
-        return $this->hasOne(\App\Models\Team::class);
+        return $this->hasMany(\App\Models\Team::class);
+    }
+
+    /**
+     * The team the user is working in. Falls back to the oldest owned team
+     * when nothing is selected or the stored id is not one of the user's teams.
+     */
+    public function currentTeam(): ?Team
+    {
+        $team = $this->current_team_id ? $this->teams()->find($this->current_team_id) : null;
+
+        return $team ?? $this->teams()->orderBy('id')->first();
+    }
+
+    public function switchTeam(Team $team): void
+    {
+        $this->update(['current_team_id' => $team->id]);
     }
 
     public function athleteTeam()

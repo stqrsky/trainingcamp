@@ -78,10 +78,13 @@
         @error('about')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>
+{{-- The first team is created during onboarding; later teams are managed on the team pages --}}
+@if(!isset($detail))
 <div class="form-group row">
     <label for="team" class="col-sm-12 col-form-label">Team</label>
     <div class="col-sm-12">
-        <input type="text" class="form-control @error('team') is-invalid @enderror" id="team" placeholder="Team Name" name="team" value="{{ isset($team) ? $team->name : old('team') }}">
+        <input type="text" class="form-control @error('team') is-invalid @enderror" id="team" placeholder="Team Name" name="team" value="{{ old('team') }}">
         @error('team')<div class="invalid-feedback float-left">{{ $message }}</div>@enderror
     </div>
 </div>
+@endif

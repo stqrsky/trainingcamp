@@ -81,6 +81,57 @@ body {
     .tc-icon-dark  { display: inline; }
 }
 
+// Team switcher (top bar, next to the theme toggle)
+.tc-team-switch {
+    margin-inline-start: auto;
+    min-width: 0;
+
+    + .tc-theme-toggle { margin-inline-start: 0; }
+
+    .dropdown-menu {
+        min-width: 14rem;
+        max-width: 18rem;
+        border-color: var(--tc-border);
+        box-shadow: var(--tc-shadow-md);
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        .material-icons { font-size: 18px; }
+
+        &.active,
+        &:active {
+            background: var(--tc-primary-soft);
+            color: var(--tc-text);
+        }
+    }
+}
+
+.tc-team-switch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    max-width: 11rem;
+    height: 42px;
+    padding-inline: .85rem .5rem;
+    border-radius: var(--tc-radius-pill);
+    border: 1px solid var(--tc-border);
+    background: var(--tc-surface-2);
+    color: var(--tc-text);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background .15s ease;
+
+    > span:first-child { min-width: 0; }
+    .material-icons { font-size: 20px; }
+
+    &:hover { background: var(--tc-primary-soft); }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+}
+
 // ---- Bottom navigation ------------------------------------------
 .navbar-bottom {
     background: var(--tc-surface) !important;

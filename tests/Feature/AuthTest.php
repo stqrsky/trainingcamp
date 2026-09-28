@@ -36,7 +36,7 @@ class AuthTest extends TestCase
 
         $response->assertRedirect(route('user.setting'));
         $this->assertAuthenticated();
-        $this->assertDatabaseHas('users', ['email' => 'coach@example.com']);
+        $this->assertDatabaseHas('users', ['email' => 'coach@example.com', 'login_enabled' => true]);
         $this->assertTrue(
             User::where('email', 'coach@example.com')->first()->roles()->where('title', 'coach')->exists()
         );

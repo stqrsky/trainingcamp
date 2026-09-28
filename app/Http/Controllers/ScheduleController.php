@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Task;
 use Carbon\Carbon;
@@ -19,8 +18,7 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $date = ($this->dateFromQuery($request, 'date', 'd/m/Y') ?? Carbon::now())->format('Y-m-d');
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $schedules = [];
         if ($team) {
             $schedules = $team->schedules()->whereDate('date', $date)->with([
@@ -36,8 +34,7 @@ class ScheduleController extends Controller
 
     public function create()
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $athletes = [];
         if ($team) {
             $athletes = $team->athletes;
@@ -82,8 +79,7 @@ class ScheduleController extends Controller
 
     public function store(Request $request)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -94,7 +90,7 @@ class ScheduleController extends Controller
             $date = Carbon::createFromFormat('d/m/Y', $request->input('date'))->format('Y-m-d');
             $schedule = Schedule::create([
                 'team_id'    => $team->id,
-                'user_id'    => $profile->id,
+                'user_id'    => Auth::id(),
                 'title'      => $request->input('title') ?: null,
                 'location'   => $request->input('location') ?: null,
                 'notes'      => $request->input('notes') ?: null,
@@ -122,8 +118,7 @@ class ScheduleController extends Controller
 
     public function edit($schedule)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $schedule = $team ? $team->schedules()->where('id', $schedule)->first() : null;
         if (!$schedule) {
             return redirect()->back()->withErrors(['error' => 'Schedule not found'])->withInput();
@@ -140,8 +135,7 @@ class ScheduleController extends Controller
 
     public function update(Request $request, $schedule)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $schedule = $team ? $team->schedules()->where('id', $schedule)->first() : null;
         if (!$schedule) {
             return redirect()->back()->withErrors(['error' => 'Schedule not found'])->withInput();
@@ -180,8 +174,7 @@ class ScheduleController extends Controller
 
     public function destroy($schedule)
     {
-        $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $schedule = $team ? $team->schedules()->where('id', $schedule)->first() : null;
         if (!$schedule) {
             return redirect()->back()->withErrors(['error' => 'Schedule not found'])->withInput();
@@ -195,7 +188,7 @@ class ScheduleController extends Controller
     {
         // "!" resets unspecified fields, so "2026-02" on the 30th does not overflow into March
         $date = ($this->dateFromQuery($request, 'month', '!Y-m') ?? Carbon::now())->startOfMonth();
-        $team = User::find(Auth::id())->team;
+        $team = $this->currentTeam();
         $schedulesByDate = [];
         if ($team) {
             $schedulesByDate = $team->schedules()
@@ -211,7 +204,7 @@ class ScheduleController extends Controller
     {
         $date = ($this->dateFromQuery($request, 'week', 'Y-m-d') ?? Carbon::now())->startOfWeek(Carbon::MONDAY);
         $weekEnd = $date->copy()->endOfWeek(Carbon::SUNDAY);
-        $team = User::find(Auth::id())->team;
+        $team = $this->currentTeam();
         $schedulesByDate = [];
         if ($team) {
             $schedulesByDate = $team->schedules()
@@ -226,7 +219,7 @@ class ScheduleController extends Controller
     public function day(Request $request)
     {
         $date = $this->dateFromQuery($request, 'date', 'd/m/Y') ?? Carbon::now();
-        $team = User::find(Auth::id())->team;
+        $team = $this->currentTeam();
         $schedules = collect();
         if ($team) {
             $schedules = $team->schedules()
@@ -239,7 +232,7 @@ class ScheduleController extends Controller
     public function planner(Request $request)
     {
         $date = $this->dateFromQuery($request, 'date', 'd/m/Y') ?? Carbon::now();
-        $team = User::find(Auth::id())->team;
+        $team = $this->currentTeam();
         $schedules = collect();
         $tasks = collect();
         if ($team) {

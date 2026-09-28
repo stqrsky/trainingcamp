@@ -19,7 +19,7 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
+        $team = $this->currentTeam();
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
             'image' => '',
@@ -55,7 +55,6 @@ class NotificationController extends Controller
     public function edit($notification)
     {
         $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
         $notification = Notification::with('image')->where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
         return view('frontend.notifications.edit', compact('notification'));
     }
@@ -63,7 +62,6 @@ class NotificationController extends Controller
     public function update(Request $request, $notification)
     {
         $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
         $notification = Notification::where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
         $this->validate($request, [
             'file' => 'mimes:jpg,jpeg,png|max:2048',
@@ -74,8 +72,6 @@ class NotificationController extends Controller
         DB::beginTransaction();
         try {
             $notification->update([
-                'user_id' => $profile->id,
-                'team_id' => isset($team) ? $team->id : NULL,
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
             ]);
@@ -100,7 +96,6 @@ class NotificationController extends Controller
     public function destroy($notification)
     {
         $profile = User::find(Auth::user()->id);
-        $team = $profile->team;
         $notification = Notification::where('id', $notification)->where('user_id', $profile->id)->firstOrFail();
         $notification->delete();
         return redirect()->route('home');

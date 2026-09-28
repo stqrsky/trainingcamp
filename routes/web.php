@@ -42,6 +42,14 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
     Route::put('profile/setting/account', 'UserController@updateProfileAccount')->name('user.account.setting.put');
 });
 
+Route::group(['prefix' => 'teams', 'middleware' => ['auth:web']], function () {
+    Route::get('create', 'TeamController@createTeam')->name('teams.create');
+    Route::post('/', 'TeamController@storeTeam')->name('teams.store');
+    Route::get('edit', 'TeamController@editTeam')->name('teams.edit');
+    Route::put('/', 'TeamController@updateTeam')->name('teams.update');
+    Route::post('{team}/switch', 'TeamController@switchTeam')->name('teams.switch');
+});
+
 Route::resource('notification', 'NotificationController')->middleware('auth:web');
 
 // Calendar view routes MUST come before the resource to avoid {schedule} conflict

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use App\Models\Task;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,7 +11,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $team = $this->team();
+        $team = $this->currentTeam();
         $overdue = $today = $upcoming = $noDate = $done = collect();
         if ($team) {
             $base = Task::where('team_id', $team->id);
@@ -37,7 +36,7 @@ class TaskController extends Controller
 
     public function store(Request $request)
     {
-        $team = $this->team();
+        $team = $this->currentTeam();
         if (!$team) {
             return redirect()->route('user.setting')
                 ->withErrors(['error' => 'Complete your profile and create a team first.']);
@@ -113,14 +112,9 @@ class TaskController extends Controller
         ]);
     }
 
-    private function team()
-    {
-        return User::find(Auth::id())->team;
-    }
-
     private function authorizeTask(Task $task)
     {
-        $team = $this->team();
+        $team = $this->currentTeam();
         if (!$team || $task->team_id !== $team->id) abort(403);
     }
 }
