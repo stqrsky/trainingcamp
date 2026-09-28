@@ -9,6 +9,7 @@
                 <span class="material-icons add">add</span>
             </a>
         </div>
+        @include('frontend.tasks._view_tabs')
 
         {{-- Overdue --}}
         @if($overdue->count())
@@ -49,7 +50,7 @@
         @if($overdue->isEmpty() && $today->isEmpty() && $upcoming->isEmpty() && $noDate->isEmpty())
         <div class="text-center py-5 text-muted tc-empty">
             <span class="material-icons" style="font-size:48px">checklist</span>
-            <p class="mt-2">No tasks yet. Tap <strong>+</strong> to add one.</p>
+            <p class="mt-2">{{ $mine ? 'No open tasks assigned to you.' : 'No open tasks.' }} Tap <strong>+</strong> to add one.</p>
         </div>
         @endif
 

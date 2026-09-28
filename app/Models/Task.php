@@ -10,6 +10,21 @@ class Task extends Model
 {
     use HasFactory;
 
+    public const STATUSES = [
+        'backlog'     => 'Backlog',
+        'todo'        => 'Todo',
+        'in_progress' => 'In Progress',
+        'review'      => 'Review',
+        'done'        => 'Done',
+    ];
+
+    public const PRIORITIES = [
+        'low'    => 'Low',
+        'medium' => 'Medium',
+        'high'   => 'High',
+        'urgent' => 'Urgent',
+    ];
+
     protected $table = 'tasks';
 
     protected $guarded = ['id'];
@@ -28,9 +43,50 @@ class Task extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
+    public function assignee()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'assignee_id');
+    }
+
+    public function scopeOpen($query)
+    {
+        return $query->where('status', '!=', 'done');
+    }
+
+    public function scopeOrderByPriority($query)
+    {
+        return $query->orderByRaw(
+            "CASE priority WHEN 'urgent' THEN 0 WHEN 'high' THEN 1 WHEN 'medium' THEN 2 ELSE 3 END"
+        );
+    }
+
+    /**
+     * Change the workflow status and keep completed_at in sync with it.
+     */
+    public function moveTo(string $status): void
+    {
+        $this->status = $status;
+        if ($status === 'done') {
+            $this->completed_at = $this->completed_at ?? now();
+        } else {
+            $this->completed_at = null;
+        }
+        $this->save();
+    }
+
+    public function isDone(): bool
+    {
+        return $this->status === 'done';
+    }
+
+    public function isHighPriority(): bool
+    {
+        return in_array($this->priority, ['high', 'urgent'], true);
+    }
+
     public function isOverdue(): bool
     {
-        return $this->status == 0
+        return !$this->isDone()
             && $this->due_date
             && Carbon::parse($this->due_date)->startOfDay()->lt(Carbon::today());
     }
@@ -38,6 +94,16 @@ class Task extends Model
     public function isDueToday(): bool
     {
         return $this->due_date && Carbon::parse($this->due_date)->isToday();
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return self::STATUSES[$this->status] ?? ucfirst((string) $this->status);
+    }
+
+    public function getPriorityLabelAttribute(): string
+    {
+        return self::PRIORITIES[$this->priority] ?? ucfirst((string) $this->priority);
     }
 
     public function getDueDateFormatAttribute(): ?string

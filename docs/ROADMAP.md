@@ -149,7 +149,10 @@ Ohne Mitglieder-Logins reichen Ownership-Checks über `currentTeam()`. Eine Poli
 - **Dateien:** `frontend/layouts/app.blade.php`, `backend/layout.blade.php`, `vite.config.js`, `public/`.
 - **Risiko:** Deploy braucht dann `npm run build`. Alternative: kompiliertes CSS weiter committen.
 
-### P1-2 Tasks und Kanban
+### P1-2 Tasks und Kanban ✅ erledigt 2026-09-28
+
+Umgesetzt auf Branch `feat/p1-2-tasks-kanban`: Status backlog/todo/in_progress/review/done und Priorität low/medium/high/urgent (Migration mappt 0→todo/medium, 1→done/high, Rollback getestet), optionale Zuständige aus dem aktiven Team (`assignee_id`, `tasks.user_id` bleibt der Ersteller). Ansichten List, Board und My Tasks. Kanban mit nativem Drag-and-Drop plus Status-Select pro Karte für Touch und Tastatur, gespeichert per `PATCH /tasks/{id}/status`, bei Fehler springt die Karte zurück. Planner nutzt die neue Logik. Nebenbei gefixt: Auf der Edit-Seite war das Delete-Formular im Update-Formular verschachtelt, dadurch ließen sich Aufgaben nicht speichern. Tests: 61 grün.
+
 
 - **Aktuell:** Status 0/1, Priorität 0/1, `user_id` ist der Ersteller.
 - **Ziel:** `status` als String (backlog/todo/in_progress/review/done), `priority` low/medium/high/urgent, neue Spalten `assignee_id` und `created_by`. Tabs "Meine Aufgaben" und Liste. Kanban mit nativem HTML5 Drag-and-Drop und `PATCH /tasks/{id}/status`, keine neue Dependency.

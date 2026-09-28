@@ -367,6 +367,10 @@
     color: #dc2626;
     background: #fee2e2;
 }
+.tc-task-badge--status {
+    color: var(--tc-info);
+    background: var(--tc-info-soft);
+}
 .tc-task-edit-btn {
     flex: 0 0 auto;
     color: #cbd5e1;
@@ -387,4 +391,127 @@
 .tc-task-add-btn:hover {
     text-decoration: none;
     color: #b9870c;
+}
+
+/* --- Task priority --- */
+.tc-priority {
+    display: inline-flex;
+    align-items: center;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: .1rem .45rem;
+    border-radius: var(--tc-radius-pill);
+    background: var(--tc-surface-2);
+    color: var(--tc-text-muted);
+    border: 1px solid var(--tc-border);
+}
+.tc-priority--low    { background: var(--tc-info-soft);    color: var(--tc-info);    border-color: transparent; }
+.tc-priority--high   { background: var(--tc-warning-soft); color: var(--tc-warning); border-color: transparent; }
+.tc-priority--urgent { background: var(--tc-danger-soft);  color: var(--tc-danger);  border-color: transparent; }
+
+/* --- Kanban board --- */
+.tc-board-hint {
+    font-size: .8rem;
+    color: var(--tc-text-muted);
+    margin-bottom: .6rem;
+}
+.tc-board {
+    display: flex;
+    gap: .75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: .75rem;
+    -webkit-overflow-scrolling: touch;
+}
+.tc-board-col {
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    min-height: 12rem;
+    padding: .75rem;
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius);
+    transition: border-color .15s ease, background .15s ease;
+
+    &.is-over {
+        border-color: var(--tc-primary);
+        background: var(--tc-primary-soft);
+    }
+}
+.tc-board-col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: .6rem;
+
+    h5 {
+        margin: 0;
+        font-size: .78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: var(--tc-text-muted);
+    }
+}
+.tc-board-count {
+    min-width: 1.6rem;
+    padding: .05rem .45rem;
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--tc-text-muted);
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-pill);
+}
+.tc-board-list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    flex: 1;
+}
+.tc-board-card {
+    // Contain absolutely positioned children (visually-hidden labels) inside the scrolling board
+    position: relative;
+    padding: .65rem .7rem;
+    background: var(--tc-surface);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-sm);
+    box-shadow: var(--tc-shadow-sm);
+    cursor: grab;
+
+    &.is-dragging { opacity: .45; }
+    &.is-saving { opacity: .7; }
+    &:focus-within { box-shadow: var(--tc-ring); }
+}
+.tc-board-card-title {
+    display: block;
+    margin-bottom: .35rem;
+    font-weight: 700;
+    color: var(--tc-text);
+    text-decoration: none;
+    word-break: break-word;
+
+    &:hover { color: var(--tc-primary-strong); }
+}
+.tc-board-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-top: .55rem;
+
+    .form-select {
+        width: auto;
+        font-size: .75rem;
+        padding-block: .2rem;
+    }
+}
+.tc-board-empty {
+    margin: 1rem 0;
+    font-size: .8rem;
+    text-align: center;
+    color: var(--tc-text-muted);
 }

@@ -43,29 +43,30 @@ class TaskTest extends TestCase
         $response = $this->post(route('tasks.store'), [
             'title' => 'New Test Task',
             'due_date' => now()->format('d/m/Y'),
-            'priority' => 1,
+            'priority' => 'high',
         ]);
 
         $response->assertRedirect(route('tasks.index'));
         $this->assertDatabaseHas('tasks', [
             'title' => 'New Test Task',
             'team_id' => $this->team->id,
-            'priority' => 1
+            'priority' => 'high',
+            'status' => 'todo',
         ]);
     }
 
     public function test_user_can_toggle_task()
     {
-        $task = Task::factory()->create(['team_id' => $this->team->id, 'status' => 0]);
-        
+        $task = Task::factory()->create(['team_id' => $this->team->id, 'status' => 'todo']);
+
         $response = $this->post(route('tasks.toggle', $task));
-        
+
         $response->assertRedirect();
-        $this->assertEquals(1, $task->fresh()->status);
+        $this->assertEquals('done', $task->fresh()->status);
         $this->assertNotNull($task->fresh()->completed_at);
 
         $this->post(route('tasks.toggle', $task));
-        $this->assertEquals(0, $task->fresh()->status);
+        $this->assertEquals('todo', $task->fresh()->status);
         $this->assertNull($task->fresh()->completed_at);
     }
 

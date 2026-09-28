@@ -68,13 +68,13 @@
         <div class="tc-task-item">
             <form action="{{ route('tasks.toggle', $task->id) }}" method="POST" class="mb-0">
                 @csrf
-                <button type="submit" class="tc-task-checkbox {{ $task->status ? 'done' : '' }}" title="Toggle">
-                    @if($task->status)<span class="material-icons" style="font-size:14px;color:#fff">check</span>@endif
+                <button type="submit" class="tc-task-checkbox {{ $task->isDone() ? 'done' : '' }}" title="Toggle">
+                    @if($task->isDone())<span class="material-icons" style="font-size:14px;color:#fff">check</span>@endif
                 </button>
             </form>
             <div class="flex-fill">
                 <a href="{{ route('tasks.edit', $task->id) }}"
-                   class="tc-task-title {{ $task->status ? 'done' : '' }} text-decoration-none d-block">{{ $task->title }}</a>
+                   class="tc-task-title {{ $task->isDone() ? 'done' : '' }} text-decoration-none d-block">{{ $task->title }}</a>
                 <div class="tc-task-meta">
                     @if($task->label)<span class="tc-task-badge">{{ $task->label }}</span>@endif
                     @if($task->due_date)<span class="tc-task-badge {{ $task->isOverdue() ? 'tc-task-badge--overdue' : '' }}">{{ $task->dueLabel }}</span>@endif

@@ -118,6 +118,14 @@ class User extends Authenticatable
         );
     }
 
+    public function getInitialsAttribute(): string
+    {
+        $parts = array_filter(explode(' ', trim("{$this->first_name} {$this->last_name}")));
+        $initials = collect($parts)->take(2)->map(fn ($part) => mb_strtoupper(mb_substr($part, 0, 1)))->implode('');
+
+        return $initials ?: '?';
+    }
+
     public function getFullNameAttribute()
     {
         $first_name = $this->first_name ?? '';

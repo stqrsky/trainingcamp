@@ -18,8 +18,8 @@ class TaskFactory extends Factory
             'user_id' => User::factory(),
             'title'   => $this->faker->sentence(),
             'notes'   => $this->faker->paragraph(),
-            'status'  => 0,
-            'priority' => 0,
+            'status'  => 'todo',
+            'priority' => 'medium',
         ];
     }
 }

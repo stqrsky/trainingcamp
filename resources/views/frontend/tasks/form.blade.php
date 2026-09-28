@@ -35,22 +35,47 @@
     </datalist>
 </div>
 
-{{-- Priority --}}
-<div class="form-group mb-3">
-    <label class="d-block col-form-label">Priority</label>
-    <div class="d-flex gap-3">
-        <label class="d-flex align-items-center gap-1">
-            <input type="radio" name="priority" value="0"
-                   @checked((isset($task) ? $task->priority : old('priority', 0)) == 0)>
-            <span>Normal</span>
-        </label>
-        <label class="d-flex align-items-center gap-1">
-            <input type="radio" name="priority" value="1"
-                   @checked((isset($task) ? $task->priority : old('priority')) == 1)>
-            <span class="text-danger">⚑ High</span>
-        </label>
+{{-- Status & Assignee --}}
+<div class="d-flex gap-3 mb-3">
+    <div class="form-group flex-fill">
+        <label for="status">Status</label>
+        @php $currentStatus = old('status', isset($task) ? $task->status : 'todo'); @endphp
+        <select class="form-select @error('status') is-invalid @enderror" name="status" id="status">
+            @foreach(\App\Models\Task::STATUSES as $key => $label)
+            <option value="{{ $key }}" @selected($currentStatus === $key)>{{ $label }}</option>
+            @endforeach
+        </select>
+        @error('status')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+    <div class="form-group flex-fill">
+        <label for="assignee_id">Assignee <span class="text-muted small">(optional)</span></label>
+        @php $currentAssignee = (string) old('assignee_id', isset($task) ? $task->assignee_id : ''); @endphp
+        <select class="form-select @error('assignee_id') is-invalid @enderror" name="assignee_id" id="assignee_id">
+            <option value="">Unassigned</option>
+            @foreach($members as $member)
+            <option value="{{ $member->id }}" @selected($currentAssignee === (string) $member->id)>
+                {{ $member->full_name }}{{ $member->id === auth()->id() ? ' (me)' : '' }}
+            </option>
+            @endforeach
+        </select>
+        @error('assignee_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 </div>
+
+{{-- Priority --}}
+<fieldset class="form-group mb-3">
+    <legend class="col-form-label fs-6 pt-0">Priority</legend>
+    @php $currentPriority = old('priority', isset($task) ? $task->priority : 'medium'); @endphp
+    <div class="d-flex flex-wrap gap-3">
+        @foreach(\App\Models\Task::PRIORITIES as $key => $label)
+        <label class="d-flex align-items-center gap-1">
+            <input type="radio" name="priority" value="{{ $key }}" @checked($currentPriority === $key)>
+            <span class="tc-priority tc-priority--{{ $key }}">{{ $label }}</span>
+        </label>
+        @endforeach
+    </div>
+    @error('priority')<div class="text-danger small">{{ $message }}</div>@enderror
+</fieldset>
 
 {{-- Notes --}}
 <div class="form-group mb-3">

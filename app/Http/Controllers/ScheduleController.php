@@ -240,10 +240,10 @@ class ScheduleController extends Controller
                 ->whereDate('date', $date->format('Y-m-d'))
                 ->with(['participants'])->orderBy('start')->get();
             $tasks = Task::where('team_id', $team->id)
-                ->where('status', 0)
+                ->open()
                 ->where(function ($q) use ($date) {
                     $q->whereDate('due_date', $date->format('Y-m-d'))->orWhereNull('due_date');
-                })->orderByDesc('priority')->orderBy('due_time')->get();
+                })->orderByPriority()->orderBy('due_time')->get();
         }
         return view('frontend.schedules.planner', compact('date', 'schedules', 'tasks'));
     }

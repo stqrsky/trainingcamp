@@ -11,15 +11,17 @@
         @error('error')
         <div class="alert alert-danger">{{ $message }}</div>
         @enderror
+        {{-- Kept outside the update form: nested forms break both buttons --}}
+        <form id="task-delete-form" action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-none">
+            @csrf
+            @method('DELETE')
+        </form>
         <form action="{{ route('tasks.update', $task->id) }}" method="POST">
             @csrf
             @method('PUT')
             @include('frontend.tasks.form')
             <div class="d-flex justify-content-between align-items-center mt-3">
-                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="mb-0">
-                    @csrf @method('DELETE')
-                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                </form>
+                <button type="submit" form="task-delete-form" class="btn btn-outline-danger btn-sm">Delete</button>
                 <div>
                     <a href="{{ route('tasks.index') }}" class="btn btn-warning btn-outline-dark me-1">Cancel</a>
                     <button type="submit" class="btn create btn-outline-dark">Update</button>

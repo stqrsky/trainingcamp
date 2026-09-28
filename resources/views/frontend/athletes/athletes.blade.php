@@ -25,18 +25,14 @@
             <div class="list-team-members">
                 <ul>
                     @forelse($team->coaches as $coach)
-                    @php
-                        $parts    = array_filter(explode(' ', trim($coach->full_name)));
-                        $initials = collect($parts)->take(2)->map(fn($p) => mb_strtoupper(mb_substr($p, 0, 1)))->implode('');
-                        $hasImg   = $coach->userDetail && $coach->userDetail->image;
-                    @endphp
+                    @php $hasImg = $coach->userDetail && $coach->userDetail->image; @endphp
                     <li>
                         <a href="{{ route('user.athletes.detail', ['id' => $coach->id]) }}"
                            class="d-flex align-items-center gap-3">
                             <span class="tc-avatar tc-avatar--md">
                                 @if($hasImg)
                                 <img src="{{ asset($coach->userDetail->image->file_name) }}" alt="{{ $coach->full_name }}">
-                                @else{{ $initials ?: '?' }}@endif
+                                @else{{ $coach->initials }}@endif
                             </span>
                             <div class="d-flex flex-column">
                                 <strong>{{ $coach->full_name }}</strong>
@@ -63,11 +59,7 @@
             <div class="list-team-members">
                 <ul>
                     @forelse($team->athletes as $athlete)
-                    @php
-                        $parts    = array_filter(explode(' ', trim($athlete->full_name)));
-                        $initials = collect($parts)->take(2)->map(fn($p) => mb_strtoupper(mb_substr($p, 0, 1)))->implode('');
-                        $hasImg   = $athlete->userDetail && $athlete->userDetail->image;
-                    @endphp
+                    @php $hasImg = $athlete->userDetail && $athlete->userDetail->image; @endphp
                     <li>
                         <div class="d-flex align-items-center justify-content-between gap-2">
                             <a href="{{ route('user.athletes.detail', ['id' => $athlete->id]) }}"
@@ -75,7 +67,7 @@
                                 <span class="tc-avatar tc-avatar--lg">
                                     @if($hasImg)
                                     <img src="{{ asset($athlete->userDetail->image->file_name) }}" alt="{{ $athlete->full_name }}">
-                                    @else{{ $initials ?: '?' }}@endif
+                                    @else{{ $athlete->initials }}@endif
                                 </span>
                                 <div class="d-flex flex-column text-truncate">
                                     <strong class="text-truncate">{{ $athlete->full_name }}</strong>
