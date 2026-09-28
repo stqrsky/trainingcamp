@@ -46,9 +46,56 @@
             locale: {
                 format: 'DD/MM/YYYY'
             }
-        }, function(start, end, label) {
-            console.log(moment(start).format('YYYY-MM-DD'));
         });
+
+        // Matching: suggest partners for the first athlete; a click fills partner, date and time
+        var box = document.getElementById('partner-suggestions')
+        var request = null
+        function loadSuggestions(athleteId) {
+            box.replaceChildren()
+            box.hidden = !athleteId
+            if (!athleteId) return
+            if (request) request.abort()
+            request = new AbortController()
+            fetch(box.dataset.url + '?athlete=' + encodeURIComponent(athleteId), {
+                headers: { 'Accept': 'application/json' },
+                credentials: 'same-origin',
+                signal: request.signal
+            }).then(function (response) {
+                return response.ok ? response.json() : { suggestions: [] }
+            }).then(function (data) {
+                var title = document.createElement('p')
+                title.className = 'tc-partner-suggestions-title'
+                title.textContent = data.suggestions.length ? 'Suggested partners' : 'No other active athletes to suggest'
+                box.appendChild(title)
+                data.suggestions.forEach(function (suggestion) {
+                    var button = document.createElement('button')
+                    button.type = 'button'
+                    button.className = 'tc-partner-chip'
+                    button.title = suggestion.reasons.join(' · ')
+                    var name = document.createElement('strong')
+                    name.textContent = suggestion.name
+                    var meta = document.createElement('small')
+                    meta.textContent = suggestion.points + '/' + suggestion.max + ' pts'
+                        + (suggestion.slot ? ' · ' + suggestion.slot.label : '')
+                    button.appendChild(name)
+                    button.appendChild(meta)
+                    button.addEventListener('click', function () {
+                        $('#second_athlete').val(String(suggestion.id)).trigger('change')
+                        if (suggestion.slot) {
+                            $('#date').val(suggestion.slot.date)
+                            var picker = $('#date').data('daterangepicker')
+                            if (picker) picker.setStartDate(suggestion.slot.date)
+                            $('#start').val(suggestion.slot.start)
+                            $('#end').val(suggestion.slot.end)
+                        }
+                    })
+                    box.appendChild(button)
+                })
+            }).catch(function () {})
+        }
+        $('#first_athlete').on('change', function () { loadSuggestions(this.value) })
+        if ($('#first_athlete').val()) loadSuggestions($('#first_athlete').val())
     })
 
     function selectFile(event) {

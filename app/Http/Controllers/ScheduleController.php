@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use App\Services\SparringMatcher;
 
 class ScheduleController extends Controller
 {
@@ -37,9 +38,46 @@ class ScheduleController extends Controller
     {
         $team = $this->currentTeam();
         $athletes = $team ? $team->activeAthletes()->orderBy('first_name')->get() : collect();
-        // "Assign" on the team page preselects the athlete
+        // "Assign" and matching suggestions preselect athletes, date and time
         $first_athlete = $athletes->firstWhere('id', (int) $request->query('athlete'))?->id;
-        return view('frontend.schedules.create', compact('athletes', 'first_athlete'));
+        $second_athlete = $athletes->firstWhere('id', (int) $request->query('partner'))?->id;
+        $time = fn ($key) => preg_match('/^\d{2}:\d{2}$/', (string) $request->query($key))
+            ? $request->query($key)
+            : null;
+        $prefill = [
+            'date'  => $this->dateFromQuery($request, 'date', 'd/m/Y')?->format('d/m/Y'),
+            'start' => $time('start'),
+            'end'   => $time('end'),
+        ];
+        return view('frontend.schedules.create', compact('athletes', 'first_athlete', 'second_athlete', 'prefill'));
+    }
+
+    /**
+     * Suggested partners for the athlete chosen in the sparring form (JSON for the form script).
+     */
+    public function partners(Request $request, SparringMatcher $matcher)
+    {
+        $team = $this->currentTeam();
+        $athlete = $team?->activeAthletes()->where('users.id', (int) $request->query('athlete'))->first();
+        if (!$athlete) {
+            return response()->json(['suggestions' => []]);
+        }
+        return response()->json([
+            'suggestions' => $matcher->suggestionsFor($athlete, $team)->map(fn ($match) => [
+                'id'      => $match['partner']->id,
+                'name'    => $match['partner']->full_name,
+                'points'  => $match['points'],
+                'max'     => SparringMatcher::MAX_POINTS,
+                'reasons' => collect($match['reasons'])->pluck('label'),
+                'slot'    => $match['slot'] ? [
+                    'date'  => $match['slot']['date']->format('d/m/Y'),
+                    'start' => $match['slot']['start'],
+                    'end'   => $match['slot']['end'],
+                    'label' => $match['slot']['date']->format('D j M')
+                        . " {$match['slot']['start']}–{$match['slot']['end']}",
+                ] : null,
+            ]),
+        ]);
     }
 
     /**

@@ -44,6 +44,9 @@
             </div>
 
             @include('frontend.users._profile_summary', ['user' => $user, 'summary' => $summary])
+            @if($matches !== null)
+                @include('frontend.athletes._matches', ['user' => $user, 'matches' => $matches])
+            @endif
 
         </div>
     </div>

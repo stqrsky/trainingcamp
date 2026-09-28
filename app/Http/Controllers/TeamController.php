@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use App\Http\Libraries\UploadImage;
 use App\Http\Libraries\MemberProfile;
 use Illuminate\Validation\Rule;
+use App\Services\SparringMatcher;
 
 class TeamController extends Controller
 {
@@ -243,7 +244,33 @@ class TeamController extends Controller
         }
         $user->load(['skills' => fn ($skills) => $skills->where('team_id', $team->id), 'availabilities']);
         $summary = MemberProfile::summary($user);
-        return view('frontend.athletes.detail', compact('user', 'team', 'summary'));
+        $matches = $team->activeAthletes()->where('users.id', $user->id)->exists()
+            ? app(SparringMatcher::class)->suggestionsFor($user, $team)
+            : null;
+        return view('frontend.athletes.detail', compact('user', 'team', 'summary', 'matches'));
+    }
+
+    /**
+     * Active members against the team's skills, for sparring and training planning.
+     */
+    public function skillMatrix()
+    {
+        $team = $this->currentTeam();
+        if (!$team) {
+            return redirect()->route('user.setting')
+                ->withErrors(['error' => 'Complete your profile and create a team first.']);
+        }
+        $skills = $team->skills;
+        $withSkills = [
+            'userDetail',
+            'skills' => fn ($query) => $query->where('team_id', $team->id),
+        ];
+        $rows = fn ($relation, string $role) => $relation->with($withSkills)->orderBy('first_name')->get()
+            ->map(fn ($member) => ['member' => $member, 'role' => $role]);
+        $members = $rows($team->activeAthletes(), 'Athlete')
+            ->concat($rows($team->activeCoaches(), 'Coach'))
+            ->unique('member.id')->values();
+        return view('frontend.athletes.matrix', compact('team', 'skills', 'members'));
     }
 
     /**

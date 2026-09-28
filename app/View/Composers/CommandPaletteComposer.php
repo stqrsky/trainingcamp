@@ -25,6 +25,7 @@ class CommandPaletteComposer
             $command('Task board', route('tasks.index', ['view' => 'board']), 'view_kanban', 'kanban tasks'),
             $command('My tasks', route('tasks.index', ['mine' => 1]), 'assignment_ind', 'assigned me'),
             $command('Team members', route('user.athletes'), 'groups', 'athletes coaches list'),
+            $command('Skill matrix', route('user.athletes.matrix'), 'grid_view', 'skills levels overview'),
             $command('Edit team', route('teams.edit'), 'edit', 'skills settings rename'),
             $command('New team', route('teams.create'), 'group_add', 'create'),
         ]);

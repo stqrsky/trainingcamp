@@ -34,6 +34,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
     Route::get('athletes/edit/{id}', 'TeamController@editUser')->name('user.athletes.edit');
     Route::put('athletes/{id}', 'TeamController@updateUser')->name('user.athletes.update');
     Route::delete('athletes/{id}', 'TeamController@deleteUser')->name('user.athletes.delete');
+    Route::get('athletes/matrix', 'TeamController@skillMatrix')->name('user.athletes.matrix');
     Route::get('athletes/{id}', 'TeamController@detailUser')->name('user.athletes.detail');
     Route::post('athletes/{id}/status', 'TeamController@toggleMemberStatus')->name('user.athletes.status');
 
@@ -62,6 +63,7 @@ Route::get('schedules/week',    'ScheduleController@week')->name('schedules.week
 Route::get('schedules/day',     'ScheduleController@day')->name('schedules.day')->middleware('auth:web');
 Route::get('schedules/planner', 'ScheduleController@planner')->name('schedules.planner')->middleware('auth:web');
 Route::get('schedules/agenda',  'ScheduleController@agenda')->name('schedules.agenda')->middleware('auth:web');
+Route::get('schedules/partners', 'ScheduleController@partners')->name('schedules.partners')->middleware('auth:web');
 
 Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
 Route::patch('schedules/{schedule}/status', 'ScheduleController@updateStatus')->name('schedules.status')->middleware('auth:web');

@@ -225,7 +225,7 @@ Umgesetzt auf Branch `feat/p1-7-profiles`. Befund: Die Tabelle `skills` enthielt
 
 ## P3
 
-- Skill-Matrix-View und regelbasiertes Matching (`SparringMatcher` über Skills, Level, Verfügbarkeit, bisherige Sparrings).
+- ✅ **Sparring-Matching und Skill-Matrix (2026-09-28, Branch `feat/p3-sparring-matching`):** `App\Services\SparringMatcher`, regelbasiert und erklärbar, max. 11 Punkte: Level (gleich 3, eine Stufe 2, sonst 0, unbekannt 1), gemeinsame Skills mit höchstens einer Stufe Abstand (+1 je Skill, max. 3), gemeinsames Zeitfenster ≥ 60 Min. (3, inkl. nächstem Termin), Gewichtsdifferenz (≤ 5 kg 2, ≤ 10 kg 1, darüber −1), Abwechslung (−1 bei ≥ 2 gemeinsamen Sparrings in 30 Tagen). Nur aktive Athletes des aktiven Teams. Athlete-Detailseite zeigt die Top 3 mit Begründung und "Plan sparring" (füllt Partner, Datum, Zeit vor); das Sparring-Formular schlägt Partner vor, sobald der erste Athlete gewählt ist (`GET /schedules/partners`). Skill-Matrix unter `/user/athletes/matrix` (Tabelle ab Tablet, Karten auf dem Handy), verlinkt auf der Team-Seite und in der Palette. Nebenbei: Athleten-Auswahl im Sparring-Formular bleibt nach Validierungsfehlern erhalten. Tests: 122 grün.
 - AI Assistant mit Tool-Calling nur über policy-gescopte Queries.
 - Automation: Domain-Events als Outbound-Webhooks für n8n, Laravel Scheduler (Cron nötig).
 - Integrationen: zuerst ein ICS-Feed (günstigster Weg zu Google Calendar).

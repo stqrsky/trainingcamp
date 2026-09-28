@@ -11,7 +11,7 @@
 <div class="form-group row mb-3">
     <label for="date" class="col-sm-12 col-form-label">Date</label>
     <div class="col-sm-12">
-        <input type="text" class="form-control @error('date') is-invalid @enderror" name="date" id="date" value="{{ isset($schedule) ? $schedule->date_format : old('date') }}" />
+        <input type="text" class="form-control @error('date') is-invalid @enderror" name="date" id="date" value="{{ isset($schedule) ? $schedule->date_format : old('date', $prefill['date'] ?? null) }}" />
         @error('date')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 </div>
@@ -20,12 +20,12 @@
 <div class="d-flex gap-3 mb-3">
     <div class="form-group flex-fill">
         <label for="start">Start</label>
-        <input type="time" class="form-control @error('start') is-invalid @enderror" id="start" name="start" value="{{ isset($schedule) ? $schedule->start: old('start') }}">
+        <input type="time" class="form-control @error('start') is-invalid @enderror" id="start" name="start" value="{{ isset($schedule) ? $schedule->start: old('start', $prefill['start'] ?? null) }}">
         @error('start')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
     <div class="form-group flex-fill">
         <label for="end">End</label>
-        <input type="time" class="form-control @error('end') is-invalid @enderror" id="end" name="end" value="{{ isset($schedule) ? $schedule->end: old('end') }}">
+        <input type="time" class="form-control @error('end') is-invalid @enderror" id="end" name="end" value="{{ isset($schedule) ? $schedule->end: old('end', $prefill['end'] ?? null) }}">
         @error('end')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
 </div>
@@ -37,7 +37,7 @@
         <select name="first_athlete" class="form-control @error('first_athlete') is-invalid @enderror" id="first_athlete">
             <option value=""></option>
             @foreach($athletes as $athlete)
-            <option value="{{ $athlete->id }}" @selected(isset($first_athlete) && $first_athlete == $athlete->id)>{{ $athlete->full_name }}</option>
+            <option value="{{ $athlete->id }}" @selected((string) old('first_athlete', $first_athlete ?? '') === (string) $athlete->id)>{{ $athlete->full_name }}</option>
             @endforeach
         </select>
         @error('first_athlete')<div class="invalid-feedback">{{ $message }}</div>@enderror
@@ -49,10 +49,13 @@
         <select name="second_athlete" class="form-control @error('second_athlete') is-invalid @enderror" id="second_athlete">
             <option value=""></option>
             @foreach($athletes as $athlete)
-            <option value="{{ $athlete->id }}" @selected(isset($second_athlete) && $second_athlete == $athlete->id)>{{ $athlete->full_name }}</option>
+            <option value="{{ $athlete->id }}" @selected((string) old('second_athlete', $second_athlete ?? '') === (string) $athlete->id)>{{ $athlete->full_name }}</option>
             @endforeach
         </select>
         @error('second_athlete')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        @unless(isset($schedule))
+        <div class="tc-partner-suggestions mt-2" id="partner-suggestions" data-url="{{ route('schedules.partners') }}" aria-live="polite" hidden></div>
+        @endunless
     </div>
 </div>
 

@@ -906,3 +906,141 @@ label { color: var(--tc-text); font-weight: 600; }
 
     &:empty { display: none; }
 }
+
+// ---- Sparring matching & skill matrix ----------------------------
+.tc-match {
+    padding: .75rem 0;
+    border-bottom: 1px solid var(--tc-border);
+
+    &:last-child { border-bottom: 0; }
+}
+.tc-match-head {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: .4rem;
+
+    a { color: var(--tc-text); text-decoration: none; }
+}
+.tc-match-points {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--tc-primary-strong);
+
+    small { font-size: .75rem; color: var(--tc-text-muted); font-weight: 600; }
+}
+.tc-match-reasons {
+    list-style: none;
+    margin: 0 0 .6rem;
+    padding: 0;
+    font-size: .8rem;
+    color: var(--tc-text-muted);
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        gap: .5rem;
+        padding: .1rem 0;
+    }
+    .is-plus .tc-match-reason-points { color: var(--tc-success); }
+    .is-minus .tc-match-reason-points { color: var(--tc-danger); }
+}
+.tc-match-reason-points { font-weight: 700; flex: 0 0 auto; }
+
+.tc-partner-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+}
+.tc-partner-suggestions-title {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: .75rem;
+    font-weight: 700;
+    color: var(--tc-text-muted);
+}
+.tc-partner-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: .35rem .7rem;
+    text-align: left;
+    color: var(--tc-text);
+    background: var(--tc-surface-2);
+    border: 1px solid var(--tc-border);
+    border-radius: var(--tc-radius-sm);
+    cursor: pointer;
+
+    small { color: var(--tc-text-muted); }
+    &:hover { border-color: var(--tc-primary); }
+    &:focus-visible { outline: none; box-shadow: var(--tc-ring); }
+}
+
+.tc-matrix-link,
+.tc-link-strong {
+    display: inline-flex;
+    align-items: center;
+    gap: .25rem;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--tc-primary-strong);
+    text-decoration: none;
+
+    .material-icons { font-size: 18px; }
+}
+.tc-matrix-wrap { overflow-x: auto; }
+.tc-matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .85rem;
+
+    th, td {
+        padding: .45rem .6rem;
+        border-bottom: 1px solid var(--tc-border);
+        text-align: center;
+        white-space: nowrap;
+    }
+    thead th {
+        font-size: .72rem;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        color: var(--tc-text-muted);
+    }
+    tbody th {
+        text-align: left;
+        position: sticky;
+        left: 0;
+        background: var(--tc-surface);
+
+        a { color: var(--tc-text); text-decoration: none; font-weight: 700; }
+        small { display: block; font-weight: 400; color: var(--tc-text-muted); }
+    }
+}
+.tc-level {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: .75rem;
+}
+.tc-level--beginner     { background: var(--tc-surface-2); color: var(--tc-text-muted); border: 1px solid var(--tc-border); }
+.tc-level--intermediate { background: var(--tc-info-soft);    color: var(--tc-info); }
+.tc-level--advanced     { background: var(--tc-warning-soft); color: var(--tc-warning); }
+.tc-level--expert       { background: var(--tc-success-soft); color: var(--tc-success); }
+.tc-matrix-cards {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: flex;
+        flex-direction: column;
+        padding: .6rem 0;
+        border-bottom: 1px solid var(--tc-border);
+
+        a { color: var(--tc-text); text-decoration: none; }
+    }
+}

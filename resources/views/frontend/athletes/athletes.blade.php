@@ -15,6 +15,9 @@
 
             <div class="d-flex justify-content-between align-items-center mb-2 head-title">
                 <h4 class="title-team">{{ $team->name }}</h4>
+                <a href="{{ route('user.athletes.matrix') }}" class="tc-matrix-link ms-auto me-2">
+                    <span class="material-icons" aria-hidden="true">grid_view</span> Skill matrix
+                </a>
                 <a href="{{ route('user.athletes.create') }}" type="button" class="close btn-add" aria-label="Add member">
                     <span aria-hidden="true" class="material-icons add">add</span>
                 </a>
