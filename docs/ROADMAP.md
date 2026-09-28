@@ -219,7 +219,7 @@ Umgesetzt auf Branch `feat/p1-7-profiles`. Befund: Die Tabelle `skills` enthielt
 - **Activity Feed:** polymorphe `activities`-Tabelle, geschrieben nur über Model-Observer (eine Stelle, keine doppelte Logik).
 - **Kommentare:** polymorphe `comments`-Tabelle mit `parent_id` und @mentions für Tasks und Sparrings.
 - **Projekte:** `projects`-Tabelle plus `tasks.project_id`. Fortschritt wird aus den Tasks berechnet, nicht gespeichert.
-- **Globale Suche und Cmd+K-Palette:** Vanilla JS, ein team-gescopter JSON-Endpoint `/search`, Befehle als statische Liste.
+- ✅ **Globale Suche und Cmd+K-Palette (2026-09-28, Branch `feat/p2-search-command-palette`):** `GET /search` (JSON, gedrosselt, nur aktives Team) über Mitglieder (Name, Spitzname), Aufgaben, Sparrings (inkl. Teilnehmernamen) und eigene Ankündigungen; Palette als natives `<dialog>` mit Combobox/Listbox, Pfeiltasten, Enter, Esc; Befehle (New task, Plan sparring, Add member, Calendar, Agenda, Board, My tasks, Team, Switch to …) aus `CommandPaletteComposer`; Ergebnisse werden per `textContent` gerendert. Namenssuche als `User::scopeMatchingName()` für Team-Seite und Suche. Tests: 113 grün.
 - **Analytics:** einfache Zählwerte und CSS-Balken, vorerst keine Chart-Library.
 - ✅ **Desktop-Layout und Accessibility (2026-09-28):** Navigation zentral in `config/navigation.php`; Sidebar ab 992px, darunter Bottom-Nav mit Beschriftung im Link und `aria-current`; Inhalt auf dem Desktop bis 860px breit, Kanban zeigt mehrere Spalten; `<main>`-Landmark und Skip-Link; nur Erfolgsmeldungen blenden sich aus, Fehler bleiben stehen.
 

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Trainingcamp</title>
     {{-- Apply saved colour theme before paint to avoid a flash --}}
     <script>
@@ -39,6 +40,7 @@
 
                 @if($withNav)
                 @include('frontend.includes.navbarbottom')
+                @include('frontend.includes.command_palette')
                 @endif
             </main>
         </div>

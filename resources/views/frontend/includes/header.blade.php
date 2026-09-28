@@ -3,6 +3,10 @@
         <img class="img" src="{{ asset('assets/images/TCTrainingCampLogo.png') }}" alt="Trainingcamp" width="40" height="40">
         <span class="tc-brand {{ $headerCurrentTeam ? 'd-none d-sm-inline' : '' }}">Trainingcamp</span>
     </a>
+    <button type="button" class="tc-theme-toggle tc-search-btn" data-palette-open
+            aria-label="Search and commands (Ctrl+K)" title="Search (⌘K / Ctrl+K)">
+        <span class="material-icons" aria-hidden="true">search</span>
+    </button>
     @if($headerCurrentTeam)
     <div class="dropdown tc-team-switch">
         <button type="button" class="tc-team-switch-btn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Current team: {{ $headerCurrentTeam->name }}. Switch team">

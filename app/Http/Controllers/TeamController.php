@@ -49,18 +49,9 @@ class TeamController extends Controller
         ];
     }
 
-    /**
-     * Search matches every word against first name, last name or nickname, so "Max Mus" finds Max Muster.
-     */
     private function applyMemberFilters($members, array $filters): void
     {
-        foreach (preg_split('/\s+/', $filters['search'], -1, PREG_SPLIT_NO_EMPTY) as $term) {
-            $members->where(function ($query) use ($term) {
-                $query->where('users.first_name', 'like', "%$term%")
-                    ->orWhere('users.last_name', 'like', "%$term%")
-                    ->orWhereHas('userDetail', fn ($detail) => $detail->where('nick_name', 'like', "%$term%"));
-            });
-        }
+        $members->matchingName($filters['search']);
         if ($filters['skill']) {
             $members->whereHas('skills', fn ($skills) => $skills->where('skills.id', $filters['skill']));
         }

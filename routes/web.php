@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:web');
+Route::get('search', 'SearchController')->name('search')->middleware(['auth:web', 'throttle:60,1']);
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/login', 'UserController@login')->name('login');

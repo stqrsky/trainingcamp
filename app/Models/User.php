@@ -123,6 +123,21 @@ class User extends Authenticatable
         );
     }
 
+    /**
+     * Every word must match the first name, last name or nickname, so "Max Mus" finds Max Muster.
+     */
+    public function scopeMatchingName($query, string $search)
+    {
+        foreach (preg_split('/\s+/', trim($search), -1, PREG_SPLIT_NO_EMPTY) as $term) {
+            $query->where(function ($name) use ($term) {
+                $name->where('users.first_name', 'like', "%$term%")
+                    ->orWhere('users.last_name', 'like', "%$term%")
+                    ->orWhereHas('userDetail', fn ($detail) => $detail->where('nick_name', 'like', "%$term%"));
+            });
+        }
+        return $query;
+    }
+
     public function getInitialsAttribute(): string
     {
         $parts = array_filter(explode(' ', trim("{$this->first_name} {$this->last_name}")));
