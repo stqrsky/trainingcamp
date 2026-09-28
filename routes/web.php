@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth:web');
 Route::get('search', 'SearchController')->name('search')->middleware(['auth:web', 'throttle:60,1']);
+Route::get('activity', 'ActivityController@index')->name('activity')->middleware('auth:web');
 
 Route::group(['middleware' => ['guest']], function () {
     Route::get('/login', 'UserController@login')->name('login');
@@ -43,6 +44,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth:web']], function () {
     Route::put('profile/setting', 'UserController@updateProfile')->name('user.profile.setting.put');
     Route::get('profile/setting/account', 'UserController@accountSetting')->name('user.account.setting');
     Route::put('profile/setting/account', 'UserController@updateProfileAccount')->name('user.account.setting.put');
+    Route::get('profile/setting/notifications', 'UserController@notificationSettings')->name('user.notifications');
+    Route::put('profile/setting/notifications', 'UserController@updateNotificationSettings')->name('user.notifications.put');
 });
 
 Route::group(['prefix' => 'teams', 'middleware' => ['auth:web']], function () {

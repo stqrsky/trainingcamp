@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -80,7 +81,10 @@ class DashboardTest extends TestCase
         $response = $this->get(route('home'));
 
         $this->assertSame(['This evening', 'Friday'], $response->viewData('upcomingSparrings')->pluck('title')->all());
-        $response->assertSee('This evening')->assertDontSee('This morning');
+        // The "Recent activity" section also mentions planned sparrings, so check the upcoming section only
+        $section = Str::between($response->getContent(), 'id="home-sparrings"', 'id="home-activity"');
+        $this->assertStringContainsString('This evening', $section);
+        $this->assertStringNotContainsString('This morning', $section);
     }
 
     public function test_team_overview_only_appears_with_several_teams()

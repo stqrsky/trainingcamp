@@ -7,6 +7,36 @@
             aria-label="Search and commands (Ctrl+K)" title="Search (⌘K / Ctrl+K)">
         <span class="material-icons" aria-hidden="true">search</span>
     </button>
+    @if($headerReminders)
+    @php $reminderCount = $headerReminders['count']; @endphp
+    <div class="dropdown tc-reminders">
+        <button type="button" class="tc-theme-toggle tc-bell" data-bs-toggle="dropdown" aria-expanded="false"
+                aria-label="Reminders: {{ $reminderCount }}">
+            <span class="material-icons" aria-hidden="true">{{ $reminderCount ? 'notifications_active' : 'notifications_none' }}</span>
+            @if($reminderCount)<span class="tc-bell-count" aria-hidden="true">{{ $reminderCount > 9 ? '9+' : $reminderCount }}</span>@endif
+        </button>
+        <div class="dropdown-menu dropdown-menu-end tc-reminders-menu">
+            <h6 class="dropdown-header">Reminders</h6>
+            @forelse($headerReminders['items'] as $reminder)
+            <a class="dropdown-item tc-reminder tc-reminder--{{ $reminder['tone'] }}" href="{{ $reminder['url'] }}">
+                <span class="material-icons" aria-hidden="true">{{ $reminder['icon'] }}</span>
+                <span class="tc-reminder-text">
+                    <strong>{{ $reminder['title'] }}</strong>
+                    <small>{{ $reminder['subtitle'] }}</small>
+                </span>
+            </a>
+            @empty
+            <p class="px-3 mb-1 small text-muted">Nothing needs your attention right now.</p>
+            @endforelse
+            @if($reminderCount > $headerReminders['items']->count())
+            <p class="px-3 mb-1 small text-muted">+{{ $reminderCount - $headerReminders['items']->count() }} more</p>
+            @endif
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item small" href="{{ route('activity') }}">Team activity</a>
+            <a class="dropdown-item small" href="{{ route('user.notifications') }}">Reminder settings</a>
+        </div>
+    </div>
+    @endif
     @if($headerCurrentTeam)
     <div class="dropdown tc-team-switch">
         <button type="button" class="tc-team-switch-btn" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Current team: {{ $headerCurrentTeam->name }}. Switch team">

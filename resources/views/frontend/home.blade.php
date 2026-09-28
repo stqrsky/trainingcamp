@@ -113,6 +113,23 @@
                 @endforelse
             </section>
 
+            {{-- What changed recently in this team --}}
+            <section class="tc-home-section" aria-labelledby="home-activity">
+                <div class="tc-home-section-head">
+                    <h2 class="tc-task-group-header mb-0" id="home-activity">Recent activity</h2>
+                    <a href="{{ route('activity') }}" class="btn btn-sm btn-link p-0">All activity</a>
+                </div>
+                @if($recentActivity->isNotEmpty())
+                <ul class="tc-activity-list">
+                    @foreach($recentActivity as $activity)
+                        @include('frontend.activity._item', ['activity' => $activity])
+                    @endforeach
+                </ul>
+                @else
+                <p class="text-muted small mb-0">No activity yet.</p>
+                @endif
+            </section>
+
             {{-- Quick switch between teams with their open work --}}
             @if($teamOverview->isNotEmpty())
             <section class="tc-home-section" aria-labelledby="home-teams">

@@ -10,6 +10,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class CalendarDeadlinesTest extends TestCase
@@ -66,7 +67,11 @@ class CalendarDeadlinesTest extends TestCase
 
         $response = $this->get(route('schedules.month', ['month' => '2026-09']));
 
-        $response->assertSee('Deadline A')->assertDontSee('Deadline B')->assertSee('+1 more');
+        // Only the calendar grid counts; the header bell may list the same tasks as reminders
+        $grid = Str::after($response->getContent(), 'class="tc-month-grid"');
+        $this->assertStringContainsString('Deadline A', $grid);
+        $this->assertStringNotContainsString('Deadline B', $grid);
+        $this->assertStringContainsString('+1 more', $grid);
     }
 
     public function test_week_view_has_deadline_row()

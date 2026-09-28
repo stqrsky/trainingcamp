@@ -34,6 +34,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'login_enabled' => 'boolean',
+        'notification_preferences' => 'array',
     ];
 
     public function setPasswordAttribute($password)
@@ -136,6 +137,14 @@ class User extends Authenticatable
             });
         }
         return $query;
+    }
+
+    /**
+     * Reminder types are on unless the user switched them off in the notification settings.
+     */
+    public function wantsReminder(string $type): bool
+    {
+        return (bool) ($this->notification_preferences[$type] ?? true);
     }
 
     public function getInitialsAttribute(): string

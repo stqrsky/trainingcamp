@@ -1044,3 +1044,98 @@ label { color: var(--tc-text); font-weight: 600; }
         a { color: var(--tc-text); text-decoration: none; }
     }
 }
+
+// ---- Reminders bell & activity feed ------------------------------
+.tc-reminders {
+    position: relative;
+
+    + .tc-team-switch,
+    + .tc-theme-toggle { margin-inline-start: 0; }
+}
+.tc-search-btn + .tc-reminders { margin-inline-start: 0; }
+.tc-bell { position: relative; }
+.tc-bell-count {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: var(--tc-radius-pill);
+    background: var(--tc-danger);
+    color: #fff;
+    font-size: .65rem;
+    font-weight: 800;
+    line-height: 18px;
+    text-align: center;
+}
+.tc-reminders-menu {
+    width: min(22rem, calc(100vw - 2rem));
+    border-color: var(--tc-border);
+    box-shadow: var(--tc-shadow-md);
+}
+.tc-reminder {
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+    white-space: normal;
+
+    .material-icons { font-size: 20px; margin-top: .1rem; }
+}
+.tc-reminder-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    small { color: var(--tc-text-muted); }
+}
+.tc-reminder--danger .material-icons  { color: var(--tc-danger); }
+.tc-reminder--warning .material-icons { color: var(--tc-warning); }
+.tc-reminder--info .material-icons    { color: var(--tc-info); }
+
+.tc-activity-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.tc-activity {
+    display: flex;
+    gap: .7rem;
+    padding: .5rem 0;
+    border-bottom: 1px solid var(--tc-border);
+
+    &:last-child { border-bottom: 0; }
+}
+.tc-activity-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    color: var(--tc-primary-strong);
+    background: var(--tc-primary-soft);
+}
+.tc-activity-body {
+    min-width: 0;
+    font-size: .9rem;
+
+    a { color: var(--tc-text); }
+    a:hover { color: var(--tc-primary-strong); }
+    time { font-size: .75rem; color: var(--tc-text-muted); }
+}
+
+// Five controls in the top bar: tighten spacing on narrow phones
+@media (max-width: 400px) {
+    .navbar.fixed-top { gap: .4rem; padding-inline: .75rem; }
+    .navbar.fixed-top .tc-theme-toggle { width: 38px; height: 38px; }
+}
+
+// Checkboxes and switches in the brand colour instead of Bootstrap blue
+.form-check-input:checked {
+    background-color: var(--tc-primary);
+    border-color: var(--tc-primary);
+}
+.form-check-input:focus { box-shadow: var(--tc-ring); border-color: var(--tc-primary); }

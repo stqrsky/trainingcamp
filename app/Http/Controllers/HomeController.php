@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
 use App\Models\Notification;
 use App\Models\Schedule;
 use App\Models\Task;
@@ -12,6 +13,7 @@ class HomeController extends Controller
 {
     private const FOCUS_TASK_LIMIT = 6;
     private const UPCOMING_SPARRING_LIMIT = 3;
+    private const RECENT_ACTIVITY_LIMIT = 5;
 
     public function index()
     {
@@ -28,12 +30,14 @@ class HomeController extends Controller
             ->orderByDesc('created_at')->paginate(12);
 
         $stats = null;
-        $focusTasks = $upcomingSparrings = $teamOverview = collect();
+        $focusTasks = $upcomingSparrings = $teamOverview = $recentActivity = collect();
         if ($team) {
             $stats = $this->stats($team);
             $focusTasks = $this->focusTasks($team);
             $upcomingSparrings = $this->upcomingSparrings($team);
             $teamOverview = $this->teamOverview();
+            $recentActivity = Activity::with(['actor', 'subject'])->where('team_id', $team->id)
+                ->orderByDesc('created_at')->orderByDesc('id')->limit(self::RECENT_ACTIVITY_LIMIT)->get();
         }
 
         return view('frontend.home', compact(
@@ -42,7 +46,8 @@ class HomeController extends Controller
             'stats',
             'focusTasks',
             'upcomingSparrings',
-            'teamOverview'
+            'teamOverview',
+            'recentActivity'
         ));
     }
 

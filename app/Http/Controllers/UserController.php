@@ -279,6 +279,24 @@ class UserController extends Controller
         return redirect()->route('user.profile');
     }
 
+    public function notificationSettings()
+    {
+        $user = Auth::user();
+        $types = \App\Services\Reminders::TYPES;
+        return view('frontend.users.notifications', compact('user', 'types'));
+    }
+
+    public function updateNotificationSettings(Request $request)
+    {
+        $types = array_keys(\App\Services\Reminders::TYPES);
+        $this->validate($request, ['reminders' => 'nullable|array', 'reminders.*' => 'in:1']);
+        $enabled = array_keys($request->input('reminders', []));
+        $preferences = collect($types)->mapWithKeys(fn ($type) => [$type => in_array($type, $enabled, true)]);
+        Auth::user()->update(['notification_preferences' => $preferences->all()]);
+        $request->session()->flash('msg', 'Reminder settings saved');
+        return redirect()->route('user.notifications');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();

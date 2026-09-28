@@ -16,7 +16,7 @@ return [
             'route'  => 'home',
             'label'  => 'Overview',
             'icon'   => 'format_list_bulleted',
-            'active' => ['home', 'notification.*'],
+            'active' => ['home', 'notification.*', 'activity'],
         ],
         [
             'route'  => 'schedules.index',
@@ -40,7 +40,7 @@ return [
             'route'  => 'user.profile',
             'label'  => 'Profile',
             'icon'   => 'reorder',
-            'active' => ['user.profile*', 'user.account.setting'],
+            'active' => ['user.profile*', 'user.account.setting', 'user.notifications*'],
         ],
     ],
 ];

@@ -29,6 +29,7 @@
                 <div class="toast-body d-flex justify-content-between">
                     <a href="{{ route('user.profile.setting') }}" type="button" class="btn profilebtn btn-outline-dark">Profile Settings</a>
                     <a href="{{ route('user.account.setting') }}" type="button" class="btn profilebtn btn-outline-dark">Account Settings</a>
+                    <a href="{{ route('user.notifications') }}" type="button" class="btn profilebtn btn-outline-dark">Reminders</a>
                 </div>
                 <div class="px-2">
                     @include('frontend.users._profile_summary', ['user' => $user, 'summary' => $summary])
