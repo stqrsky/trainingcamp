@@ -164,7 +164,7 @@ class MultiTeamTest extends TestCase
         ]);
 
         $response->assertRedirect(route('user.athletes'));
-        $member = User::where('first_name', 'Max')->firstOrFail();
+        $member = User::where('first_name', 'Max')->where('last_name', 'Muster')->firstOrFail();
         $this->assertNull($member->email);
         $this->assertNull($member->password);
         $this->assertFalse($member->login_enabled);

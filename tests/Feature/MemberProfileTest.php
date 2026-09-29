@@ -60,7 +60,7 @@ class MemberProfileTest extends TestCase
 
     private function max(): User
     {
-        return User::where('first_name', 'Max')->firstOrFail();
+        return User::where('first_name', 'Max')->where('last_name', 'Muster')->firstOrFail();
     }
 
     public function test_member_is_created_with_level_skills_and_availability()
@@ -91,7 +91,7 @@ class MemberProfileTest extends TestCase
         ]));
 
         $response->assertSessionHasErrors(['experience_level', 'skill_levels.' . $this->boxing->id, 'availability.0.end']);
-        $this->assertDatabaseMissing('users', ['first_name' => 'Max']);
+        $this->assertDatabaseMissing('users', ['first_name' => 'Max', 'last_name' => 'Muster']);
     }
 
     public function test_updating_a_member_replaces_availability_and_can_clear_it()
