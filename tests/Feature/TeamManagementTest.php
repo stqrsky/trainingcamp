@@ -8,6 +8,7 @@ use App\Models\Skill;
 use App\Models\Task;
 use App\Models\Team;
 use App\Models\User;
+use Carbon\Carbon;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -27,6 +28,8 @@ class TeamManagementTest extends TestCase
     {
         parent::setUp();
         $this->seed(RoleSeeder::class);
+        // After the factory's 09:00 sparring, so it is not listed as upcoming
+        Carbon::setTestNow('2026-09-30 14:00:00');
 
         $this->user = User::factory()->create(['first_name' => 'Owner', 'last_name' => 'Account']);
         $this->user->roles()->attach(Role::where('title', 'coach')->first());
@@ -42,6 +45,12 @@ class TeamManagementTest extends TestCase
         $this->team->coaches()->attach($this->coach);
 
         $this->actingAs($this->user);
+    }
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+        parent::tearDown();
     }
 
     private function member(string $first, string $last, string $nick): User
