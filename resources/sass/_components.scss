@@ -17,11 +17,29 @@ body {
         padding-bottom: 6.5rem;       // clear the fixed bottom nav
     }
     #content { padding: 0; }
+
+    // The main column already clears both bars. Page containers inside it
+    // must not do that a second time. :where() keeps this weaker than card
+    // styles that pad such a container on purpose (.createathlete.bg etc.).
+    :where(.tc-main-col) .content {
+        margin-top: 0;
+        padding-bottom: 0;
+    }
+    .tc-main-col > .container {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+// ...and must not add a second gutter either
+:where(.base .tc-main-col > .container > .row) > .content {
+    padding-right: 0;
+    padding-left: 0;
 }
 
 // Undo the old negative-margin hacks that caused horizontal overflow
 .row { margin-right: 0; margin-left: 0; }
-.content.schedule-body { margin: 5.25rem 0 0; }
+.content.schedule-body { margin: 0; }
 
 // Generic surface card used across screens
 .tc-card,
