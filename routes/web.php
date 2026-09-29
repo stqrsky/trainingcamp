@@ -61,7 +61,8 @@ Route::group(['prefix' => 'teams', 'middleware' => ['auth:web']], function () {
     Route::delete('skills/{skill}', 'TeamController@removeSkill')->name('teams.skills.destroy');
 });
 
-Route::resource('notification', 'NotificationController')->middleware('auth:web');
+// Announcements are listed on the dashboard, there is no index or detail page
+Route::resource('notification', 'NotificationController')->except(['index', 'show'])->middleware('auth:web');
 
 // Calendar view routes MUST come before the resource to avoid {schedule} conflict
 Route::get('schedules/month',   'ScheduleController@month')->name('schedules.month')->middleware('auth:web');
@@ -71,10 +72,10 @@ Route::get('schedules/planner', 'ScheduleController@planner')->name('schedules.p
 Route::get('schedules/agenda',  'ScheduleController@agenda')->name('schedules.agenda')->middleware('auth:web');
 Route::get('schedules/partners', 'ScheduleController@partners')->name('schedules.partners')->middleware('auth:web');
 
-Route::resource('schedules', 'ScheduleController')->middleware('auth:web');
+Route::resource('schedules', 'ScheduleController')->except(['show'])->middleware('auth:web');
 Route::patch('schedules/{schedule}/status', 'ScheduleController@updateStatus')->name('schedules.status')->middleware('auth:web');
 
-Route::resource('tasks', 'TaskController')->middleware('auth:web');
+Route::resource('tasks', 'TaskController')->except(['show'])->middleware('auth:web');
 Route::resource('projects', 'ProjectController')->middleware('auth:web');
 Route::post('tasks/{task}/toggle', 'TaskController@toggle')->name('tasks.toggle')->middleware('auth:web');
 Route::patch('tasks/{task}/status', 'TaskController@move')->name('tasks.move')->middleware('auth:web');
