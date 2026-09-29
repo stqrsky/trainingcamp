@@ -101,7 +101,7 @@ Training Camp is a graduation project built to make daily club coordination easi
 
 ### To work on styles / front-end assets
 
-- Node.js **18+**
+- Node.js **20.19+** (required by Dart Sass)
 - npm
 
 > The compiled CSS in `public/css/` is committed, so Node.js is not required just to run the app.
@@ -263,6 +263,8 @@ npm run dev
 ```
 
 Both scripts run the Dart Sass CLI with `--load-path=. --style=compressed --no-source-map` (see `package.json`). Commit the updated files in `public/css/` together with the Sass changes.
+
+The scripts also pass `--quiet-deps --silence-deprecation=import`. Bootstrap 5.3 itself still triggers several hundred Sass deprecation warnings, and `app.scss` has to keep `@import` for Bootstrap's variable overrides until Bootstrap ships Sass modules. Neither flag changes the compiled CSS.
 
 Useful Sass files include:
 

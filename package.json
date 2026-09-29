@@ -1,11 +1,11 @@
 {
     "private": true,
     "engines": {
-        "node": ">=18"
+        "node": ">=20.19"
     },
     "scripts": {
         "dev": "npm run build -- --watch",
-        "build": "sass --load-path=. --style=compressed --no-source-map resources/sass/app.scss:public/css/app.css resources/sass/signin.scss:public/css/signin.css resources/sass/athlete.scss:public/css/athlete.css"
+        "build": "sass --load-path=. --style=compressed --no-source-map --quiet-deps --silence-deprecation=import resources/sass/app.scss:public/css/app.css resources/sass/signin.scss:public/css/signin.css resources/sass/athlete.scss:public/css/athlete.css"
     },
     "devDependencies": {
         "sass": "^1.15.2"
